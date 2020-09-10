@@ -150,7 +150,17 @@ desired effect
         </li>
         <li>
           <a href="{% url 'main:classify' %}"><i class="fa fa-link"></i> <span>分类</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+          </span>
           </a>
+            <ul class="treeview-menu">
+            <li><a href="{% url 'main:classifilePerson' user.id %}">人物</a></li>
+            <li><a href="{% url 'main:classifilePoint' user.id %}">地点</a></li>
+            <li><a href="{% url 'main:classifileVideo' user.id %}">视频</a></li>
+            <li><a href="{% url 'main:classifileScenery' user.id %}">风景</a></li>
+            <li><a href="{% url 'main:classifileCutScreen' user.id %}">截屏</a></li>
+          </ul>
         </li>
 
 

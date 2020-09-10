@@ -29,6 +29,31 @@ def classify(request, pk):
     return render(request, 'main/mainClassify.html', {'user': user})
 
 
+def classifilePerson(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    return render(request, 'main/person.html', {'user': user})
+
+
+def classifilePoint(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    return render(request, 'main/point.html', {'user': user})
+
+
+def classifileVideo(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    return render(request, 'main/video.html', {'user': user})
+
+
+def classifileScenery(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    return render(request, 'main/scenery.html', {'user': user})
+
+
+def classifileCutScreen(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    return render(request, 'main/cutScreen.html', {'user': user})
+
+
 def personInfo(request, pk):
     user = get_object_or_404(User, pk=pk)
     user_profile = get_object_or_404(UserProfile, user=user)

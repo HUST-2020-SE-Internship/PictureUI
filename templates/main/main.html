@@ -178,14 +178,31 @@ desired effect
         | Your Page Content Here |
         -------------------------->
 
-            <form>
+             <form>
                 <div class="form-group">
                     <input id="upfile" style="display: none" name="filepic" onchange=""  type="file" class="form-control" webkitdirectory>
                 </div>
-                <div style="width: 800px;text-align: center;margin: 0 auto">
-                    <img src="/static/mainstatic/添加.png" style="cursor: pointer;"  alt="" name="pic" width="128px" height="128px"  onclick="upLoadPic()" />
+                <div class="form-group">
+                    <input id="upfile2" style="display: none" name="filepic2" onchange="showPic()"  type="file" class="form-control">
+                </div>
+                <div style="width: 800px;margin: 0 auto;display: flex;justify-content: space-around;">
+                    <div style="text-align: center">
+                        <img src="/static/mainstatic/文件夹.png" style="cursor: pointer;"  alt="" name="pic" width="128px" height="128px"  onclick="upLoadPic('upfile')" />
+                        <div style="font-size: large">Choose FileDirectory</div>
+                    </div>
+                    <div style="text-align: center">
+                        <img src="/static/mainstatic/start up.png" style="cursor: pointer;"  alt="" name="pic" width="128px" height="128px"  onclick="upLoadPicture()" />
+                        <div style="font-size: large">Link Start</div>
+                    </div>
+                    <div style="text-align: center">
+                        <img src="/static/mainstatic/照片.png" style="cursor: pointer;"  alt="" name="pic" width="128px" height="128px"  onclick="upLoadPic('upfile2')" />
+                        <div style="font-size: large">Choose File</div>
+                    </div>
                 </div>
             </form>
+
+            <div id="showfiles" style="margin-top: 150px;display: flex;justify-content: space-around;flex-wrap: wrap">
+            </div>
 
 
     </section>
@@ -209,23 +226,44 @@ desired effect
 
 <script type="text/javascript">
     document.getElementById("upfile").addEventListener("change",function(event){
-        let files = event.target.files;
+        var files=event.target.files;
         if(files.length != 0){
             //上传文件夹，这里得到的该文件夹下所有的文件，取第0个，得到文件夹名字即可
-            console.log(files);
+            var re = new FileReader();
+            re.readAsDataURL(files[0]);
+            re.onload = function(re){
+                console.log(re.target.result);
+            }
             var s = files[0].webkitRelativePath;
-            console.log(s);
             var str = s.split("/") ;
-            console.log(str);
             var fileName = str[0];
-            console.log(fileName);
+            var showFile=document.getElementById("showfiles");
+            showFile.innerHTML+=`<div style="text-align: center"><img src="/static/mainstatic/文件夹.png" width="50px" height="50px"/><div>${fileName}</div></div>`;
             //这里可以写ajax请求，把文件夹名字fileName带过去就可以，我在这一块就不写了
         }
     },false);
 
-    function upLoadPic() {
-        var dir=document.getElementById("upfile");
+
+    function showPic() {
+        var file =  document.getElementById('upfile2').files[0];
+        console.log(file);
+        var re = new FileReader();
+        re.readAsDataURL(file);
+        re.onload = function(re){
+            console.log(re.target.result);
+            var showFile=document.getElementById("showfiles");
+            showFile.innerHTML+=`<div style="text-align: center"><img src=${re.target.result} width="50px" height="50px"/><div>${file.name}</div></div>`;
+        }
+
+    }
+
+    function upLoadPic(id) {
+        var dir=document.getElementById(id);
         dir.click();
+    }
+
+    function upLoadPicture() {
+        window.location.reload();
     }
 </script>
 
