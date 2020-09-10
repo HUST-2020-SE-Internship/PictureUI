@@ -48,13 +48,14 @@ def profile_update(request, pk):
 
 
 def register(request):
+    form = LoginForm()
     if request.method == 'POST':
 
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            email = form.cleaned_data['email']
-            password = form.cleaned_data['password2']
+        register_form = RegistrationForm(request.POST)
+        if register_form.is_valid():
+            username = register_form.cleaned_data['username']
+            email = register_form.cleaned_data['email']
+            password = register_form.cleaned_data['password2']
 
             # 使用内置User自带create_user方法创建用户，不需要使用save()
             user = User.objects.create_user(username=username, password=password, email=email)
@@ -64,12 +65,16 @@ def register(request):
             user_profile.save()
 
             return HttpResponseRedirect("/users/login/")
+        else:
+            return render(request, 'users/AutoAlbum.html', {'form': form, 'register_form': register_form})
     else:
-        form = RegistrationForm()
-    return render(request, 'users/registration.html', {'form': form})
+        register_form = RegistrationForm()
+    return render(request, 'users/login.html', {'form': form, 'register_form': register_form})
 
 
 def login(request):
+    form = LoginForm()
+    register_form = RegistrationForm()
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -78,13 +83,18 @@ def login(request):
 
             user = auth.authenticate(username=username, password=password)
 
-            if user is not None and user.is_active:
+            if user is not None and user.is_active:  # 登录成功,跳转
                 auth.login(request, user)
                 return HttpResponseRedirect(reverse('main:mainProfile', args=[user.id]))
             else:
-                # 登录失败
-                return render(request, 'users/login.html',
-                              {'form': form, 'message': 'Wrong password Please Try agagin'})
+                # 用户名/邮箱存在于数据库,但是密码错误
+
+                return render(request, 'users/AutoAlbum.html',
+                              {'form': form, 'register_form': register_form, 'message': '密码错误请再次输入'})
+        else:
+            # 登录失败，用户名/邮箱不存在
+            return render(request, 'users/AutoAlbum.html', {'form': form, 'register_form': register_form, 'message': '用户名不存在请先进行注册'})
+
     else:
         form = LoginForm()
         register_form = RegistrationForm()

@@ -52,23 +52,30 @@
                     <a href="https://weixin.qq.com/" class="social"><i class="iconfont icon-weixin"></i></a>
                     <a href="https://www.alipay.com/" class="social"><i class="iconfont icon-zhifubao"></i></a>
                 </div>
-                
+                {% if message %}
+                <div class="alert alert-warning"></div>
+                {% endif %}
+
                 <div class="form-group">
+                    <div class="alert alert-warning">{{ register_form.non_field_errors }}</div>
                     {{ register_form.username.label_tag }}
                     {{ register_form.username }}
                 </div>
 
                 <div class="form-group">
+                    {{ register_form.errors.password1 }}
                     {{ register_form.password1.label_tag }}
                     {{ register_form.password1 }}
                 </div>
 
                 <div class="form-group">
+                    {{ register_form.errors.password2 }}
                     {{ register_form.password2.label_tag }}
                     {{ register_form.password2 }}
                 </div>
 
                 <div class="form-group">
+                    {{ register_form.errors.email }}
                     {{ register_form.email.label_tag }}
                     {{ register_form.email }}
                 </div>
@@ -85,12 +92,17 @@
                     <a href="https://weixin.qq.com/" class="social"><i class="iconfont icon-weixin"></i></a>
                     <a href="https://www.alipay.com/" class="social"><i class="iconfont icon-zhifubao"></i></a>
                 </div>
+                {% if message %}
+                <div class="alert alert-warning">{{ message }}</div>
+                {% endif %}
                 <div class="form-group">
+                    {{ form.errors.username }}
                     {{ form.username.label_tag }}
                     {{ form.username }}
                 </div>
 
                 <div class="form-group">
+                    {{ form.errors.password }}
                     {{ form.password.label_tag }}
                     {{ form.password }}
                 </div>

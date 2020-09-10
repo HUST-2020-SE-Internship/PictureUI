@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.models import User
 import re
 
+from django.core.exceptions import ValidationError
+
 
 def email_check(email):
     pattern = re.compile(r"\"?([-a-zA-Z0-9.'?{}]+@\w+\.\w+)\"?")
@@ -9,7 +11,9 @@ def email_check(email):
 
 
 class RegistrationForm(forms.Form):
-    username = forms.CharField(label='Username', max_length=50)
+    #username = forms.CharField(label='Username', max_length=50)
+    username = forms.CharField(label='Username', widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "6~12位字符", "required": "required",}),
+                              max_length=50, error_messages={"required": "用户名不能为空"})
     email = forms.EmailField(label='Email')
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Password Confirmation', widget=forms.PasswordInput)
@@ -58,8 +62,9 @@ class RegistrationForm(forms.Form):
         return password2
 
 
+
 class LoginForm(forms.Form):
-    username = forms.CharField(label='Username', max_length=50)
+    username = forms.CharField(label='Username', max_length=50, error_messages={'required': 'Please Fuck yourself'})
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
 
     # use clean methods to define custom validation rules
@@ -73,7 +78,7 @@ class LoginForm(forms.Form):
         else:
             filter_result = User.objects.filter(username__exact=username)
             if not filter_result:
-                raise forms.ValidationError('This username does not exist Please register first')
+                raise forms.ValidationError(message='This username does not exist Please register first')
 
         return username
 
