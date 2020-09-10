@@ -2,6 +2,9 @@
 .vscode/
 .idea/
 
+#Django settings.py for personal DB_settings
+User_model/settings.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
