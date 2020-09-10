@@ -1,10 +1,6 @@
-# test images folder
-result/
-*/img/
-img/
-net_Model/
+# IDE settings files
 .vscode/
-data/
+.idea/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
