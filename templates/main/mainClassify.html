@@ -190,28 +190,28 @@ desired effect
       <div id="picKind" style="display: flex;justify-content: space-around;flex-wrap: wrap">
         <div style="width: 200px;height: 200px">
           <img src="/static/mainstatic/dist/img/person.png" style="height: 100%;width: 100%" />
-          <a href="/person"><div style="text-align: center;font-size: xx-large">人物</div></a>
+          <a href="{% url 'main:classifilePerson' user.id %}"><div style="text-align: center;font-size: xx-large">人物</div></a>
         </div>
 
         <div style="width: 200px;height: 200px">
           <img src="/static/mainstatic/dist/img/地点.png" style="height: 100%;width: 100%" />
-          <a href="/point"><div style="text-align: center;font-size: xx-large">地点</div></a>
+          <a href="{% url 'main:classifilePoint' user.id %}"><div style="text-align: center;font-size: xx-large">地点</div></a>
         </div>
 
 
         <div style="width: 200px;height: 200px">
           <img src="/static/mainstatic/dist/img/视频.png" style="height: 100%;width: 100%" />
-          <a href="/video"><div style="text-align: center;font-size: xx-large">视频</div></a>
+          <a href="{% url 'main:classifileVideo' user.id %}"><div style="text-align: center;font-size: xx-large">视频</div></a>
         </div>
 
         <div style="width: 200px;height: 200px">
           <img src="/static/mainstatic/dist/img/风景.png" style="height: 100%;width: 100%" />
-          <a href="/scenery"><div style="text-align: center;font-size: xx-large">风景</div></a>
+          <a href="{% url 'main:classifileScenery' user.id %}"><div style="text-align: center;font-size: xx-large">风景</div></a>
         </div>
 
         <div style="width: 200px;height: 200px">
           <img src="/static/mainstatic/dist/img/截屏.png" style="height: 100%;width: 100%" />
-          <a href="/cutscreen"><div style="text-align: center;font-size: xx-large">截屏</div></a>
+          <a href="{% url 'main:classifileCutScreen' user.id %}"><div style="text-align: center;font-size: xx-large">截屏</div></a>
         </div>
       </div>
 
