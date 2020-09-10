@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 import re
 
 from django.core.exceptions import ValidationError
-
+from django.core.validators import RegexValidator
 
 def email_check(email):
     pattern = re.compile(r"\"?([-a-zA-Z0-9.'?{}]+@\w+\.\w+)\"?")
@@ -12,24 +12,35 @@ def email_check(email):
 
 class RegistrationForm(forms.Form):
     #username = forms.CharField(label='Username', max_length=50)
-    username = forms.CharField(label='Username', widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "6~12位字符", "required": "required",}),
-                              max_length=50, error_messages={"required": "用户名不能为空"})
-    email = forms.EmailField(label='Email')
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password Confirmation', widget=forms.PasswordInput)
+    username = forms.CharField(label='Username', 
+                                min_length=3,
+                                max_length=20,
+                                error_messages={"min_length": "用户名至少需要3个字符",
+                                                "max_length": "用户名不能超过20个字符"},
+                                validators=[RegexValidator(r"^[a-zA-Z0-9_]{3,20}$", message="只能由字母,数字,下划线组成")],
+                                widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "3~20个字符", "required": "required",}),
+                                )
+    email = forms.EmailField(label='Email',
+                            validators=[RegexValidator(r"^[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$", message="请输入正确的邮箱格式")],
+                            widget=forms.EmailInput(attrs={"class": "form-control", "placeholder": "邮箱, 你懂得"}))
+    password1 = forms.CharField(label='Password', 
+                                min_length=6,
+                                max_length=20,
+                                error_messages={"min_length": "密码至少6位",
+                                                "max_length": "密码最多20位"},
+                                validators=[RegexValidator(r"[a-zA-Z][a-zA-Z0-9.]{5,19}", message="以字母开头,只能包含字母数字小数点")],
+                                widget=forms.PasswordInput(attrs={"class": "form-control", "placeholder": "6-20位以字母开头包含小数点"}))
+
+    password2 = forms.CharField(label='Password Confirmation', widget=forms.PasswordInput(attrs={"class": "form-control", "placeholder": "请再次输入密码"}))
 
     # user clean methods to define custom validation rules
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
-        if len(username) < 3:
-            raise forms.ValidationError("your username must be at least 3 characters log")
-        elif len(username) > 20:
-            raise forms.ValidationError("your username is too long")
-        else:
-            filter_result = User.objects.filter(username__exact=username)
-            if len(filter_result) > 0:
-                raise forms.ValidationError('your username already exists')
+    
+        filter_result = User.objects.filter(username__exact=username)
+        if len(filter_result) > 0:
+            raise forms.ValidationError('Your username already exists')
         return username
 
     def clean_email(self):
@@ -37,7 +48,7 @@ class RegistrationForm(forms.Form):
         if email_check(email):
             filter_result = User.objects.filter(email__exact=email)
             if len(filter_result) > 0:
-                raise forms.ValidationError("your email already exists")
+                raise forms.ValidationError("Your email already exists")
         else:
             raise forms.ValidationError("Please enter a valid email")
 
@@ -45,10 +56,6 @@ class RegistrationForm(forms.Form):
 
     def clean_password1(self):
         password1 = self.cleaned_data.get('password1')
-        if len(password1) < 3:
-            raise forms.ValidationError("your password is too short")
-        elif len(password1) > 20:
-            raise forms.ValidationError("your password is too long")
 
         return password1
 
@@ -64,8 +71,10 @@ class RegistrationForm(forms.Form):
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(label='Username', max_length=50, error_messages={'required': 'Please Fuck yourself'})
-    password = forms.CharField(label='Password', widget=forms.PasswordInput)
+    username = forms.CharField(label='Username', max_length=50, 
+                                error_messages={'required': 'Please Fuck yourself'},
+                                widget=forms.TextInput(attrs={"class": "form-control", "required": "required",}))
+    password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={"class": "form-control"}))
 
     # use clean methods to define custom validation rules
 

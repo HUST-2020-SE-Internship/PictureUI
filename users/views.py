@@ -48,9 +48,8 @@ def profile_update(request, pk):
 
 
 def register(request):
-    form = LoginForm()
+    login_form = LoginForm()
     if request.method == 'POST':
-
         register_form = RegistrationForm(request.POST)
         if register_form.is_valid():
             username = register_form.cleaned_data['username']
@@ -66,20 +65,20 @@ def register(request):
 
             return HttpResponseRedirect("/users/login/")
         else:
-            return render(request, 'users/AutoAlbum.html', {'form': form, 'register_form': register_form})
+            return render(request, 'users/AutoAlbum.html', {'login_form': login_form, 'register_form': register_form})
     else:
         register_form = RegistrationForm()
-    return render(request, 'users/login.html', {'form': form, 'register_form': register_form})
+    return render(request, 'users/login.html', {'login_form': login_form, 'register_form': register_form})
 
 
 def login(request):
-    form = LoginForm()
+    login_form = LoginForm()
     register_form = RegistrationForm()
     if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
+        login_form = LoginForm(request.POST)
+        if login_form.is_valid():
+            username = login_form.cleaned_data['username']
+            password = login_form.cleaned_data['password']
 
             user = auth.authenticate(username=username, password=password)
 
@@ -90,15 +89,15 @@ def login(request):
                 # 用户名/邮箱存在于数据库,但是密码错误
 
                 return render(request, 'users/AutoAlbum.html',
-                              {'form': form, 'register_form': register_form, 'message': '密码错误请再次输入'})
+                              {'login_form': login_form, 'register_form': register_form, 'message': '密码错误请再次输入'})
         else:
             # 登录失败，用户名/邮箱不存在
-            return render(request, 'users/AutoAlbum.html', {'form': form, 'register_form': register_form, 'message': '用户名不存在请先进行注册'})
+            return render(request, 'users/AutoAlbum.html', {'login_form': login_form, 'register_form': register_form, 'message': '用户名不存在请先进行注册'})
 
     else:
         form = LoginForm()
         register_form = RegistrationForm()
-    return render(request, 'users/AutoAlbum.html', {'form': form, 'register_form': register_form})
+    return render(request, 'users/AutoAlbum.html', {'login_form': login_form, 'register_form': register_form})
 
 
 def loginOut(request):
