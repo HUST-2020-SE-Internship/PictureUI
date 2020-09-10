@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- <link rel="stylesheet" href="//at.alicdn.com/t/font_2056148_bwt3vnpoif.css"> -->
     <link rel="stylesheet" href="/static/CSS/Test1.css">
+    <script src="/static/JS/jquery-3.2.1.js"></script>
     <title>自动相册</title>
 </head>
 <style>
@@ -57,9 +58,18 @@
                 {% endif %}
 
                 <div class="form-group">
-                    <div class="alert alert-warning">{{ register_form.non_field_errors }}</div>
+                    <div class="alert alert-warning">{{ register_form.non_field_errors}}</div>
                     {{ register_form.username.label_tag }}
                     {{ register_form.username }}
+                    {% if register_form.errors.username is not null %}
+                    <!-- 从instanceof(form).errors.username中拿出相应错误回显信息后，下面应该将其显示在前端，但是目前无法二次渲染进上方username字段对应生成的input框的'placeholder'的属性,待定解决 -->
+                    <script type="text/javascript">
+                        $(document).ready(function(){
+                            msg = {{ register_form.errors.username.0 | safe }};
+                            $("#id_username").attr("placeholder", msg);
+                        })
+                    </script>
+                    {% endif %}
                 </div>
 
                 <div class="form-group">
