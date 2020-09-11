@@ -19,9 +19,9 @@ from . import Classifier
 def main(request):
     if request.method == "POST":
         picStream = request.POST.get("picStream")
-        #picStream_data = str(picStream).spilt(';base64,')[1]
-        #data = base64.b64decode(picStream_data)
-        #print(data)
+        picStream_data = str(picStream).split(';base64,')[1]
+        data = base64.b64decode(picStream_data)
+        print(data)
         ret = {"status": 0, 'url': ''}
         ret['status'] = 1
         ret['url'] = '/index/'
