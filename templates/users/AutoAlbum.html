@@ -1,46 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- <link rel="stylesheet" href="//at.alicdn.com/t/font_2056148_bwt3vnpoif.css"> -->
     <link rel="stylesheet" href="/static/CSS/Test1.css">
+    <link rel="stylesheet" href="/static/CSS/users/gate.css">
+    <link rel="stylesheet" href="/static/bootstrap-3.3.7/dist/css/bootstrap.css">
     <script src="/static/JS/jquery-3.2.1.js"></script>
     <title>自动相册</title>
 </head>
-<style>
-@font-face {font-family: "iconfont";
-  src: url('//at.alicdn.com/t/font_2056148_5nqkns5853p.eot?t=1599640453639'); /* IE9 */
-  src: url('//at.alicdn.com/t/font_2056148_5nqkns5853p.eot?t=1599640453639#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAASwAAsAAAAACRQAAARhAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDHAqFWIRtATYCJAMQCwoABCAFhG0HQBvXB8geBe6eELGZ6JLIv+GLoH7v3HvvoKtmDINiUFjSZFTG1yZchEu3Pj463Yj/03fa25mAdVLKSUkcpc0eqL9ev1/bc6k3s9NPoYl5/bbvfZP9yHRKpdGgZOKliv7PMdPl84Hlt9lcspJGewMcRetAO68C5A5P74TxHuAZJvjgeQLo02CG2Ag4uYEyGmdaAHFZKFUol5RoPbjAkjBa1iYQj0DHKoPoGvAQ/338wyJYAAW9gjN393jXgI0v5tvDuGOhA1JCBLDW00PaBCowBxLEaatxXy4NzmEcIz7PAei6egTWGnB4e3hhgdm3ImTxvzwQEAyiDY5wSNhlqIIvpk8hwJcDhQK+DitVROfkLtAD/kCsADt5w4Aw1gr+imy2bJWTPLNYbeae1S7SeD0lmBVs9549ZLSNjKcoYpjLNPoGwZfFFGWy5Ipw517VedJwnhJJ7giXrhAu2SCUSET37sXNzCTPLFJYtNx483nBfsp0/qTpEYnfuVJKLHkruvc6jnyzzh7irPd7QfvOXTiyRUUgnFtCzCm6i+dXKp6k9IfJ4JV7VXkEl+CQb26eywXkcbDk/l4cSdYPC9Y/miTj4+7fznOHFVcQFCVav7lj09CWzq1xAX+4IK0cUrDxomG8aE5ltQq4opSbfrm1/w1daaZLEd4Ae29bjEW2Jq7Sk/IDHtpOEeJsBYqwxCwaj4fYYyoRuEVaZZd/nUfcrh2PtRQNHZQNlQkWBAbVeAxavT3G8wcvDWH3DQ9dQvOsV/Dp0ffb3HsJkRv5pYYN3l70Cfks1t+19/YiwxSwW/e1tO7TgRaq6Pfzn9oBksoAZev1d5JnFJv8/OD4AaTXj2Yz6FzVyY+FrJj2aqMq1e7nkeJF7RW+J7VP+jAKOaGxc+2bvhuwumsQmIxnQuBDXfaHUtHp3m5iCp1bh9tgbyfdHOrkNy7/GdKS/b7GANWsX+KaYZVnmG/8zvDt03gF3MOozrD+vgAXbRltQG1o/SgqYhqe3YYmnOfSbZXjA7eMlzy+n6ofX8FQzdmaLmTVGrgAaFbhi7gjDn/Hn7HMX2ccvKv+2ZAu7fbP4n50dR9t+3rJ0XTQYDzr+2cZrD8Ka2RFmhxHlalzfablSon+Cf4C9F0raNA68nQN8XR0OoFFkEPBpA4Vix4ysWbQwmUHbSye0GcqcPOAvCo5RLIBzPQCEGTsBETKScBkXEfSsE+ATugLMMgEBg5RyO/JZRCFHN8qUpkMzGrEwuzAF56Gq0nmFcnUVeMiJ8bfUZxYHrS2sKpG9smneI0F1XVyoaZGYF5V4GEAXEauG2BFVWCTzuOCGg6XLC3z2j5pnF3uQZWvGFExYkBZnqFCuoBPhLVZtfb7V4iUcqninrIG9R0SS1jDI2sWrEYg94X+qLJneU61B9KCGkxAeWIBDwoAPXHdYABVtI+yER0bK5jhDy2xpGp5Y4Xj/cXeO9wGfc5DMxCBCRpBB3RXWW4qsESqqUGxPtd6snwAAAAA') format('woff2'),
-  url('//at.alicdn.com/t/font_2056148_5nqkns5853p.woff?t=1599640453639') format('woff'),
-  url('//at.alicdn.com/t/font_2056148_5nqkns5853p.ttf?t=1599640453639') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
-  url('//at.alicdn.com/t/font_2056148_5nqkns5853p.svg?t=1599640453639#iconfont') format('svg'); /* iOS 4.1- */
-}
-
-.iconfont {
-  font-family: "iconfont" !important;
-  font-size: 24px;
-  font-style: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.icon-qq:before {
-  content: "\e607";
-}
-
-.icon-zhifubao:before {
-  content: "\e636";
-}
-
-.icon-weixin:before {
-  content: "\e6b9";
-}
-
-
-
-</style>
 <body>
     <h2>自动相册</h2>
     <div class="container" id="container">
@@ -49,46 +18,27 @@
                 {% csrf_token %}
                 <h1>创建账户</h1>
                 <div class="social-container">
-                    <a href="https://im.qq.com/" class="social"><i class="iconfont icon-qq"></i></a>
-                    <a href="https://weixin.qq.com/" class="social"><i class="iconfont icon-weixin"></i></a>
-                    <a href="https://www.alipay.com/" class="social"><i class="iconfont icon-zhifubao"></i></a>
+                    <a href="https://im.qq.com/" class="social" target="_blank"><i class="iconfont icon-qq"></i></a>
+                    <a href="https://weixin.qq.com/" class="social" target="_blank"><i class="iconfont icon-weixin"></i></a>
+                    <a href="https://www.alipay.com/" class="social" target="_blank"><i class="iconfont icon-zhifubao"></i></a>
                 </div>
                 {% if message %}
-                <div class="alert alert-warning"></div>
+                <div class="alert alert-warning">{{ message }}</div>
                 {% endif %}
-
-                <div class="form-group">
-                    <div class="alert alert-warning">{{ register_form.non_field_errors}}</div>
+                <!-- 不用自带的渲染 太丑了 手动来控制 -->
+                <!-- 
                     {{ register_form.username.label_tag }}
                     {{ register_form.username }}
-                    {% if register_form.errors.username is not null %}
-                    <!-- 从instanceof(form).errors.username中拿出相应错误回显信息后，下面应该将其显示在前端，但是目前无法二次渲染进上方username字段对应生成的input框的'placeholder'的属性,待定解决 -->
-                    <script type="text/javascript">
-                        $(document).ready(function(){
-                            msg = {{ register_form.errors.username.0 | safe }};
-                            $("#id_username").attr("placeholder", msg);
-                        })
-                    </script>
-                    {% endif %}
-                </div>
-
-                <div class="form-group">
-                    {{ register_form.errors.password1 }}
-                    {{ register_form.password1.label_tag }}
-                    {{ register_form.password1 }}
-                </div>
-
-                <div class="form-group">
-                    {{ register_form.errors.password2 }}
-                    {{ register_form.password2.label_tag }}
-                    {{ register_form.password2 }}
-                </div>
-
-                <div class="form-group">
-                    {{ register_form.errors.email }}
-                    {{ register_form.email.label_tag }}
-                    {{ register_form.email }}
-                </div>
+                -->
+                {% for field in register_form %}
+                    <div class="form-group">
+                        <label for="" class="control-label"> {{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors is not null %}
+                        <span class="error pull-right">{{ field.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+                {% endfor %}
 
                 <button>注册</button>
             </form>
@@ -98,24 +48,25 @@
                 {% csrf_token %}
                 <h1>登录</h1>
                 <div class="social-container">
-                    <a href="https://im.qq.com/" class="social"><i class="iconfont icon-qq"></i></a>
-                    <a href="https://weixin.qq.com/" class="social"><i class="iconfont icon-weixin"></i></a>
-                    <a href="https://www.alipay.com/" class="social"><i class="iconfont icon-zhifubao"></i></a>
+                    <a href="https://im.qq.com/" class="social" target="_blank"><i class="iconfont icon-qq"></i></a>
+                    <a href="https://weixin.qq.com/" class="social" target="_blank"><i class="iconfont icon-weixin"></i></a>
+                    <a href="https://www.alipay.com/" class="social" target="_blank"><i class="iconfont icon-zhifubao"></i></a>
                 </div>
+                
                 {% if message %}
                 <div class="alert alert-warning">{{ message }}</div>
                 {% endif %}
-                <div class="form-group">
-                    {{ form.errors.username }}
-                    {{ form.username.label_tag }}
-                    {{ form.username }}
-                </div>
 
-                <div class="form-group">
-                    {{ form.errors.password }}
-                    {{ form.password.label_tag }}
-                    {{ form.password }}
-                </div>
+                {% for field in login_form %}
+                    <div class="form-group">
+                        <label for="" class="control-label"> {{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors is not null %}
+                        <span class="error pull-right">{{ field.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
                 <a href="#">忘记密码?</a>
                 <button type="submit" value="Login">登录</button>
             </form>
