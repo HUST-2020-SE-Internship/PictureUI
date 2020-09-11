@@ -1,3 +1,6 @@
+import os
+from os import mkdir
+
 from django.shortcuts import render, HttpResponse, get_object_or_404
 from .MyForms import RegistrationForm, LoginForm, ProfileForm, PwdChangeForm
 from .models import UserProfile
@@ -56,6 +59,12 @@ def register(request):
 
             # 使用内置User自带create_user方法创建用户，不需要使用save()
             user = User.objects.create_user(username=username, password=password, email=email)
+            os.makedirs("static/"+username+"/照片")
+            os.mkdir("static/"+username+"/照片/person")
+            os.mkdir("static/" + username + "/照片/point")
+            os.mkdir("static/" + username + "/照片/scenery")
+            os.mkdir("static/" + username + "/照片/video")
+            os.mkdir("static/" + username + "/照片/cutScreen")
 
             # 如果直接使用objects.create()方法后不需要使用save()
             user_profile = UserProfile(user=user)

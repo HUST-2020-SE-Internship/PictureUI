@@ -188,7 +188,17 @@ desired effect
       <!--------------------------
         | Your Page Content Here |
         -------------------------->
+        <div style="width: 800px;margin: 0 auto;display: flex;justify-content: space-around;">
 
+                {% for picname in listPicname %}
+                    <div style="text-align: center">
+                        <img src={{ picname }} width="128px" height="128px" >
+                        <div style="font-size: large">{{ picname }}</div>
+                    </div>
+                {% endfor %}
+
+
+        </div>
 
 
 

@@ -1,3 +1,6 @@
+import base64
+import json
+
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
@@ -8,14 +11,23 @@ from django.urls import reverse
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from User_model.settings import MEDIA_URL
+from main.tools import read_directory
 from users.MyForms import ProfileForm
 from users.models import UserProfile
 
-from . import classifier
+from . import Classifier
 
 @login_required
 def main(request):
-    pass
+    if request.method == "POST":
+        picStream = request.POST.get("picStream")
+        picStream_data = str(picStream).split(';base64,')[1]
+        data = base64.b64decode(picStream_data)
+        print(data)
+        ret = {"status": 0, 'url': ''}
+        ret['status'] = 1
+        ret['url'] = '/index/'
+        return HttpResponse(json.dumps(ret))
     return render(request, 'main/main.html')
 
 # 测试成功(该测试在后台调用classify_factory进行预测)
@@ -50,32 +62,37 @@ def classify(request, pk):
 
 def classifilePerson(request, pk):
     user = get_object_or_404(User, pk=pk)
+    listPicname = read_directory("static/"+user.username+"/照片/person")
     url = MEDIA_URL + user.profile.portrait.name
-    return render(request, 'main/person.html', {'user': user, 'url': url})
+    return render(request, 'main/person.html', {'user': user, 'url': url, 'listPicname': listPicname})
 
 
 def classifilePoint(request, pk):
     user = get_object_or_404(User, pk=pk)
+    listPicname = read_directory("static/" + user.username + "/照片/point")
     url = MEDIA_URL + user.profile.portrait.name
-    return render(request, 'main/point.html', {'user': user, 'url': url})
+    return render(request, 'main/point.html', {'user': user, 'url': url, 'listPicname': listPicname})
 
 
 def classifileVideo(request, pk):
     user = get_object_or_404(User, pk=pk)
+    listPicname = read_directory("static/" + user.username + "/照片/video")
     url = MEDIA_URL + user.profile.portrait.name
-    return render(request, 'main/video.html', {'user': user, 'url': url})
+    return render(request, 'main/video.html', {'user': user, 'url': url, 'listPicname': listPicname})
 
 
 def classifileScenery(request, pk):
     user = get_object_or_404(User, pk=pk)
+    listPicname = read_directory("static/" + user.username + "/照片/scenery")
     url = MEDIA_URL + user.profile.portrait.name
-    return render(request, 'main/scenery.html', {'user': user, 'url': url})
+    return render(request, 'main/scenery.html', {'user': user, 'url': url, 'listPicname': listPicname})
 
 
 def classifileCutScreen(request, pk):
     user = get_object_or_404(User, pk=pk)
+    listPicname = read_directory("static/" + user.username + "/照片/cutScreen")
     url = MEDIA_URL + user.profile.portrait.name
-    return render(request, 'main/cutScreen.html', {'user': user, 'url': url})
+    return render(request, 'main/cutScreen.html', {'user': user, 'url': url, 'listPicname': listPicname})
 
 @login_required
 def personInfo(request, pk):
