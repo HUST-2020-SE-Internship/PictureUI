@@ -68,7 +68,6 @@ def register(request):
         register_form = RegistrationForm()
     return render(request, 'users/login.html', {'login_form': login_form, 'register_form': register_form})
 
-
 def login(request):
     login_form = LoginForm()
     register_form = RegistrationForm()

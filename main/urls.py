@@ -16,5 +16,5 @@ urlpatterns = [
     re_path(r'^account/(?P<pk>\d+)/personInfo/$', views.personInfo, name='mainPersonInfo'),
     re_path(r'^classify/$', views.classify, name='classify'),
     re_path(r'^classify_test/$', views.classify_test, name='classify_test'),
-
+    path('classify_img/', views.classify_img, name='classify_img')
 ]

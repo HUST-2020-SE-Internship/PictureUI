@@ -6,6 +6,9 @@ import os
 import numpy as np 
 import cv2 as cv
 
+from io import BufferedReader, BytesIO
+import matplotlib.pyplot as plt
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # 启动Django项目时,会初始化该类,加载模型耗时较长但是加载完毕后该实例一直留在资源池中等待调用
@@ -32,6 +35,7 @@ class Classifier:
         self.dst_images_formatter = ImageDatagenerator()
 
         '''
+    
     def predict_by_imgpath(self, path):
         test_images = []
         true_names = []
@@ -58,6 +62,23 @@ class Classifier:
     def predict_test(self):
         test_path = BASE_DIR + "/main/NetModel/test"
         self.predict_by_imgpath(test_path)
+
+    def predict_by_bytes(self, bytesIO):
+        print(type(bytesIO))
+        buf = BufferedReader(bytesIO).read()
+        img = cv.imdecode(np.frombuffer(buf, np.uint8), cv.IMREAD_COLOR)
+        img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
+        img = cv.resize(img, self.img_size, cv.INTER_AREA)
+
+        # 调试用显示,准备完毕后删除
+        plt.imshow(img, cmap=plt.cm.binary)
+        plt.show()
+
+        img = (img/127.5) - 1 # 归一化至[-1, 1]
+        img = np.expand_dims(img, axis = 0)
+        predictions = self.model.predict(img)
+        predicted_label = 0 if predictions[0] < 0 else 1
+        return self.label_names[predicted_label]
 
 classify_factory = Classifier("/main/NetModel/MobileNetV2/", "MobileNetV2_binary_fine.h5")
 

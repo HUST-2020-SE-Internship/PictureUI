@@ -1,0 +1,30 @@
+{% extends 'main/base.html' %} 
+
+{% load static %}
+
+{% block title %}
+    <h1>主功能测试<small>猫狗二分类测试</small></h1>
+{% endblock title %}
+
+{% block main_content %}
+        <form class="form-horizontal" enctype="multipart/form-data" action="/main/classify_img/" method="post">
+            {% csrf_token %}
+            <div class="col-md-10">
+                <div class="col-md-8 col-md-offset-2">
+                    <img src="..." alt="profile" class="img-thumbnail img-responsive"  id="profile">
+                </div>
+                <div class = "form-group">
+                    <label for="selectImg" class="col-md-3 control-label">头像</label>
+                    <div class="col-md-6">
+                        <input type="file" class="form-control" id="selectImg" name="img"/>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">点击测试猫狗分类</button>
+        </form>
+
+{% endblock main_content %}
+
+{% block page_js_reference %}
+    <script src="/static/JS/main/classify_test.js"></script>
+{% endblock page_js_reference %}
