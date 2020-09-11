@@ -178,9 +178,13 @@ desired effect
         | Your Page Content Here |
         -------------------------->
 
-             <form>
+            <form>
+
                 <div class="form-group">
                     <input id="upfile" style="display: none" name="filepic" onchange=""  type="file" class="form-control" webkitdirectory>
+                </div>
+                <div class="form-group">
+                    <input id="upfile3" style="display: none" name="filepic3" onchange="showPic()"  type="submit" class="form-control">
                 </div>
                 <div class="form-group">
                     <input id="upfile2" style="display: none" name="filepic2" onchange="showPic()"  type="file" class="form-control">
@@ -191,7 +195,7 @@ desired effect
                         <div style="font-size: large">Choose FileDirectory</div>
                     </div>
                     <div style="text-align: center">
-                        <img src="/static/mainstatic/start up.png" style="cursor: pointer;"  alt="" name="pic" width="128px" height="128px"  onclick="upLoadPicture()" />
+                        <img src="/static/mainstatic/start up.png" style="cursor: pointer;"  alt="" name="pic" width="128px" height="128px"  onclick="upLoadPicture('upfile3')" />
                         <div style="font-size: large">Link Start</div>
                     </div>
                     <div style="text-align: center">
@@ -224,6 +228,7 @@ desired effect
 <!-- AdminLTE App -->
 <script src="/static/mainstatic/dist/js/adminlte.min.js"></script>
 
+
 <script type="text/javascript">
     document.getElementById("upfile").addEventListener("change",function(event){
         var files=event.target.files;
@@ -253,6 +258,23 @@ desired effect
             console.log(re.target.result);
             var showFile=document.getElementById("showfiles");
             showFile.innerHTML+=`<div style="text-align: center"><img src=${re.target.result} width="50px" height="50px"/><div>${file.name}</div></div>`;
+             $.ajax({
+            url: '/main/main/',
+            type: 'post',
+            data: {
+               picStream:re.target.result,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data.status) {
+                    console.log("success");
+                }
+                else {
+                    alert('传输失败')
+                }
+            }
+        })
         }
 
     }

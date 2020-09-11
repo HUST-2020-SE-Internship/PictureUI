@@ -1,5 +1,8 @@
+import base64
+import json
+
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404
 
 from django.urls import reverse
@@ -14,12 +17,20 @@ from . import Classifier
 
 @login_required
 def main(request):
-    pass
+    if request.method == "POST":
+        picStream = request.POST.get("picStream")
+        #picStream_data = str(picStream).spilt(';base64,')[1]
+        #data = base64.b64decode(picStream_data)
+        #print(data)
+        ret = {"status": 0, 'url': ''}
+        ret['status'] = 1
+        ret['url'] = '/index/'
+        return HttpResponse(json.dumps(ret))
     return render(request, 'main/main.html')
 
 # 测试成功(该测试在后台调用classify_factory进行预测)
 def classify_test(request):
-    classifier.classify_factory.predict_test()
+    Classifier.classify_factory.predict_test()
     return render(request, 'main/classify.html')
 
 
