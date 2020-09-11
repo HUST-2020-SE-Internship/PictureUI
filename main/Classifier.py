@@ -3,15 +3,67 @@ from tensorflow import keras
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 import os
+import numpy as np 
+import cv2 as cv
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-model_path = BASE_DIR+"NetModel/"
-
+# 启动Django项目时,会初始化该类,加载模型耗时较长但是加载完毕后该实例一直留在资源池中等待调用
+# 在此类中编写接口即可
+# 包括 根据图片识别,根据numpy组成的数组识别等
 class Classifier:
-    def __init__(self, model_name, img_size=(64,64)):
+    def __init__(self, model_dir, model_name, img_size=(160,160)):
+        self.img_size = img_size
+        self.model_dir = model_dir
         self.model_name = model_name
-        self.model = keras.models.load_model(model_path + model_name)
+        self.model = keras.models.load_model(BASE_DIR + model_dir + model_name)
+        # 模型加载完毕后立即使用一次Model.predict初始化模型
+        self.model.predict(np.zeros((1,160,160,3)))
+
+        # 读取标签映射
+        self.label_names = []
+        with open(BASE_DIR + model_dir + "/label_mapping.txt", encoding="utf-8") as mappings:
+            for mapping in mappings:
+                mapping = mapping.strip("\n")
+                print("读取到 %s " % mapping)
+                self.label_names.append(mapping.split('\t')[1])
+
+        '''TODO:Init ImageDataGenerator
+        self.dst_images_formatter = ImageDatagenerator()
+
+        '''
+    def predict_by_imgpath(self, path):
+        test_images = []
+        true_names = []
+        for root, _, files in os.walk(path):
+            for filename in files:
+                img_name, img_ext = os.path.splitext(filename)
+                if img_ext.lower() not in ['.jpg','.jpeg','.bmp','.png']:
+                    break
+                img = cv.imread(os.path.join(root, filename))
+                img = cv.resize(img, self.img_size, cv.INTER_AREA)
+                true_names.append(img_name)
+                test_images.append(img)
+
+        # 归一化 0~255 => -1~1
+        test_images = np.array(test_images)
+        test_images = test_images.astype("float32") / 127.5 - 1
+
+        predictions = self.model.predict(test_images)
+
+        for i, prediction in enumerate(predictions):
+            predicted_label = 0 if prediction[0] < 0 else 1
+            print("[True Class] %s <= => %s [Predict result: %0.6f] " % (true_names[i], self.label_names[predicted_label], prediction[0]))
+
+    def predict_test(self):
+        test_path = BASE_DIR + "/main/NetModel/test"
+        self.predict_by_imgpath(test_path)
+
+classify_factory = Classifier("/main/NetModel/MobileNetV2/", "MobileNetV2_binary_fine.h5")
 
 if __name__ == "__main__":
-    pass
+    
+    test_path = BASE_DIR + "/main/NetModel/test"
+    classify_factory.predict_by_imgpath(test_path)
+
+    

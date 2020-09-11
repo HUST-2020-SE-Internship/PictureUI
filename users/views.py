@@ -14,12 +14,10 @@ def index(request):
     print("index  doing")
     return HttpResponse("index  OK")
 
-
 @login_required
 def profile(request, pk):
     user = get_object_or_404(User, pk=pk)
     return render(request, 'users/profile.html', {'user': user})
-
 
 @login_required
 def profile_update(request, pk):

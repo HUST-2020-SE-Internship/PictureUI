@@ -2,21 +2,23 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 
-# Create your views here.
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 from User_model.settings import MEDIA_URL
 from users.MyForms import ProfileForm
 from users.models import UserProfile
 
+from . import classifier
 
+@login_required
 def main(request):
     pass
     return render(request, 'main/main.html')
 
-
-def classify(request):
-    pass
+# 测试成功(该测试在后台调用classify_factory进行预测)
+def classify_test(request):
+    classifier.classify_factory.predict_test()
     return render(request, 'main/classify.html')
 
 
@@ -73,7 +75,7 @@ def personInfo(request, pk):
             user_profile.org = form.cleaned_data['org']
             user_profile.telephone = form.cleaned_data['telephone']
             img = request.FILES.get("filepic")
-            user_profile.portrait = img;
+            user_profile.portrait = img
             user_profile.save()
 
             return HttpResponseRedirect(reverse('main:mainProfile', args=[user.id]))
@@ -82,3 +84,5 @@ def personInfo(request, pk):
                         'org': user_profile.org, 'telephone': user_profile.telephone}
         form = ProfileForm(default_data)
     return render(request, 'main/mainPersonInfo.html', {'form': form, 'user': user, 'url': url})
+
+
