@@ -6,10 +6,11 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 from User_model.settings import MEDIA_URL
+from main.tools import read_directory
 from users.MyForms import ProfileForm
 from users.models import UserProfile
 
-from . import classifier
+from . import Classifier
 
 @login_required
 def main(request):
@@ -36,32 +37,37 @@ def classify(request, pk):
 
 def classifilePerson(request, pk):
     user = get_object_or_404(User, pk=pk)
+    listPicname = read_directory("static/"+user.username+"/照片/person")
     url = MEDIA_URL + user.profile.portrait.name
-    return render(request, 'main/person.html', {'user': user, 'url': url})
+    return render(request, 'main/person.html', {'user': user, 'url': url, 'listPicname': listPicname})
 
 
 def classifilePoint(request, pk):
     user = get_object_or_404(User, pk=pk)
+    listPicname = read_directory("static/" + user.username + "/照片/point")
     url = MEDIA_URL + user.profile.portrait.name
-    return render(request, 'main/point.html', {'user': user, 'url': url})
+    return render(request, 'main/point.html', {'user': user, 'url': url, 'listPicname': listPicname})
 
 
 def classifileVideo(request, pk):
     user = get_object_or_404(User, pk=pk)
+    listPicname = read_directory("static/" + user.username + "/照片/video")
     url = MEDIA_URL + user.profile.portrait.name
-    return render(request, 'main/video.html', {'user': user, 'url': url})
+    return render(request, 'main/video.html', {'user': user, 'url': url, 'listPicname': listPicname})
 
 
 def classifileScenery(request, pk):
     user = get_object_or_404(User, pk=pk)
+    listPicname = read_directory("static/" + user.username + "/照片/scenery")
     url = MEDIA_URL + user.profile.portrait.name
-    return render(request, 'main/scenery.html', {'user': user, 'url': url})
+    return render(request, 'main/scenery.html', {'user': user, 'url': url, 'listPicname': listPicname})
 
 
 def classifileCutScreen(request, pk):
     user = get_object_or_404(User, pk=pk)
+    listPicname = read_directory("static/" + user.username + "/照片/cutScreen")
     url = MEDIA_URL + user.profile.portrait.name
-    return render(request, 'main/cutScreen.html', {'user': user, 'url': url})
+    return render(request, 'main/cutScreen.html', {'user': user, 'url': url, 'listPicname': listPicname})
 
 
 def personInfo(request, pk):
