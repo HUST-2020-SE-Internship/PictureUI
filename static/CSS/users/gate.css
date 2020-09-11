@@ -17,6 +17,7 @@
   
   .icon-qq:before {
     content: "\e607";
+    color:red;
   }
   
   .icon-zhifubao:before {
@@ -25,6 +26,7 @@
   
   .icon-weixin:before {
     content: "\e6b9";
+    color:green;
   }
   
   

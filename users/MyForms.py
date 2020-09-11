@@ -31,7 +31,7 @@ class RegistrationForm(forms.Form):
                                 validators=[RegexValidator(r"[a-zA-Z][a-zA-Z0-9.]{5,19}", message="以字母开头,只能包含字母数字小数点")],
                                 widget=forms.PasswordInput(attrs={"class": "form-control", "placeholder": "6-20位以字母开头包含小数点"}))
 
-    password2 = forms.CharField(label='Password Confirmation', widget=forms.PasswordInput(attrs={"class": "form-control", "placeholder": "请再次输入密码"}))
+    password2 = forms.CharField(label='PWD Conf', widget=forms.PasswordInput(attrs={"class": "form-control", "placeholder": "请再次输入密码"}))
 
     # user clean methods to define custom validation rules
 
@@ -71,8 +71,11 @@ class RegistrationForm(forms.Form):
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(label='Username', max_length=50, 
-                                error_messages={'required': 'Please Fuck yourself'},
+    username = forms.CharField(label='Username',
+                                min_length=3, 
+                                max_length=20, 
+                                error_messages={"min_length": "用户名至少需要3个字符",
+                                                "max_length": "用户名不能超过20个字符"},
                                 widget=forms.TextInput(attrs={"class": "form-control", "required": "required",}))
     password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={"class": "form-control"}))
 
@@ -83,7 +86,7 @@ class LoginForm(forms.Form):
         if email_check(username):
             filter_result = User.objects.filter(email__exact=username)
             if not filter_result:
-                raise forms.ValidationError('This emial does not exist')
+                raise forms.ValidationError('This email does not exist')
         else:
             filter_result = User.objects.filter(username__exact=username)
             if not filter_result:

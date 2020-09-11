@@ -87,15 +87,15 @@ def login(request):
                 return HttpResponseRedirect(reverse('main:mainProfile', args=[user.id]))
             else:
                 # 用户名/邮箱存在于数据库,但是密码错误
-
+                login_form.add_error("password", "密码错误")
                 return render(request, 'users/AutoAlbum.html',
-                              {'login_form': login_form, 'register_form': register_form, 'message': '密码错误请再次输入'})
+                              {'login_form': login_form, 'register_form': register_form})
         else:
             # 登录失败，用户名/邮箱不存在
-            return render(request, 'users/AutoAlbum.html', {'login_form': login_form, 'register_form': register_form, 'message': '用户名不存在请先进行注册'})
+            return render(request, 'users/AutoAlbum.html', {'login_form': login_form, 'register_form': register_form})
 
-    else:
-        form = LoginForm()
+    else: #不是POST方式,说明是通过直接访问URL GET页面的
+        login_form = LoginForm()
         register_form = RegistrationForm()
     return render(request, 'users/AutoAlbum.html', {'login_form': login_form, 'register_form': register_form})
 

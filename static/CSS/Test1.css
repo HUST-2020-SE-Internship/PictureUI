@@ -78,6 +78,7 @@ form {
     text-align: center;
 }
 
+/*
 input {
     background-color: #eee;
     border: none;
@@ -85,7 +86,7 @@ input {
     margin: 8px 0;
     width: 100%;
 }
-
+*/
 .container {
     background-color: #fff;
     border-radius: 10px;
@@ -93,7 +94,7 @@ input {
             0 10px 10px rgba(0,0,0,0.22);
     position: relative;
     overflow: hidden;
-    width: 768px;
+    width: 768px !important;
     max-width: 100%;
     min-height: 480px;
 }
