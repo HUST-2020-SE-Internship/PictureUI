@@ -19,7 +19,7 @@ class UserProfile(models.Model):
     org = models.CharField('Organization', max_length=128, blank=True)
     telephone = models.CharField('Telephone', max_length=50, blank=True)
     folder = models.CharField('', max_length=128, blank=True)
-    portrait = models.CharField('', max_length=256, blank=True)
+    portrait = models.ImageField(upload_to='photo', default="media/default.png")
 
     class Meta:
         verbose_name = 'User profile'
