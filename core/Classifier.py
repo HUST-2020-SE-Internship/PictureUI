@@ -31,7 +31,7 @@ class Classifier:
                 print("读取到 %s " % mapping)
                 self.label_names.append(mapping.split('\t')[1])
 
-        '''TODO:Init ImageDataGenerator
+        '''TODO:Init ImageDataGenerator 
         self.dst_images_formatter = ImageDatagenerator()
 
         '''
@@ -60,31 +60,39 @@ class Classifier:
             print("[True Class] %s <= => %s [Predict result: %0.6f] " % (true_names[i], self.label_names[predicted_label], prediction[0]))
 
     def predict_test(self):
-        test_path = BASE_DIR + "/main/NetModel/test"
+        test_path = BASE_DIR + "/core/NetModel/test"
         self.predict_by_imgpath(test_path)
 
-    def predict_by_bytes(self, bytesIO):
-        print(type(bytesIO))
-        buf = BufferedReader(bytesIO).read()
-        img = cv.imdecode(np.frombuffer(buf, np.uint8), cv.IMREAD_COLOR)
-        img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
-        img = cv.resize(img, self.img_size, cv.INTER_AREA)
+    def predict_by_bytes(self, file):
+        img = self.temporary_img_format(file)
 
-        # 调试用显示,准备完毕后删除
-        plt.imshow(img, cmap=plt.cm.binary)
-        plt.show()
-
-        img = (img/127.5) - 1 # 归一化至[-1, 1]
-        img = np.expand_dims(img, axis = 0)
         predictions = self.model.predict(img)
         predicted_label = 0 if predictions[0] < 0 else 1
         return self.label_names[predicted_label]
 
-classify_factory = Classifier("/main/NetModel/MobileNetV2/", "MobileNetV2_binary_fine.h5")
+    # TODO: 临时图片格式化函数, 不远的将来需使用ImageDataGenerator
+    def temporary_img_format(self, file):
+        img = []
+        if isinstance(file, BytesIO):
+            buf = BufferedReader(file).read()
+            img = cv.imdecode(np.frombuffer(buf, np.uint8), cv.IMREAD_COLOR)
+            img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
+            img = cv.resize(img, self.img_size, cv.INTER_AREA)
+        elif type(file) is np.ndarray:
+            img = file
+
+        # 处理为网络模型需求的输入
+        img = np.array(img)
+        img = img.astype("float32") / 127.5 - 1
+        img = np.expand_dims(img, axis = 0)
+
+        return img
+
+classify_factory = Classifier("/core/NetModel/MobileNetV2/", "MobileNetV2_binary_fine.h5")
 
 if __name__ == "__main__":
     
-    test_path = BASE_DIR + "/main/NetModel/test"
+    test_path = BASE_DIR + "/core/NetModel/test"
     classify_factory.predict_by_imgpath(test_path)
 
     

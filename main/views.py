@@ -4,7 +4,7 @@ import json
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from django.shortcuts import render, get_object_or_404
 
 from django.urls import reverse
@@ -15,7 +15,9 @@ from main.tools import read_directory
 from users.MyForms import ProfileForm
 from users.models import UserProfile
 
-from . import Classifier
+from core import Classifier, AutoLabel
+
+import copy
 
 @login_required
 def main(request):
@@ -23,6 +25,7 @@ def main(request):
         picStream = request.POST.get("picStream")
         picStream_data = str(picStream).split(';base64,')[1]
         data = base64.b64decode(picStream_data)
+        # nparr = np.fromstring(data, np.uint8) 从str转换为numpy数组
         print(data)
         ret = {"status": 0, 'url': ''}
         ret['status'] = 1
@@ -33,7 +36,22 @@ def main(request):
 # 测试成功(该测试在后台调用classify_factory进行预测)
 @login_required
 def classify_test(request):
-    return render(request, 'main/classify_test.html')
+    if request.method == "GET":
+        # 处理访问该页面的普通GET请求
+        return render(request, 'main/classify_test.html')
+    elif request.method == "POST":
+        # 处理ajax的POST请求
+        # 这里的'file'是js里上传图片前封装的K-V的K值
+        file = request.FILES['file'].file
+        file_copy = copy.deepcopy(file)
+
+        result = Classifier.classify_factory.predict_by_bytes(file)
+
+        # p.s. 只是测试一下！
+        # 将预测后得到的标签贴在原图右上角
+        labeled_img = AutoLabel.stick_label(file_copy, result)
+        # ret = base64.b64encode(labeled_img)
+        return HttpResponse(labeled_img, content_type="image/jpeg")
 
 def classify_img(request):
     if request.method == "POST":
@@ -41,7 +59,7 @@ def classify_img(request):
         print(type(img))
         # 这里的img为InMemoryUploadedFile对象，它的一个属性img.file为io.BytesIO Object，即二进制数据流,使用cv.imdecode将其转换为ndaraay
         # img还有其他属性 DEBUG模式断点到此查看
-        result = classifier.classify_factory.predict_by_bytes(img.file)
+        result = Classifier.classify_factory.predict_by_bytes(img.file)
 
         return JsonResponse({"status":"1","label": result})
     else:
