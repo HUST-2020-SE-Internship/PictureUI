@@ -48,7 +48,7 @@ def classify_test(request):
         result = Classifier.classify_factory.predict_by_bytes(file)
 
         # p.s. 只是测试一下！
-        # 将预测后得到的标签贴在原图右上角
+        # 将预测后得到的标签贴在原图左上角
         labeled_img = AutoLabel.stick_label(file_copy, result)
         # ret = base64.b64encode(labeled_img)
         return HttpResponse(labeled_img, content_type="image/jpeg")

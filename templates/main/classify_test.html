@@ -1,6 +1,8 @@
 {% extends 'main/base.html' %} 
 
-{% load static %}
+{% block page_css_reference %}
+    <link rel="stylesheet" href="/static/CSS/main/classify_test.css">
+{% endblock page_css_reference %}
 
 {% block title %}
     <h1>主功能测试<small>猫狗二分类测试</small></h1>
@@ -9,9 +11,9 @@
 {% block main_content %}
         <form class="form-horizontal" enctype="multipart/form-data" action="/main/classify_img/" method="post">
             {% csrf_token %}
-            <div class="col-md-10">
-                <div class="col-md-4 col-md-offset-1">
-                    <img src="" alt="profile" class="img-thumbnail img-responsive"  id="profile">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <img src="" alt="profile" class="img-thumbnail img-responsive col-md-8 col-md-offset-2"  id="profile">
                 </div>
                 <div class = "form-group">
                     <label for="selectImg" class="col-md-2 control-label">表单上传</label>
@@ -20,10 +22,12 @@
                     </div>
                 </div>
                 <div class = "form-group">
-                    <button type="submit" class="btn btn-primary">点击测试猫狗分类</button>
+                    <button type="submit" class="btn btn-primary col-md-offset-2">点击测试猫狗分类</button>
                 </div>
+            </div>
+            <div class="col-md-6">
                 <div class="form-group">
-                    <img src="" alt="ajax_profile" class="img-thumbnail img-responsive"  id="ajax_profile">
+                    <img src="" alt="ajax_profile" class="img-thumbnail img-responsive col-md-8 col-md-offset-2"  id="ajax_profile">
                 </div>
                 <div class = "form-group">
                     <label for="selectAjaxImg" class="col-md-2 control-label">ajax上传</label>
@@ -32,10 +36,9 @@
                     </div>
                 </div>
                 <div class = "form-group">
-                    <button type="button" class="btn btn-primary" id="btn_upload">点击测试ajax上传及回显</button>
+                    <button type="button" class="btn btn-primary col-md-offset-2" id="btn_upload">点击测试ajax上传及回显</button>
                 </div>
             </div>
-            
         </form>
 
 {% endblock main_content %}

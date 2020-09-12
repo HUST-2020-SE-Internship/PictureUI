@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -31,7 +33,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-    
+    <!-- Page CSS -->
+    {% block page_css_reference %}
+    {% endblock page_css_reference %}
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -101,13 +105,11 @@ desired effect
                     </a>
                 </li>
                 <!-- User Account Menu -->
+                <!--
                 {% if request.session.is_login %}
                         <li class="dropdown user user-menu">
-                            <!-- Menu Toggle Button -->
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <!-- The user image in the navbar-->
                             <img src="/static/mainstatic/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                            <!-- hidden-xs hides the username on small devices so only the image appears. -->
                             <span class="hidden-xs">{{ request.session.user_nikeName }}</span>
                             </a>
                         </li>
@@ -115,6 +117,18 @@ desired effect
                 {% else %}
                     <li><a href="/users/login/">登录&&注册</a></li>
                 {% endif %}
+                -->
+                <li class="dropdown user user-menu">
+                    <!-- Menu Toggle Button -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                      <!-- The user image in the navbar-->
+                      <img src={{ url }} class="user-image" alt="User Image">
+                      <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                      <span class="hidden-xs">{{ user.profile.org }}</span>
+                    </a>
+                </li>
+                <li><a href="/users/logout/">登出</a></li>
+
                 <!-- Control Sidebar Toggle Button -->
 
             </ul>
@@ -144,11 +158,11 @@ desired effect
         <li class="header">HEADER</li>
         <!-- Optionally, you can add icons to the links -->
         <li>
-            <a href="{% url 'main:main'%}"><i class="fa fa-link"></i> <span>照片</span>
+            <a href="{% url 'main:mainProfile' user.id%}"><i class="fa fa-link"></i> <span>照片</span>
             </a>
         </li>
         <li>
-            <a href="{% url 'main:classify' %}"><i class="fa fa-link"></i> <span>分类</span>
+            <a href="{% url 'main:mainClassifile' user.id %}"><i class="fa fa-link"></i> <span>分类</span>
                 <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -160,6 +174,10 @@ desired effect
                 <li><a href="{% url 'main:classifileScenery' user.id %}">风景</a></li>
                 <li><a href="{% url 'main:classifileCutScreen' user.id %}">截屏</a></li>
             </ul>
+        </li>
+        <li>
+            <a href="{% url 'main:mainPersonInfo' user.id %}"><i class="fa fa-link"></i> <span>身份信息维护</span>
+            </a>
         </li>
         <li>
             <a href="{% url 'main:classify_test' %}"><i class="fa fa-link"></i> <span>测试页面</span>
@@ -178,7 +196,7 @@ desired effect
         {% block page_title %}
         {% endblock %}
     </section>
-
+    <!-- /.content-header -->
     <!-- Main content -->
     <section class="content container-fluid">
         {% block main_content %}

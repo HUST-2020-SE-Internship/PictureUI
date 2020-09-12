@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- <link rel="stylesheet" href="//at.alicdn.com/t/font_2056148_bwt3vnpoif.css"> -->
-    <link rel="stylesheet" href="/static/CSS/Test1.css">
     <link rel="stylesheet" href="/static/CSS/users/gate.css">
     <link rel="stylesheet" href="/static/bootstrap-3.3.7/dist/css/bootstrap.css">
     <script src="/static/JS/jquery-3.2.1.js"></script>
@@ -12,7 +11,11 @@
 </head>
 <body>
     <h2>自动相册</h2>
+    {% if is_in_register %}
+    <div class="container right-panel-active" id="container">
+    {% else %}
     <div class="container" id="container">
+    {% endif %}
         <div class="form-container sign-up-container">
             <form method="post" action="/users/register/" enctype="multipart/form-data" class="form-horizontal">
                 {% csrf_token %}
@@ -22,7 +25,7 @@
                     <a href="https://weixin.qq.com/" class="social" target="_blank"><i class="iconfont icon-weixin"></i></a>
                     <a href="https://www.alipay.com/" class="social" target="_blank"><i class="iconfont icon-zhifubao"></i></a>
                 </div>
-                <!-- 不用自带的渲染 太丑了 手动来控制 -->
+                <!-- 不用django自带的表单渲染 太丑了 手动来控制 -->
                 <!-- 
                     {{ register_form.username.label_tag }}
                     {{ register_form.username }}

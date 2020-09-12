@@ -47,10 +47,15 @@ def profile_update(request, pk):
 
     return render(request, 'users/profile_update.html', {'form': form, 'user': user})
 
-
-def register(request):
+'''
+    标识符: is_in_register控制前端login或register容器的活跃状态
+'''
+def register(request): 
     login_form = LoginForm()
-    if request.method == 'POST':
+    if request.method == 'GET': # 处理访问resigter页面的GET请求
+        register_form = RegistrationForm()
+        return render(request, 'users/login.html', {'login_form': login_form, 'register_form': register_form, 'is_in_register': False})
+    elif request.method == 'POST': # 处理register功能的POST请求
         register_form = RegistrationForm(request.POST)
         if register_form.is_valid():
             username = register_form.cleaned_data['username']
@@ -72,10 +77,7 @@ def register(request):
 
             return HttpResponseRedirect("/users/login/")
         else:
-            return render(request, 'users/AutoAlbum.html', {'login_form': login_form, 'register_form': register_form})
-    else:
-        register_form = RegistrationForm()
-    return render(request, 'users/login.html', {'login_form': login_form, 'register_form': register_form})
+            return render(request, 'users/gate.html', {'login_form': login_form, 'register_form': register_form, 'is_in_register': True})
 
 def login(request):
     login_form = LoginForm()
@@ -94,22 +96,21 @@ def login(request):
             else:
                 # 用户名/邮箱存在于数据库,但是密码错误
                 login_form.add_error("password", "密码错误")
-                return render(request, 'users/AutoAlbum.html',
-                              {'login_form': login_form, 'register_form': register_form})
+                return render(request, 'users/gate.html',{'login_form': login_form, 'register_form': register_form})
         else:
             # 登录失败，用户名/邮箱不存在
-            return render(request, 'users/AutoAlbum.html', {'login_form': login_form, 'register_form': register_form})
+            return render(request, 'users/gate.html', {'login_form': login_form, 'register_form': register_form})
 
     else: #不是POST方式,说明是通过直接访问URL GET页面的
         login_form = LoginForm()
         register_form = RegistrationForm()
-    return render(request, 'users/AutoAlbum.html', {'login_form': login_form, 'register_form': register_form})
+    return render(request, 'users/gate.html', {'login_form': login_form, 'register_form': register_form})
 
 
 def loginOut(request):
     pass
 
-    return render(request, 'users/AutoAlbum.html')
+    return render(request, 'users/gate.html')
 
 
 @login_required

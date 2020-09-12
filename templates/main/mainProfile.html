@@ -1,275 +1,37 @@
-<!DOCTYPE html>
-<!--
-This is a starter template page. Use this page to start your new project from
-scratch. This page gets rid of all links and provides the needed markup only.
--->
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>自动相册后台管理界面</title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="stylesheet" href="/static/mainstatic/bower_components/bootstrap/dist/css/bootstrap.min.css">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="/static/mainstatic/bower_components/font-awesome/css/font-awesome.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="/static/mainstatic/bower_components/Ionicons/css/ionicons.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="/static/mainstatic/dist/css/AdminLTE.min.css">
-  <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
-        page. However, you can choose any other skin. Make sure you
-        apply the skin class to the body tag so the changes take effect. -->
-  <link rel="stylesheet" href="/static/mainstatic/dist/css/skins/skin-blue.min.css">
+{% extends 'main/base.html' %}
 
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
+{% block title %}
+    <h1>添加照片<small>哈哈哈哈啊哈</small></h1>
+{% endblock title %}
 
-  <!-- Google Font -->
-  <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-</head>
-<!--
-BODY TAG OPTIONS:
-=================
-Apply one or more of the following classes to get the
-desired effect
-|---------------------------------------------------------|
-| SKINS         | skin-blue                               |
-|               | skin-black                              |
-|               | skin-purple                             |
-|               | skin-yellow                             |
-|               | skin-red                                |
-|               | skin-green                              |
-|---------------------------------------------------------|
-|LAYOUT OPTIONS | fixed                                   |
-|               | layout-boxed                            |
-|               | layout-top-nav                          |
-|               | sidebar-collapse                        |
-|               | sidebar-mini                            |
-|---------------------------------------------------------|
--->
-<body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper">
-
-  <!-- Main Header -->
-  <header class="main-header">
-
-    <!-- Logo -->
-    <a href="/main/main" class="logo">
-      <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini">相册</span>
-      <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg">自动相册</span>
-    </a>
-
-    <!-- Header Navbar -->
-    <nav class="navbar navbar-static-top" role="navigation">
-      <!-- Sidebar toggle button-->
-      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-        <span class="sr-only">Toggle navigation</span>
-      </a>
-
-      <!-- Navbar Right Menu -->
-      <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav">
-          <!-- Messages: style can be found in dropdown.less-->
-          <li class="dropdown messages-menu">
-            <!-- Menu toggle button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-upload fa" aria-hidden="true"></i>
-
-            </a>
-          </li>
-          <!-- /.messages-menu -->
-
-          <!-- Notifications Menu -->
-          <li class="dropdown notifications-menu">
-            <!-- Menu toggle button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-question-circle fa" aria-hidden="true"></i>
-            </a>
-          </li>
-          <!-- Tasks Menu -->
-          <li class="dropdown tasks-menu">
-            <!-- Menu Toggle Button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-cog fa" aria-hidden="true"></i>
-            </a>
-          </li>
-          <!-- User Account Menu -->
-
-                <li class="dropdown user user-menu">
-                    <!-- Menu Toggle Button -->
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                      <!-- The user image in the navbar-->
-                      <img src="{{ url }}" class="user-image" alt="User Image">
-                      <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                      <span class="hidden-xs">{{ user.profile.org }}</span>
-                    </a>
-                </li>
-              <li><a href="/users/logout/">登出</a></li>
-
-          <!-- Control Sidebar Toggle Button -->
-
-        </ul>
-      </div>
-    </nav>
-  </header>
-  <!-- Left side column. contains the logo and sidebar -->
-  <aside class="main-sidebar">
-
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
-
-      <!-- search form (Optional) -->
-      <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="查找照片">
-          <span class="input-group-btn">
-              <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-              </button>
-            </span>
+{% block main_content %}
+    <form>
+        <div class="form-group">
+            <input id="upfile" style="display: none" name="filepic" onchange=""  type="file" class="form-control" webkitdirectory>
         </div>
-      </form>
-      <!-- /.search form -->
-
-      <!-- Sidebar Menu -->
-      <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">HEADER</li>
-        <!-- Optionally, you can add icons to the links -->
-          <li>
-          <a href="{% url 'main:mainProfile' user.id %}"><i class="fa fa-link"></i> <span>照片</span>
-          </a>
-          </li>
-          <li>
-          <a href="{% url 'main:mainClassifile' user.id %}"><i class="fa fa-link"></i> <span>分类</span>
-          </a>
-          </li>
-          <li>
-          <a href="{% url 'main:mainPersonInfo' user.id %}"><i class="fa fa-link"></i> <span>身份信息维护</span>
-          </a>
-          </li>
-
-
-      </ul>
-      <!-- /.sidebar-menu -->
-    </section>
-    <!-- /.sidebar -->
-  </aside>
-
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-        添加照片
-        <small>哈哈哈哈啊哈</small>
-      </h1>
-    </section>
-
-    <!-- Main content -->
-    <section class="content container-fluid">
-
-      <!--------------------------
-        | Your Page Content Here |
-        -------------------------->
-
-            <form>
-                <div class="form-group">
-                    <input id="upfile" style="display: none" name="filepic" onchange=""  type="file" class="form-control" webkitdirectory>
-                </div>
-                <div class="form-group">
-                    <input id="upfile2" style="display: none" name="filepic2" onchange="showPic()"  type="file" class="form-control">
-                </div>
-                <div style="width: 800px;margin: 0 auto;display: flex;justify-content: space-around;">
-                    <div style="text-align: center">
-                        <img src="/static/mainstatic/文件夹.png" style="cursor: pointer;"  alt="" name="pic" width="128px" height="128px"  onclick="upLoadPic('upfile')" />
-                        <div style="font-size: large">Choose FileDirectory</div>
-                    </div>
-                    <div style="text-align: center">
-                        <img src="/static/mainstatic/start up.png" style="cursor: pointer;"  alt="" name="pic" width="128px" height="128px"  onclick="upLoadPicture()" />
-                        <div style="font-size: large">Link Start</div>
-                    </div>
-                    <div style="text-align: center">
-                        <img src="/static/mainstatic/照片.png" style="cursor: pointer;"  alt="" name="pic" width="128px" height="128px"  onclick="upLoadPic('upfile2')" />
-                        <div style="font-size: large">Choose File</div>
-                    </div>
-                </div>
-            </form>
-
-            <div id="showfiles" style="margin-top: 150px;display: flex;justify-content: space-around;flex-wrap: wrap">
+        <div class="form-group">
+            <input id="upfile2" style="display: none" name="filepic2" onchange="showPic()"  type="file" class="form-control">
+        </div>
+        <div style="width: 800px;margin: 0 auto;display: flex;justify-content: space-around;">
+            <div style="text-align: center">
+                <img src="/static/mainstatic/文件夹.png" style="cursor: pointer;"  alt="" name="pic" width="128px" height="128px"  onclick="upLoadPic('upfile')" />
+                <div style="font-size: large">Choose FileDirectory</div>
             </div>
+            <div style="text-align: center">
+                <img src="/static/mainstatic/start up.png" style="cursor: pointer;"  alt="" name="pic" width="128px" height="128px"  onclick="upLoadPicture()" />
+                <div style="font-size: large">Link Start</div>
+            </div>
+            <div style="text-align: center">
+                <img src="/static/mainstatic/照片.png" style="cursor: pointer;"  alt="" name="pic" width="128px" height="128px"  onclick="upLoadPic('upfile2')" />
+                <div style="font-size: large">Choose File</div>
+            </div>
+        </div>
+    </form>
 
+    <div id="showfiles" style="margin-top: 150px;display: flex;justify-content: space-around;flex-wrap: wrap">
+    </div>
+{% endblock main_content %}
 
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-
-  <!-- Main Footer -->
-  <footer class="main-footer">
-    <strong>Copyright &copy; 2020 <a href="#">chao ge nb </a>.</strong> All rights reserved.
-  </footer>
-  <div class="control-sidebar-bg"></div>
-</div>
-
-<!-- jQuery 3 -->
-<script src="/static/mainstatic/bower_components/jquery/dist/jquery.min.js"></script>
-<!-- Bootstrap 3.3.7 -->
-<script src="/static/mainstatic/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<!-- AdminLTE App -->
-<script src="/static/mainstatic/dist/js/adminlte.min.js"></script>
-
-<script type="text/javascript">
-    document.getElementById("upfile").addEventListener("change",function(event){
-        var files=event.target.files;
-        if(files.length != 0){
-            //上传文件夹，这里得到的该文件夹下所有的文件，取第0个，得到文件夹名字即可
-            var re = new FileReader();
-            re.readAsDataURL(files[0]);
-            re.onload = function(re){
-                console.log(re.target.result);
-            }
-            var s = files[0].webkitRelativePath;
-            var str = s.split("/") ;
-            var fileName = str[0];
-            var showFile=document.getElementById("showfiles");
-            showFile.innerHTML+=`<div style="text-align: center"><img src="/static/mainstatic/文件夹.png" width="50px" height="50px"/><div>${fileName}</div></div>`;
-            //这里可以写ajax请求，把文件夹名字fileName带过去就可以，我在这一块就不写了
-        }
-    },false);
-
-
-    function showPic() {
-        var file =  document.getElementById('upfile2').files[0];
-        console.log(file);
-        var re = new FileReader();
-        re.readAsDataURL(file);
-        re.onload = function(re){
-            console.log(re.target.result);
-            var showFile=document.getElementById("showfiles");
-            showFile.innerHTML+=`<div style="text-align: center"><img src=${re.target.result} width="50px" height="50px"/><div>${file.name}</div></div>`;
-        }
-
-    }
-
-    function upLoadPic(id) {
-        var dir=document.getElementById(id);
-        dir.click();
-    }
-
-    function upLoadPicture() {
-        window.location.reload();
-    }
-</script>
-
-<!-- Optionally, you can add Slimscroll and FastClick plugins.
-     Both of these plugins are recommended to enhance the
-     user experience. -->
-</body>
-</html>
+{% block page_js_reference %}
+    <script src="/static/JS/main/profile.js"></script>  
+{% endblock page_js_reference %}
