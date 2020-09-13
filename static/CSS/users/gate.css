@@ -279,3 +279,12 @@ footer a {
     color: #3c97bf;
     text-decoration: none;
 }
+
+.callout{
+    border: 1px solid #eee;
+    border-left-width: 5px;
+}
+
+.callout-success{
+    border-left-color: rgb(108, 206, 9);
+}

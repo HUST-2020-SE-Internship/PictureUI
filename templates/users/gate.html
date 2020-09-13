@@ -57,6 +57,11 @@
                 </div>
                 
                 <div class="form-group">
+                    {% if register_success %}
+                        <div class="form-group">
+                            <p class="text-success callout callout-success">注册成功,请登录</p>
+                        </div>
+                    {% endif %}
                     {% for field in login_form %}
                         <div class="form-group">
                             <label for="id_{{ field.name }}" class="control-label"> {{ field.label }}</label>

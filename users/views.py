@@ -50,12 +50,13 @@ def profile_update(request, pk):
 
 '''
     标识符: is_in_register控制前端login或register容器的活跃状态
+    缺省为False 即默认处于登录子页面下
 '''
 def register(request): 
     login_form = LoginForm()
-    if request.method == 'GET': # 处理访问resigter页面的GET请求
+    if request.method == 'GET': # GET方式访问gate/register模块
         register_form = RegistrationForm()
-        return render(request, 'users/login.html', {'login_form': login_form, 'register_form': register_form, 'is_in_register': False})
+        return render(request, 'users/gate.html', {'login_form': login_form, 'register_form': register_form, 'is_in_register': True})
     elif request.method == 'POST': # 处理register功能的POST请求
         register_form = RegistrationForm(request.POST)
         if register_form.is_valid():
@@ -65,8 +66,8 @@ def register(request):
 
             # 使用内置User自带create_user方法创建用户，不需要使用save()
             user = User.objects.create_user(username=username, password=password, email=email)
-            os.makedirs("static/"+username+"/照片")
-            os.mkdir("static/"+username+"/照片/person")
+            os.makedirs("static/"+username+ "/照片")
+            os.mkdir("static/" + username + "/照片/person")
             os.mkdir("static/" + username + "/照片/point")
             os.mkdir("static/" + username + "/照片/scenery")
             os.mkdir("static/" + username + "/照片/video")
@@ -76,15 +77,18 @@ def register(request):
             user_profile = UserProfile(user=user)
             user_profile.save()
 
-            return HttpResponseRedirect("/users/login/")
+            return render(request, 'users/gate.html', {'login_form': login_form, 'register_form': register_form, 'register_success': True})
         else:
             return render(request, 'users/gate.html', {'login_form': login_form, 'register_form': register_form, 'is_in_register': True})
 
 def login(request):
-    login_form = LoginForm()
-    register_form = RegistrationForm()
-    if request.method == 'POST':
+    if request.method == 'GET': # GET方式访问gate/login模块
+        login_form = LoginForm()
+        register_form = RegistrationForm()
+        return render(request, 'users/gate.html', {'login_form': login_form, 'register_form': register_form})
+    elif request.method == 'POST':
         login_form = LoginForm(request.POST)
+        register_form = RegistrationForm()
         if login_form.is_valid():
             username = login_form.cleaned_data['username']
             password = login_form.cleaned_data['password']
@@ -94,7 +98,9 @@ def login(request):
             if user is not None and user.is_active:  # 登录成功,跳转
                 auth.login(request, user)
                 # 输出登录日志
-                print("%s %s logged in @ %s" % (timezone.now().strftime("[%d/%b/%Y %H:%M:%S]"), user.username, get_IP(request)))
+                print("%s [USER]%s logged in @ %s" % (timezone.localtime(user.last_login).strftime("[%d/%b/%Y %H:%M:%S]"), 
+                                                        user.username, 
+                                                        get_IP(request)))
 
                 return HttpResponseRedirect(reverse('main:mainProfile', args=[user.id]))
             else:
@@ -104,12 +110,6 @@ def login(request):
         else:
             # 登录失败，用户名/邮箱不存在
             return render(request, 'users/gate.html', {'login_form': login_form, 'register_form': register_form})
-
-    else: #不是POST方式,说明是通过直接访问URL GET页面的
-        login_form = LoginForm()
-        register_form = RegistrationForm()
-    return render(request, 'users/gate.html', {'login_form': login_form, 'register_form': register_form})
-
 
 # 获取用户的IP地址
 def get_IP(request):
