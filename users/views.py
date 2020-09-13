@@ -2,14 +2,15 @@ import os
 from os import mkdir
 
 from django.shortcuts import render, HttpResponse, get_object_or_404
-from .MyForms import RegistrationForm, LoginForm, ProfileForm, PwdChangeForm
-from .models import UserProfile
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.contrib import auth
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 
+from .MyForms import RegistrationForm, LoginForm, ProfileForm, PwdChangeForm
+from .models import UserProfile
 
 # Create your views here.
 
@@ -92,6 +93,9 @@ def login(request):
 
             if user is not None and user.is_active:  # 登录成功,跳转
                 auth.login(request, user)
+                # 输出登录日志
+                print("%s %s logged in @ %s" % (timezone.now().strftime("[%d/%b/%Y %H:%M:%S]"), user.username, get_IP(request)))
+
                 return HttpResponseRedirect(reverse('main:mainProfile', args=[user.id]))
             else:
                 # 用户名/邮箱存在于数据库,但是密码错误
@@ -106,6 +110,16 @@ def login(request):
         register_form = RegistrationForm()
     return render(request, 'users/gate.html', {'login_form': login_form, 'register_form': register_form})
 
+
+# 获取用户的IP地址
+def get_IP(request):
+    # 获取HTTP请求端的XFF头，在META信息中只有通过了HTTP代理或者负载均衡服务器后才会出现该项
+    xff = request.META.get('HTTP_X_FORWARDED_FOR')
+    if xff:
+        ip = xff.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 
 def loginOut(request):
     pass

@@ -9,12 +9,12 @@ def stick_label(file, label_name):
     if isinstance(file, BytesIO):
         buf = BufferedReader(file).read()
         img = cv.imdecode(np.frombuffer(buf, np.uint8), cv.IMREAD_COLOR)
-        # img = cv.cvtColor(img, cv.COLOR_BGR2RGB) 不知这里为何不需要转换可能跟cv.imencode有关
+        # img = cv.cvtColor(img, cv.COLOR_BGR2RGB) 不知这里为何不需要转换可能跟cv.imdecode有关
     elif type(file) is np.ndarray:
         img = file
 
     size = img.shape # height: size[0], width: size[1], channel: size[2]
-    img = cv.putText(img, label_name, (50,50), cv.FONT_HERSHEY_SIMPLEX, 1, (0,255,0), 2)
+    img = cv.putText(img, label_name, (size[0]//8, size[1]//8), cv.FONT_HERSHEY_SIMPLEX, 1, (0,255,0), 2)
 
 
     retval, buffer = cv.imencode('.jpeg', img)

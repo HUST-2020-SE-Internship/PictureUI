@@ -56,7 +56,7 @@ def classify_test(request):
 def classify_img(request):
     if request.method == "POST":
         img = request.FILES['img']
-        print(type(img))
+        # print(type(img))
         # 这里的img为InMemoryUploadedFile对象，它的一个属性img.file为io.BytesIO Object，即二进制数据流,使用cv.imdecode将其转换为ndaraay
         # img还有其他属性 DEBUG模式断点到此查看
         result = Classifier.classify_factory.predict_by_bytes(img.file)

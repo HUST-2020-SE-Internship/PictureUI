@@ -2,6 +2,8 @@ import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
+from django.utils import timezone
+
 import os
 import numpy as np 
 import cv2 as cv
@@ -68,6 +70,9 @@ class Classifier:
 
         predictions = self.model.predict(img)
         predicted_label = 0 if predictions[0] < 0 else 1
+
+        print(timezone.now().strftime("[%d/%b/%Y %H:%M:%S] ") + "[预测分类] %s | [置信度] %.6f" % (self.label_names[predicted_label], predictions[0]))
+
         return self.label_names[predicted_label]
 
     # TODO: 临时图片格式化函数, 不远的将来需使用ImageDataGenerator
