@@ -66,12 +66,12 @@ def register(request):
 
             # 使用内置User自带create_user方法创建用户，不需要使用save()
             user = User.objects.create_user(username=username, password=password, email=email)
-            os.makedirs("static/"+username+ "/照片")
-            os.mkdir("static/" + username + "/照片/person")
-            os.mkdir("static/" + username + "/照片/point")
-            os.mkdir("static/" + username + "/照片/scenery")
-            os.mkdir("static/" + username + "/照片/video")
-            os.mkdir("static/" + username + "/照片/cutScreen")
+            os.makedirs("media/"+username+ "/photo")
+            os.mkdir("media/" + username + "/photo/person")
+            os.mkdir("media/" + username + "/photo/point")
+            os.mkdir("media/" + username + "/photo/scenery")
+            os.mkdir("media/" + username + "/photo/video")
+            os.mkdir("media/" + username + "/photo/cutScreen")
 
             # 如果直接使用objects.create()方法后不需要使用save()
             user_profile = UserProfile(user=user)
