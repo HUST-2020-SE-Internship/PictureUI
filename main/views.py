@@ -22,11 +22,16 @@ import copy
 @login_required
 def main(request):
     if request.method == "POST":
-        picStream = request.POST.get("picStream")
-        picStream_data = str(picStream).split(';base64,')[1]
-        data = base64.b64decode(picStream_data)
-        # nparr = np.fromstring(data, np.uint8) 从str转换为numpy数组
-        print(data)
+        picStreamList = request.POST.get("picStreamList")
+        picStreamList = json.loads(picStreamList)
+        len = request.POST.get("len")
+        i = 0;
+        picStreamList_data = []
+        while i < int(len):
+            picStream_data = str(picStreamList["pic" + str(i)]).split(';base64,')[1]
+            data = base64.b64decode(picStream_data)
+            picStreamList_data.append(data)
+            i += 1
         ret = {"status": 0, 'url': ''}
         ret['status'] = 1
         ret['url'] = '/index/'
@@ -133,5 +138,3 @@ def personInfo(request, pk):
                         'org': user_profile.org, 'telephone': user_profile.telephone}
         form = ProfileForm(default_data)
     return render(request, 'main/mainPersonInfo.html', {'form': form, 'user': user, 'url': url})
-
-
