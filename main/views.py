@@ -19,7 +19,6 @@ from core import Classifier, AutoLabel
 
 import copy
 
-@login_required
 def main(request):
     if request.method == "POST":
         picStreamList = request.POST.get("picStreamList")
@@ -39,7 +38,6 @@ def main(request):
     return render(request, 'main/main.html')
 
 # 测试成功(该测试在后台调用classify_factory进行预测)
-@login_required
 def classify_test(request):
     if request.method == "GET":
         # 处理访问该页面的普通GET请求
@@ -70,13 +68,11 @@ def classify_img(request):
     else:
         return JsonResponse({"status":"0"})
 
-@login_required
 def profile(request, pk):
     user = get_object_or_404(User, pk=pk)
     url = MEDIA_URL + user.profile.portrait.name
     return render(request, 'main/mainProfile.html', {'user': user, 'url': url})
 
-@login_required
 def classify(request, pk):
     user = get_object_or_404(User, pk=pk)
     url = MEDIA_URL + user.profile.portrait.name
@@ -117,7 +113,6 @@ def classifileCutScreen(request, pk):
     url = MEDIA_URL + user.profile.portrait.name
     return render(request, 'main/cutScreen.html', {'user': user, 'url': url, 'listPicname': listPicname})
 
-@login_required
 def personInfo(request, pk):
     user = get_object_or_404(User, pk=pk)
     user_profile = get_object_or_404(UserProfile, user=user)

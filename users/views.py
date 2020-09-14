@@ -6,7 +6,6 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.contrib import auth
 from django.urls import reverse
-from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 
 from .MyForms import RegistrationForm, LoginForm, ProfileForm, PwdChangeForm
@@ -18,12 +17,10 @@ def index(request):
     print("index  doing")
     return HttpResponse("index  OK")
 
-@login_required
 def profile(request, pk):
     user = get_object_or_404(User, pk=pk)
     return render(request, 'users/profile.html', {'user': user})
 
-@login_required
 def profile_update(request, pk):
     user = get_object_or_404(User, pk=pk)
     user_profile = get_object_or_404(UserProfile, user=user)
@@ -85,7 +82,15 @@ def login(request):
     if request.method == 'GET': # GET方式访问gate/login模块
         login_form = LoginForm()
         register_form = RegistrationForm()
-        return render(request, 'users/gate.html', {'login_form': login_form, 'register_form': register_form})
+
+        redirect_from_auth = False
+        if request.session.get('redirect_from_auth'): # 控制显示"请登录"
+            redirect_from_auth = True
+            request.session['redirect_from_auth'] = False
+
+        return render(request, 'users/gate.html', {'login_form': login_form, 
+                                                    'register_form': register_form, 
+                                                    'redirect_from_auth':redirect_from_auth})
     elif request.method == 'POST':
         login_form = LoginForm(request.POST)
         register_form = RegistrationForm()
@@ -126,14 +131,10 @@ def loginOut(request):
 
     return render(request, 'users/gate.html')
 
-
-@login_required
-def logout(request):
+def logout(request): # 若用户未登录,auth.logout(request)也不会报错
     auth.logout(request)
     return HttpResponseRedirect("/users/login/")
 
-
-@login_required
 def pwd_change(request, pk):
     user = get_object_or_404(User, pk=pk)
 

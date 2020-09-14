@@ -288,3 +288,7 @@ footer a {
 .callout-success{
     border-left-color: rgb(108, 206, 9);
 }
+
+.callout-error{
+    border-left-color: #FF4B2B;
+}
