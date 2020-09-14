@@ -96,12 +96,12 @@ class LoginForm(forms.Form):
 
 
 class ProfileForm(forms.Form):
+    email = forms.EmailField(label='email', max_length=50, required=False)
+    username = forms.CharField(label='username', max_length=50, required=False)                        
     first_name = forms.CharField(label='First Name', max_length=50, required=False)
     last_name = forms.CharField(label='Last Name', max_length=50, required=False)
     org = forms.CharField(label='Organization', max_length=50, required=False)
     telephone = forms.CharField(label='Telephone', max_length=50, required=False)
-    email = forms.EmailField(label='email', max_length=50, required=False,
-                            widget=forms.HiddenInput(attrs={"class": "form-control-static"}))
 
 
 class PwdChangeForm(forms.Form):

@@ -15,23 +15,27 @@
                         {% csrf_token %}
                         <div class="col-lg-8 col-md-8">
                             <div class="form-group">
+                                <label class="col-sm-2 control-label">邮箱</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static text-muted">{{ form.email.value }}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">用户名</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static text-muted">{{ form.username.value }}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-sm-2 control-label">昵称</label>
-                                <div class="col-sm-8 form-control">
+                                <div class="col-sm-8">
                                     {{ form.org }}
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">电话</label>
-                                <div class="col-sm-8 form-control">
+                                <div class="col-sm-8">
                                     {{ form.telephone }}
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">邮箱</label>
-                                <div class="col-sm-8 form-control">
-                                    {{ form.email }}
                                 </div>
                             </div>
                         </div>

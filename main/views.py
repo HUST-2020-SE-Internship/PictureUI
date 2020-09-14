@@ -135,6 +135,6 @@ def personInfo(request, pk):
             return HttpResponseRedirect(reverse('main:mainProfile', args=[user.id]))
     else:
         default_data = {'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email,
-                        'org': user_profile.org, 'telephone': user_profile.telephone}
+                        'org': user_profile.org, 'telephone': user_profile.telephone, 'username': user.username}
         form = ProfileForm(default_data)
     return render(request, 'main/mainPersonInfo.html', {'form': form, 'user': user, 'url': url})
