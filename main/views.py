@@ -10,7 +10,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
-from User_model.settings import MEDIA_URL
+from AutoAlbum.settings import MEDIA_URL
 from main.tools import read_directory
 from users.MyForms import ProfileForm
 from users.models import UserProfile
@@ -71,47 +71,47 @@ def classify_img(request):
 def profile(request, pk):
     user = get_object_or_404(User, pk=pk)
     url = MEDIA_URL + user.profile.portrait.name
-    return render(request, 'main/mainProfile.html', {'user': user, 'url': url})
+    return render(request, 'main/main.html', {'user': user, 'url': url})
 
 def classify(request, pk):
     user = get_object_or_404(User, pk=pk)
     url = MEDIA_URL + user.profile.portrait.name
-    return render(request, 'main/mainClassify.html', {'user': user, 'url': url})
+    return render(request, 'main/classified.html', {'user': user, 'url': url})
 
 
-def classifilePerson(request, pk):
+def classifiedPerson(request, pk):
     user = get_object_or_404(User, pk=pk)
-    listPicname = read_directory("static/"+user.username+"/照片/person")
+    listPicname = read_directory("media/"+user.username+"/photo/person")
     url = MEDIA_URL + user.profile.portrait.name
-    return render(request, 'main/person.html', {'user': user, 'url': url, 'listPicname': listPicname})
+    return render(request, 'main/classes/person.html', {'user': user, 'url': url, 'listPicname': listPicname})
 
 
-def classifilePoint(request, pk):
+def classifiedLocation(request, pk):
     user = get_object_or_404(User, pk=pk)
-    listPicname = read_directory("static/" + user.username + "/照片/point")
+    listPicname = read_directory("media/" + user.username + "/photo/location")
     url = MEDIA_URL + user.profile.portrait.name
-    return render(request, 'main/point.html', {'user': user, 'url': url, 'listPicname': listPicname})
+    return render(request, 'main/classes/location.html', {'user': user, 'url': url, 'listPicname': listPicname})
 
 
-def classifileVideo(request, pk):
+def classifiedVideo(request, pk):
     user = get_object_or_404(User, pk=pk)
-    listPicname = read_directory("static/" + user.username + "/照片/video")
+    listPicname = read_directory("media/" + user.username + "/photo/video")
     url = MEDIA_URL + user.profile.portrait.name
-    return render(request, 'main/video.html', {'user': user, 'url': url, 'listPicname': listPicname})
+    return render(request, 'main/classes/video.html', {'user': user, 'url': url, 'listPicname': listPicname})
 
 
-def classifileScenery(request, pk):
+def classifiedScenery(request, pk):
     user = get_object_or_404(User, pk=pk)
-    listPicname = read_directory("static/" + user.username + "/照片/scenery")
+    listPicname = read_directory("media/" + user.username + "/photo/scenery")
     url = MEDIA_URL + user.profile.portrait.name
-    return render(request, 'main/scenery.html', {'user': user, 'url': url, 'listPicname': listPicname})
+    return render(request, 'main/classes/scenery.html', {'user': user, 'url': url, 'listPicname': listPicname})
 
 
-def classifileCutScreen(request, pk):
+def classifiedScreenShot(request, pk):
     user = get_object_or_404(User, pk=pk)
-    listPicname = read_directory("static/" + user.username + "/照片/cutScreen")
+    listPicname = read_directory("media/" + user.username + "/photo/screenshot")
     url = MEDIA_URL + user.profile.portrait.name
-    return render(request, 'main/cutScreen.html', {'user': user, 'url': url, 'listPicname': listPicname})
+    return render(request, 'main/classes/screenshot.html', {'user': user, 'url': url, 'listPicname': listPicname})
 
 def personInfo(request, pk):
     user = get_object_or_404(User, pk=pk)
@@ -127,9 +127,9 @@ def personInfo(request, pk):
             user_profile.portrait = img
             user_profile.save()
 
-            return HttpResponseRedirect(reverse('main:mainProfile', args=[user.id]))
+            return HttpResponseRedirect(reverse('main:profile', args=[user.id]))
     else:
         default_data = {'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email,
                         'org': user_profile.org, 'telephone': user_profile.telephone, 'username': user.username}
         form = ProfileForm(default_data)
-    return render(request, 'main/mainPersonInfo.html', {'form': form, 'user': user, 'url': url})
+    return render(request, 'main/personInfo.html', {'form': form, 'user': user, 'url': url})

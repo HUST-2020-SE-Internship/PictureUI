@@ -131,10 +131,10 @@ desired effect
                     <!-- Menu Toggle Button -->
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                       <!-- The user image in the navbar-->
-                      {% if url == "/media/" %}
+                      {% if url == "/media/"  or url is None %}
                       <img src="/media/default.png" class="user-image" alt="User Image">
-                      {% else %}
-                      <img src={{ url }} class="user-image" alt="User Image">
+                      {% elif url is not None %}
+                      <img src="{{ url }}" class="user-image" alt="User Image">
                       {% endif %}
                       <!-- hidden-xs hides the username on small devices so only the image appears. -->
                       <span class="hidden-xs">{{ user.profile.org }}</span>
@@ -171,25 +171,25 @@ desired effect
         <li class="header">HEADER</li>
         <!-- Optionally, you can add icons to the links -->
         <li>
-            <a href="{% url 'main:mainProfile' user.id%}"><i class="fa fa-link"></i> <span>照片</span>
+            <a href="{% url 'main:Profile' user.id%}"><i class="fa fa-link"></i> <span>照片</span>
             </a>
         </li>
         <li class="treeview">
-            <a  id="changepage" href="{% url 'main:mainClassifile' user.id %}"><i class="fa fa-link"></i> <span onclick="changPage()">分类</span>
+            <a  id="changepage" href="{% url 'main:Classified' user.id %}"><i class="fa fa-link"></i> <span onclick="changPage()">分类</span>
                 <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
             </span>
             </a>
             <ul class="treeview-menu">
-                <li><a href="{% url 'main:classifilePerson' user.id %}">人物</a></li>
-                <li><a href="{% url 'main:classifilePoint' user.id %}">地点</a></li>
-                <li><a href="{% url 'main:classifileVideo' user.id %}">视频</a></li>
-                <li><a href="{% url 'main:classifileScenery' user.id %}">风景</a></li>
-                <li><a href="{% url 'main:classifileCutScreen' user.id %}">截屏</a></li>
+                <li><a href="{% url 'main:classifiedPerson' user.id %}">人物</a></li>
+                <li><a href="{% url 'main:classifiedLocation' user.id %}">地点</a></li>
+                <li><a href="{% url 'main:classifiedVideo' user.id %}">视频</a></li>
+                <li><a href="{% url 'main:classifiedScenery' user.id %}">风景</a></li>
+                <li><a href="{% url 'main:classifiedScreenShot' user.id %}">截屏</a></li>
             </ul>
         </li>
         <li>
-            <a href="{% url 'main:mainPersonInfo' user.id %}"><i class="fa fa-link"></i> <span>身份信息维护</span>
+            <a href="{% url 'main:PersonInfo' user.id %}"><i class="fa fa-link"></i> <span>身份信息维护</span>
             </a>
         </li>
         <li>

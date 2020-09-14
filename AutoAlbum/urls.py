@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.static import serve
 
-from User_model.settings import MEDIA_ROOT
+from AutoAlbum.settings import MEDIA_ROOT
 
 urlpatterns = [
     path('main/', include('main.urls')),

@@ -10,6 +10,5 @@ urlpatterns = [
     re_path(r'^user/(?P<pk>\d+)/profile/update/$', views.profile_update, name='profile_update'),
     re_path(r'^user/(?P<pk>\d+)/pwd_change/$', views.pwd_change, name='pwd_change'),
     re_path(r"^logout/$", views.logout, name='logout'),
-    re_path(r"^loginOut/$", views.loginOut, name='loginOut'),
     path('index/', views.index),
 ]

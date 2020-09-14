@@ -63,12 +63,7 @@ def register(request):
 
             # 使用内置User自带create_user方法创建用户，不需要使用save()
             user = User.objects.create_user(username=username, password=password, email=email)
-            os.makedirs("media/"+username+ "/photo")
-            os.mkdir("media/" + username + "/photo/person")
-            os.mkdir("media/" + username + "/photo/point")
-            os.mkdir("media/" + username + "/photo/scenery")
-            os.mkdir("media/" + username + "/photo/video")
-            os.mkdir("media/" + username + "/photo/cutScreen")
+            create_user_media(username)
 
             # 如果直接使用objects.create()方法后不需要使用save()
             user_profile = UserProfile(user=user)
@@ -107,7 +102,7 @@ def login(request):
                                                         user.username, 
                                                         get_IP(request)))
 
-                return HttpResponseRedirect(reverse('main:mainProfile', args=[user.id]))
+                return HttpResponseRedirect(reverse('main:Profile', args=[user.id]))
             else:
                 # 用户名/邮箱存在于数据库,但是密码错误
                 login_form.add_error("password", "密码错误")
@@ -126,10 +121,13 @@ def get_IP(request):
         ip = request.META.get('REMOTE_ADDR')
     return ip
 
-def loginOut(request):
-    pass
-
-    return render(request, 'users/gate.html')
+def create_user_media(username):
+    os.makedirs("media/"+username+ "/photo")
+    os.mkdir("media/" + username + "/photo/person")
+    os.mkdir("media/" + username + "/photo/location")
+    os.mkdir("media/" + username + "/photo/scenery")
+    os.mkdir("media/" + username + "/photo/video")
+    os.mkdir("media/" + username + "/photo/screenshot")
 
 def logout(request): # 若用户未登录,auth.logout(request)也不会报错
     auth.logout(request)
