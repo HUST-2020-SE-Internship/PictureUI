@@ -25,7 +25,7 @@ def main(request):
         picStreamList = request.POST.get("picStreamList")
         picStreamList = json.loads(picStreamList)
         len = request.POST.get("len")
-        i = 0;
+        i = 0
         picStreamList_data = []
         while i < int(len):
             picStream_data = str(picStreamList["pic" + str(i)]).split(';base64,')[1]
