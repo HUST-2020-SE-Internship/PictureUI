@@ -23,6 +23,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
             page. However, you can choose any other skin. Make sure you
             apply the skin class to the body tag so the changes take effect. -->
     <link rel="stylesheet" href="/static/mainstatic/dist/css/skins/skin-blue.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/CSS/common/common.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/CSS/common/bootstrap.min.css"/>
+    <!-- load -->
+    <link rel="stylesheet" type="text/css" href="/static/CSS/common/load.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -58,6 +62,11 @@ desired effect
 |---------------------------------------------------------|
 -->
 <body class="hold-transition skin-blue sidebar-mini">
+<div id="loader-wrapper">
+        <div id="loader"></div>
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
+    </div>
 <div class="wrapper">
 
     <!-- Main Header -->
@@ -223,6 +232,12 @@ desired effect
 <script src="/static/mainstatic/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
 <script src="/static/mainstatic/dist/js/adminlte.min.js"></script>
+<!-- common scripts definition -->
+<script type="text/javascript" src="/static/JS/common/jquery.min.js"></script>
+<script type="text/javascript" src="/static/JS/common/bootstrap.min.js"></script>
+<!--Loader JS-->
+<script type="text/javascript" src="/static/JS/common/load.js"></script>
+
 <script>
 function changPage(){
     var changePage=document.getElementById("changepage");
