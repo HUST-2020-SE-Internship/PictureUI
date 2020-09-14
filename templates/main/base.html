@@ -122,7 +122,7 @@ desired effect
                     <!-- Menu Toggle Button -->
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                       <!-- The user image in the navbar-->
-                      {% if url is "/media/" %}
+                      {% if url == "/media/" %}
                       <img src="/media/default.png" class="user-image" alt="User Image">
                       {% else %}
                       <img src={{ url }} class="user-image" alt="User Image">

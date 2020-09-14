@@ -100,7 +100,8 @@ class ProfileForm(forms.Form):
     last_name = forms.CharField(label='Last Name', max_length=50, required=False)
     org = forms.CharField(label='Organization', max_length=50, required=False)
     telephone = forms.CharField(label='Telephone', max_length=50, required=False)
-    emil = forms.CharField(label='email', max_length=50, required=False)
+    email = forms.EmailField(label='email', max_length=50, required=False,
+                            widget=forms.HiddenInput(attrs={"class": "form-control-static"}))
 
 
 class PwdChangeForm(forms.Form):
