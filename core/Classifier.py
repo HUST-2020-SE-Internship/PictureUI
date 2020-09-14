@@ -9,7 +9,7 @@ import numpy as np
 import cv2 as cv
 
 from io import BufferedReader, BytesIO
-import matplotlib.pyplot as plt
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 

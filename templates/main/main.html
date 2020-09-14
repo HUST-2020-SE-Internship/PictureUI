@@ -184,7 +184,7 @@ desired effect
                     <input id="upfile" style="display: none" name="filepic" onchange=""  type="file" class="form-control" webkitdirectory>
                 </div>
                 <div class="form-group">
-                    <input id="upfile3" style="display: none" name="filepic3" onchange="showPic()"  type="submit" class="form-control">
+                    <input id="upfile3" style="display: none" name="filepic3" onclick=""  type="" class="form-control">
                 </div>
                 <div class="form-group">
                     <input id="upfile2" style="display: none" name="filepic2" onchange="showPic()"  type="file" class="form-control">
@@ -195,7 +195,7 @@ desired effect
                         <div style="font-size: large">Choose FileDirectory</div>
                     </div>
                     <div style="text-align: center">
-                        <img src="/static/mainstatic/start up.png" style="cursor: pointer;"  alt="" name="pic" width="128px" height="128px"  onclick="upLoadPicture('upfile3')" />
+                        <img src="/static/mainstatic/start up.png" style="cursor: pointer;"  alt="" name="pic" width="128px" height="128px"  onclick="upLoadPic('upfile3')" />
                         <div style="font-size: large">Link Start</div>
                     </div>
                     <div style="text-align: center">
@@ -230,14 +230,23 @@ desired effect
 
 
 <script type="text/javascript">
+    let picStreamList=[];
     document.getElementById("upfile").addEventListener("change",function(event){
         var files=event.target.files;
         if(files.length != 0){
             //上传文件夹，这里得到的该文件夹下所有的文件，取第0个，得到文件夹名字即可
-            var re = new FileReader();
+            for(let index=0;index<files.length;index++){
+                let read = new FileReader();
+                read.readAsDataURL(files[index]);
+                read.onload = function(read){
+                picStreamList.push(read.target.result);
+                }
+
+            }
+            let re = new FileReader();
             re.readAsDataURL(files[0]);
             re.onload = function(re){
-                console.log(re.target.result);
+                //console.log(re.target.result);
             }
             var s = files[0].webkitRelativePath;
             var str = s.split("/") ;
@@ -251,18 +260,39 @@ desired effect
 
     function showPic() {
         var file =  document.getElementById('upfile2').files[0];
-        console.log(file);
+        //console.log(file);
         var re = new FileReader();
         re.readAsDataURL(file);
         re.onload = function(re){
-            console.log(re.target.result);
+            //console.log(re.target.result);
             var showFile=document.getElementById("showfiles");
             showFile.innerHTML+=`<div style="text-align: center"><img src=${re.target.result} width="50px" height="50px"/><div>${file.name}</div></div>`;
-             $.ajax({
+            picStreamList.push(re.target.result);
+        }
+
+    }
+
+    function upLoadPic(id) {
+        var dir=document.getElementById(id);
+        dir.click();
+    }
+
+ /* function upLoadStream(){
+
+    }  */
+
+    $("#upfile3").click(function (){
+        let picList={};
+        console.log(picStreamList);
+         for (let i=0;i<picStreamList.length;i++){
+             picList["pic"+i]=picStreamList[i];
+         }
+        $.ajax({
             url: '/main/main/',
             type: 'post',
             data: {
-               picStream:re.target.result,
+                len:picStreamList.length,
+               picStreamList:JSON.stringify(picList),
                 csrfmiddlewaretoken: '{{ csrf_token }}'
             },
             success: function (data) {
@@ -275,18 +305,10 @@ desired effect
                 }
             }
         })
-        }
 
-    }
+    })
 
-    function upLoadPic(id) {
-        var dir=document.getElementById(id);
-        dir.click();
-    }
 
-    function upLoadPicture() {
-        window.location.reload();
-    }
 </script>
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.

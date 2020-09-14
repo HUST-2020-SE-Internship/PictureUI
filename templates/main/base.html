@@ -165,8 +165,8 @@ desired effect
             <a href="{% url 'main:mainProfile' user.id%}"><i class="fa fa-link"></i> <span>照片</span>
             </a>
         </li>
-        <li>
-            <a href="{% url 'main:mainClassifile' user.id %}"><i class="fa fa-link"></i> <span>分类</span>
+        <li class="treeview">
+            <a  id="changepage" href="{% url 'main:mainClassifile' user.id %}"><i class="fa fa-link"></i> <span onclick="changPage()">分类</span>
                 <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -223,6 +223,12 @@ desired effect
 <script src="/static/mainstatic/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
 <script src="/static/mainstatic/dist/js/adminlte.min.js"></script>
+<script>
+function changPage(){
+    var changePage=document.getElementById("changepage");
+    window.location.href=changePage.href;
+}
+</script>
 <!-- Page specified JS -->
 {% block page_js_reference %}
 {% endblock page_js_reference %}
