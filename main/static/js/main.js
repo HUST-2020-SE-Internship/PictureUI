@@ -58,8 +58,8 @@ function classifyImage(image){
     })
 }
 
-unchecked_svg = `<svg t="1600159587297" class="icon pic-unchecked" style="display:block" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1217" width="200" height="200"><path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z" fill="#dbdbdb" p-id="1218"></path><path d="M809.691429 392.777143L732.16 314.514286 447.634286 599.771429 292.571429 443.977143 214.308571 521.508571l155.794286 155.794286 77.531429 77.531429 362.057143-362.057143z" fill="#FFFFFF" p-id="1219"></path></svg>`
 checked_svg = `<svg t="1600160114988" class="icon pic-checked" style="display:none" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2025" width="200" height="200"><path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z" fill="#1AAC19" p-id="2026"></path><path d="M809.691429 392.777143L732.16 314.514286 447.634286 599.771429 292.571429 443.977143 214.308571 521.508571l155.794286 155.794286 77.531429 77.531429 362.057143-362.057143z" fill="#FFFFFF" p-id="2027"></path></svg>`
+unchecked_svg = `<svg t="1600159587297" class="icon pic-unchecked" style="display:block" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1217" width="200" height="200"><path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z" fill="#dbdbdb" p-id="1218"></path><path d="M809.691429 392.777143L732.16 314.514286 447.634286 599.771429 292.571429 443.977143 214.308571 521.508571l155.794286 155.794286 77.531429 77.531429 362.057143-362.057143z" fill="#FFFFFF" p-id="1219"></path></svg>`
 
 function showLabelInFront(image, typeName){
     var main_container = document.getElementById("main-container") ;
@@ -119,10 +119,12 @@ document.getElementById("save_checked").addEventListener("click", e => {
         var typeName = classify.querySelector(".classify-title").innerHTML ;
         var imageItems = classify.querySelectorAll(".image-item") ;
         for(var imageItem of imageItems){
-            var images = imageItem.querySelectorAll("img") ;
-            if(images[0].style.display == "block"){
+            var image = imageItem.querySelector("img") ;
+            var svgs = imageItem.querySelectorAll("svg") ;
+            // svgs 为界定是否选中的两个字体图标, svg[0]对应pic-checked
+            if(svgs[0].style.display == "block"){
                 isZero = false ;
-                image = images[1].getAttribute("src") ;
+                image = image.getAttribute("src") ;
                 // console.log(typeName, images[1].getAttribute("src")) ;
 
                 $.ajax({
@@ -147,6 +149,27 @@ document.getElementById("save_checked").addEventListener("click", e => {
     }
     if(isZero){
         alert("选中数量图片为0") ;
+    }
+})
+
+$("#remove_checked").on("click", function(){
+    /* 
+    $(".classify").each(function(){
+        $(this).children(".image-item").each(function(){
+            if ($(this).children("svg").first().css("display") == "block")
+                $(this).remove();
+        })
+    })
+    */
+    var classifies = document.querySelectorAll(".classify") ;
+    for(var classify of classifies){
+        var imageItems = classify.querySelectorAll(".image-item") ;
+        for(var imageItem of imageItems){
+            var svgs = imageItem.querySelectorAll("svg");
+            if(svgs[0].style.display == "block"){
+                imageItem.remove();
+            }
+        }
     }
 })
 
