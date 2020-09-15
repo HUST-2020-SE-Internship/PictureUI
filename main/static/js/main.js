@@ -58,6 +58,9 @@ function classifyImage(image){
     })
 }
 
+unchecked_svg = `<svg t="1600159587297" class="icon pic-unchecked" style="display:block" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1217" width="200" height="200"><path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z" fill="#dbdbdb" p-id="1218"></path><path d="M809.691429 392.777143L732.16 314.514286 447.634286 599.771429 292.571429 443.977143 214.308571 521.508571l155.794286 155.794286 77.531429 77.531429 362.057143-362.057143z" fill="#FFFFFF" p-id="1219"></path></svg>`
+checked_svg = `<svg t="1600160114988" class="icon pic-checked" style="display:none" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2025" width="200" height="200"><path d="M512 512m-512 0a512 512 0 1 0 1024 0 512 512 0 1 0-1024 0Z" fill="#1AAC19" p-id="2026"></path><path d="M809.691429 392.777143L732.16 314.514286 447.634286 599.771429 292.571429 443.977143 214.308571 521.508571l155.794286 155.794286 77.531429 77.531429 362.057143-362.057143z" fill="#FFFFFF" p-id="2027"></path></svg>`
+
 function showLabelInFront(image, typeName){
     var main_container = document.getElementById("main-container") ;
     var classifies = document.querySelectorAll(".classify") ;
@@ -70,7 +73,8 @@ function showLabelInFront(image, typeName){
         if(typeName == classifyTitle){
             classify.querySelector(".image-container").innerHTML += `
                 <div class="image-item" onclick="checkImage(this)">
-                    <img class="pic-checked" src="/static/img/checked.png" style="display: none;">
+                    ${checked_svg}
+                    ${unchecked_svg}
                     <img src=${image} alt="">
                 </div>
             ` ;
@@ -85,7 +89,8 @@ function showLabelInFront(image, typeName){
                 <h1 class="classify-title">${typeName}</h1>
                 <div class="image-container">
                     <div class="image-item" onclick="checkImage(this)">
-                        <img class="pic-checked" src="/static/img/checked.png" style="display: none;">
+                        ${checked_svg}
+                        ${unchecked_svg}
                         <img src="${image}" alt="">
                     </div>
                 </div>
@@ -147,22 +152,33 @@ document.getElementById("save_checked").addEventListener("click", e => {
 
 function checkImage(obj){
     var pic_checked = obj.querySelector(".pic-checked") ;
+    var pic_unchecked = obj.querySelector(".pic-unchecked");
     if(pic_checked.style.display == "none"){
         pic_checked.style.display = "block" ;
+        pic_unchecked.style.display = "none";
     }else{
         pic_checked.style.display = "none" ;
+        pic_unchecked.style.display = "block" ;
     }
 }
 
 var checkAll = false ;
 document.getElementById("check_all").addEventListener("click", e => {
-    var pic_checked = document.querySelectorAll(".pic-checked") ;
+    var pic_checked = document.querySelectorAll(".pic-checked");
+    var pic_unchecked = document.querySelectorAll(".pic-unchecked");
     checkAll = !checkAll ;
     for(var checked of pic_checked){
         if(checkAll){
             checked.style.display = "block" ;
         }else{
             checked.style.display = "none" ;
+        }
+    }
+    for(var unchecked of pic_unchecked){
+        if(checkAll){
+            unchecked.style.display = "none" ;
+        }else{
+            unchecked.style.display = "block" ;
         }
     }
     if(checkAll){

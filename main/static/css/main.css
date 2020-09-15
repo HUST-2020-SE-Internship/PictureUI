@@ -1,10 +1,14 @@
-.btn-upload #upload-msg {
+.btn-functions #upload-msg {
     display: inline-block;
     font-size: 20px;
     margin-left: 10px;
 }
-.btn-upload .btn {
+.btn-functions .btn {
     margin: 10px;
+}
+
+.btn-functions{
+    position: fixed;
 }
 
 .image-container {
@@ -15,6 +19,7 @@
 
 .image-item {
     margin-bottom: 20px;
+    position: relative;
 }
 
 .image-item img {
@@ -29,7 +34,17 @@
 }
 
 .image-item .pic-checked {
-    width: 50px !important; 
-    height: 50px !important;
+    width: 40px !important; 
+    height: 40px !important;
+    margin-top: 5px;
+    margin-left: 5px;
+    position: absolute !important;
+}
+
+.image-item .pic-unchecked {
+    width: 40px !important; 
+    height: 40px !important;
+    margin-top: 5px;
+    margin-left: 5px;
     position: absolute !important;
 }
