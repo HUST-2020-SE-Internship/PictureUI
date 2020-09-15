@@ -16,7 +16,7 @@ from main.tools import read_directory
 from users.MyForms import ProfileForm
 from users.models import UserProfile
 
-from core import Classifier, AutoLabel, VGGLib
+from core import Classifier, AutoLabel, VGGLib, Utils
 
 import copy
 
@@ -78,22 +78,12 @@ def classifyImage(request):
 def saveImage(request):
     typeName = request.POST.get("typeName")
     image = request.POST.get("image")
-    fileName = hash(image)
     image = json.loads(image)
     image = str(image).split(';base64,')[1]
     image = base64.b64decode(image)
 
-    path = "media/" + request.user.username + "/" + typeName
-    print(path, os.path.exists(path))
-    if not os.path.exists(path):
-        os.makedirs(path)
+    Utils.auto_classified_storage(request.user.username, typeName, image)
 
-    filePath = os.path.join(path, str(fileName) + ".jpg")
-    file = open(filePath, "wb")
-    file.write(image)
-    file.close()
-
-    print("save => ", filePath)
     return HttpResponse("success")
 
 def profile(request, pk):
@@ -112,7 +102,7 @@ def classified(request, pk):
         for dir in dirs:
             urls[dir] = []
         for filename in files:
-            img_name, img_ext = filename.split(".")
+            _, img_ext = filename.split(".")
             if img_ext not in ['jpg','jpeg','png','bmp']:
                 continue
             class_name = root.split("/media/" + username + '\\')[1] # 拿到图片的分类名与urls里的dir名对应

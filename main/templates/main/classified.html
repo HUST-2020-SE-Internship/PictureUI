@@ -36,6 +36,7 @@
     -->
     <div id="classified_content" class="col-md-12 col-xs-12">
     {% for classname, images in urls.items %}
+        {% if images %}
         <div id="{{ classname }}" class="">
             <h1 class="classified-title">{{ classname }}</h1>
             <div class="image-container">
@@ -46,6 +47,7 @@
                 {% endfor %}
             </div>
         </div>
+        {% endif %}
     {% endfor %}
     </div>
 {% endblock main_content %}

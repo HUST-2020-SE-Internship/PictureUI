@@ -10,6 +10,7 @@ from django.utils import timezone
 
 from .MyForms import RegistrationForm, LoginForm, ProfileForm, PwdChangeForm
 from .models import UserProfile
+from core import Utils
 
 # Create your views here.
 
@@ -63,7 +64,7 @@ def register(request):
 
             # 使用内置User自带create_user方法创建用户，不需要使用save()
             user = User.objects.create_user(username=username, password=password, email=email)
-            create_user_media(username)
+            Utils.create_user_media(username)
 
             # 如果直接使用objects.create()方法后不需要使用save()
             user_profile = UserProfile(user=user)
@@ -120,15 +121,6 @@ def get_IP(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
-
-def create_user_media(username):
-    initial_classes = ['person','location', 'scenery', 'video', 'screenshot']
-
-    for typeName in initial_classes:
-        path = "media/" + username + "/" + typeName
-        print(path, os.path.exists(path))
-        if not os.path.exists(path):
-            os.makedirs(path)
 
 def logout(request): # 若用户未登录,auth.logout(request)也不会报错
     auth.logout(request)
