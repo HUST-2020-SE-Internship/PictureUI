@@ -9,7 +9,7 @@ import numpy as np
 import cv2 as cv
 
 from io import BufferedReader, BytesIO
-
+import base64
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -30,7 +30,7 @@ class Classifier:
         with open(BASE_DIR + model_dir + "/label_mapping.txt", encoding="utf-8") as mappings:
             for mapping in mappings:
                 mapping = mapping.strip("\n")
-                print("读取到 %s " % mapping)
+                print("[初始化]读取到 %s " % mapping)
                 self.label_names.append(mapping.split('\t')[1])
 
         '''TODO:Init ImageDataGenerator 
@@ -65,9 +65,8 @@ class Classifier:
         test_path = BASE_DIR + "/core/NetModel/test"
         self.predict_by_imgpath(test_path)
 
-    def predict_by_bytes(self, file):
-        img = self.temporary_img_format(file)
-
+    # 用以单张预测
+    def predict(self, img):
         predictions = self.model.predict(img)
         predicted_label = 0 if predictions[0] < 0 else 1
 
@@ -75,18 +74,39 @@ class Classifier:
 
         return self.label_names[predicted_label]
 
-    # TODO: 临时图片格式化函数, 不远的将来需使用ImageDataGenerator
-    def temporary_img_format(self, file):
-        img = []
+    def predict_by_bytes(self, file):
+        img = self.preprocessBytesObject(file)
+        return self.predict(img)
+
+    def predict_by_b64str(self, file):
+        img = self.preprocessb64str(file)
+        return self.predict(img)
+
+    # 预处理io.BytesIO类型对象的图片
+    def preprocessBytesObject(self, file):
         if isinstance(file, BytesIO):
+            img = []
             buf = BufferedReader(file).read()
             img = cv.imdecode(np.frombuffer(buf, np.uint8), cv.IMREAD_COLOR)
             img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
             img = cv.resize(img, self.img_size, cv.INTER_AREA)
-        elif type(file) is np.ndarray:
-            img = file
 
-        # 处理为网络模型需求的输入
+            # 处理为网络模型需求的输入
+            img = np.array(img)
+            img = img.astype("float32") / 127.5 - 1
+            img = np.expand_dims(img, axis = 0)
+
+            return img
+        else:
+            return None
+    
+    # 预处理base64编码过的图片
+    def preprocessb64str(self, img_b64):
+        img = str(img_b64).split(';base64,')[1]
+        img = base64.b64decode(img)
+        img = np.fromstring(img, np.uint8)
+        img = cv.imdecode(img, cv.IMREAD_COLOR)
+
         img = np.array(img)
         img = img.astype("float32") / 127.5 - 1
         img = np.expand_dims(img, axis = 0)

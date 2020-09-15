@@ -27,3 +27,9 @@
     font-weight: bold;
     margin-left: 10px;
 }
+
+.image-item .pic-checked {
+    width: 50px !important; 
+    height: 50px !important;
+    position: absolute !important;
+}

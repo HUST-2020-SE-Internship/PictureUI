@@ -122,12 +122,13 @@ def get_IP(request):
     return ip
 
 def create_user_media(username):
-    os.makedirs("media/"+username+ "/photo")
-    os.mkdir("media/" + username + "/photo/person")
-    os.mkdir("media/" + username + "/photo/location")
-    os.mkdir("media/" + username + "/photo/scenery")
-    os.mkdir("media/" + username + "/photo/video")
-    os.mkdir("media/" + username + "/photo/screenshot")
+    initial_classes = ['person','location', 'scenery', 'video', 'screenshot']
+
+    for typeName in initial_classes:
+        path = "media/" + username + "/" + typeName
+        print(path, os.path.exists(path))
+        if not os.path.exists(path):
+            os.makedirs(path)
 
 def logout(request): # 若用户未登录,auth.logout(request)也不会报错
     auth.logout(request)

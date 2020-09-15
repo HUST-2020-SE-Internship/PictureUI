@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 import os
 import sys
+# torch 模型需在此声明
+from core.VGGLib import VGGNet
 
 if __name__ == '__main__':
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'AutoAlbum.settings')

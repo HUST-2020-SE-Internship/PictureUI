@@ -1,0 +1,24 @@
+n00000001	person
+n03983396	bottle
+n04008634	rocket
+n04099969	chair
+n04486054	arch door
+n04532670	arch bridge
+n04540053	volleyball
+n04560804	water pot
+n09428293 	beach
+n09332890	landscape
+n09246464	mountain
+n07753592	banana
+n07749582	lemon
+n07747607	orange
+n02085620	dog
+n02099601	dog
+n02123045	cat
+n02124075	cat
+n02793495	house
+n02814533	car
+n02917067	railway
+n02963159	clothes
+n03089624	market
+n03100240	car

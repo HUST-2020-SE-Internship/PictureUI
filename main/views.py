@@ -1,5 +1,6 @@
 import base64
 import json
+import os
 
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -15,7 +16,7 @@ from main.tools import read_directory
 from users.MyForms import ProfileForm
 from users.models import UserProfile
 
-from core import Classifier, AutoLabel
+from core import Classifier, AutoLabel, VGGLib
 
 import copy
 
@@ -43,41 +44,81 @@ def classify_test(request):
         # 处理访问该页面的普通GET请求
         return render(request, 'main/classify_test.html')
     elif request.method == "POST":
-        # 处理ajax的POST请求
-        # 这里的'file'是js里上传图片前封装的K-V的K值
-        file = request.FILES['file'].file
-        file_copy = copy.deepcopy(file)
-
-        result = Classifier.classify_factory.predict_by_bytes(file)
-
-        # p.s. 只是测试一下！
+        # 处理ajax的POST请求 base64 strings
+        img = request.POST.get("image")
+        img_b64 = json.loads(img)
+        result = Classifier.classify_factory.predict_by_b64str(img_b64)
+        
         # 将预测后得到的标签贴在原图左上角
-        labeled_img = AutoLabel.stick_label(file_copy, result)
-        # ret = base64.b64encode(labeled_img)
+        labeled_img = AutoLabel.stick_label_on_b64str(img_b64, result)
         return HttpResponse(labeled_img, content_type="image/jpeg")
 
+# for tensorflow source file:  io.BytesIO Object
 def classify_img(request):
     if request.method == "POST":
-        img = request.FILES['img']
         # print(type(img))
-        # 这里的img为InMemoryUploadedFile对象，它的一个属性img.file为io.BytesIO Object，即二进制数据流,使用cv.imdecode将其转换为ndaraay
-        # img还有其他属性 DEBUG模式断点到此查看
+        # 这里的img为InMemoryUploadedFile对象，它的一个属性file为io.BytesIO Object
+        # 使用cv.imdecode将其转换为ndaraay
+        # InMemoryUploadedFile还有其他属性 DEBUG模式断点到此查看
+        img = request.FILES['img']
         result = Classifier.classify_factory.predict_by_bytes(img.file)
-
+        # labeled_img = AutoLabel.stick_label(file_copy, result)
         return JsonResponse({"status":"1","label": result})
     else:
         return JsonResponse({"status":"0"})
+
+# for torch
+def classifyImage(request):
+    if request.method == "POST":
+        image = request.POST.get("image")
+        image = json.loads(image)
+        result = VGGLib.classifyImage(image)
+    return HttpResponse(json.dumps(result))
+
+def saveImage(request):
+    typeName = request.POST.get("typeName")
+    image = request.POST.get("image")
+    fileName = hash(image)
+    image = json.loads(image)
+    image = str(image).split(';base64,')[1]
+    image = base64.b64decode(image)
+
+    path = "media/" + request.user.username + "/" + typeName
+    print(path, os.path.exists(path))
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+    filePath = os.path.join(path, str(fileName) + ".jpg")
+    file = open(filePath, "wb")
+    file.write(image)
+    file.close()
+
+    print("save => ", filePath)
+    return HttpResponse("success")
 
 def profile(request, pk):
     user = get_object_or_404(User, pk=pk)
     url = MEDIA_URL + user.profile.portrait.name
     return render(request, 'main/main.html', {'user': user, 'url': url})
 
-def classify(request, pk):
+# 获取用户自己分类的图片信息,返回前端
+def classified(request, pk):
     user = get_object_or_404(User, pk=pk)
-    url = MEDIA_URL + user.profile.portrait.name
-    return render(request, 'main/classified.html', {'user': user, 'url': url})
+    username = user.username
+    # TODO:从数据库拿路径
+    # 直接返回存储在云端media文件夹中的各文件路径
+    urls = {}
+    for root, dirs, files in os.walk("./media/"+username):
+        for dir in dirs:
+            urls[dir] = []
+        for filename in files:
+            img_name, img_ext = filename.split(".")
+            if img_ext not in ['jpg','jpeg','png','bmp']:
+                continue
+            class_name = root.split("/media/" + username + '\\')[1] # 拿到图片的分类名与urls里的dir名对应
+            urls[class_name].append(root[1:] + "/" + filename)
 
+    return render(request, 'main/classified.html', {'user': user, 'urls': urls})
 
 def classifiedPerson(request, pk):
     user = get_object_or_404(User, pk=pk)

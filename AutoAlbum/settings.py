@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -83,7 +82,7 @@ DATABASES = {
     'default': {
     'ENGINE': 'django.db.backends.mysql',
     'NAME': 'auto_album_db',
-    'USER': 'Penistrong',
+    'USER': 'Penistrong', # root
     'PASSWORD': 'chenliwei',
     'HOST': 'localhost',
     'PORT': '3306',
@@ -92,8 +91,7 @@ DATABASES = {
         # },
     }
 }
-''' 
-
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',

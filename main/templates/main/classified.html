@@ -5,6 +5,7 @@
 {% endblock page_title %}
 
 {% block main_content %}
+    <!--
     <div id="picKind" style="display: flex;justify-content: space-around;flex-wrap: wrap">
         <div style="width: 200px;height: 200px">
             <img src="/static/mainstatic/dist/img/person.png" style="height: 100%;width: 100%" />
@@ -32,7 +33,26 @@
             <a href="{% url 'main:classifiedScreenShot' user.id %}"><div style="text-align: center;font-size: xx-large">截屏</div></a>
         </div>
     </div>
+    -->
+    <div id="classified_content" class="col-md-12 col-xs-12">
+    {% for classname, images in urls.items %}
+        <div id="{{ classname }}" class="">
+            <h1 class="classified-title">{{ classname }}</h1>
+            <div class="image-container">
+                {% for image in images %}
+                    <div class="image-item">
+						<img src="{{ image }}" alt="">
+					</div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+    </div>
 {% endblock main_content %}
+
+{% block page_css_reference %}
+    <link rel="stylesheet" href="/static/css/classified.css">
+{% endblock page_css_reference %}
 
 {% block page_js_reference %}
 {% endblock page_js_reference %}}

@@ -1,3 +1,9 @@
 img[src=""],img:not([src]){    
     opacity:0;
 }
+
+#upload-msg {
+    display: inline-block;
+    font-size: 20px;
+    margin-left: 10px;
+}
