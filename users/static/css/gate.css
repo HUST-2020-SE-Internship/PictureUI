@@ -18,10 +18,19 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+.social-container a{
+    color: #a0a0a0;
+    text-decoration: none !important;
+}
+
+.social-container a:hover{
+    color: #000;
+    text-decoration: none !important;
+}
   
 .icon-qq:before {
     content: "\e607";
-    color:red;
 }
   
 .icon-zhifubao:before {
@@ -30,7 +39,6 @@
   
 .icon-weixin:before {
     content: "\e6b9";
-    color:green;
 }
   
 body {
@@ -292,3 +300,21 @@ footer a {
 .callout-error{
     border-left-color: #FF4B2B;
 }
+
+.forget-pwd {
+    text-decoration: none !important;
+    color:#b0b0b0;
+    margin-top: 0;
+}
+
+.forget-pwd:hover {
+    text-decoration: none !important;
+    color: #000;
+}
+
+.title {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 40px;
+}
+

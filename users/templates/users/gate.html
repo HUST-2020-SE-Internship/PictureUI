@@ -11,7 +11,7 @@
     <title>自动相册</title>
 </head>
 <body>
-    <h2>自动相册</h2>
+    <h2 class="title">自 动 相 册</h2>
     {% if is_in_register %}
     <div class="container right-panel-active" id="container">
     {% else %}
@@ -44,7 +44,7 @@
                     </div>
                 {% endfor %}
                 </div>
-                <button>注册</button>
+                <button style="color: #fff;">注册</button>
             </form>
         </div>
         <div class="form-container sign-in-container">
@@ -81,8 +81,8 @@
                         </div>
                     {% endfor %}
                 </div>
-                <a href="#">忘记密码?</a>
-                <button type="submit" value="Login">登录</button>
+                <a href="#" class="forget-pwd">忘记密码?</a>
+                <button type="submit" value="Login" style="color: #fff;">登录</button>
             </form>
         </div>
         <div class="overlay-container" >
