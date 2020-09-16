@@ -12,7 +12,6 @@ from django.urls import reverse
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from AutoAlbum.settings import MEDIA_URL
-from main.tools import read_directory
 from users.MyForms import ProfileForm
 from users.models import UserProfile
 
@@ -112,37 +111,21 @@ def classified(request, pk):
 
 def classifiedPerson(request, pk):
     user = get_object_or_404(User, pk=pk)
-    listPicname = read_directory("media/"+user.username+"/photo/person")
+    listPicname = Utils.read_directory("media/"+user.username+"/photo/person")
     url = MEDIA_URL + user.profile.portrait.name
     return render(request, 'main/classes/person.html', {'user': user, 'url': url, 'listPicname': listPicname})
 
-
-def classifiedLocation(request, pk):
+def classifiedSpecific(request, pk, typeName):
     user = get_object_or_404(User, pk=pk)
-    listPicname = read_directory("media/" + user.username + "/photo/location")
-    url = MEDIA_URL + user.profile.portrait.name
-    return render(request, 'main/classes/location.html', {'user': user, 'url': url, 'listPicname': listPicname})
-
-
-def classifiedVideo(request, pk):
-    user = get_object_or_404(User, pk=pk)
-    listPicname = read_directory("media/" + user.username + "/photo/video")
-    url = MEDIA_URL + user.profile.portrait.name
-    return render(request, 'main/classes/video.html', {'user': user, 'url': url, 'listPicname': listPicname})
-
-
-def classifiedScenery(request, pk):
-    user = get_object_or_404(User, pk=pk)
-    listPicname = read_directory("media/" + user.username + "/photo/scenery")
-    url = MEDIA_URL + user.profile.portrait.name
-    return render(request, 'main/classes/scenery.html', {'user': user, 'url': url, 'listPicname': listPicname})
-
-
-def classifiedScreenShot(request, pk):
-    user = get_object_or_404(User, pk=pk)
-    listPicname = read_directory("media/" + user.username + "/photo/screenshot")
-    url = MEDIA_URL + user.profile.portrait.name
-    return render(request, 'main/classes/screenshot.html', {'user': user, 'url': url, 'listPicname': listPicname})
+    urls = {}
+    urls[typeName] = []
+    for root, dirs, files in os.walk("./media/" + user.username+"/" + typeName):
+        for filename in files:
+            _, img_ext = filename.split(".")
+            if img_ext not in ['jpg','jpeg','png','bmp']:
+                continue
+            urls[typeName].append(root[1:] + "/" + filename)
+    return render(request, 'main/classifiedSpecific.html', {'user': user, 'urls': urls})        
 
 def personInfo(request, pk):
     user = get_object_or_404(User, pk=pk)
