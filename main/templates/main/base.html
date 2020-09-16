@@ -181,11 +181,11 @@ desired effect
             </span>
             </a>
             <ul class="treeview-menu">
-                <li><a href="{% url 'main:classifiedPerson' user.id %}">人物</a></li>
-                <li><a href="{% url 'main:classifiedLocation' user.id %}">地点</a></li>
-                <li><a href="{% url 'main:classifiedVideo' user.id %}">视频</a></li>
-                <li><a href="{% url 'main:classifiedScenery' user.id %}">风景</a></li>
-                <li><a href="{% url 'main:classifiedScreenShot' user.id %}">截屏</a></li>
+                <li><a href="{% url 'main:classifiedSpecific' user.id 'person' %}">人物</a></li>
+                <li><a href="{% url 'main:classifiedSpecific' user.id 'location' %}">地点</a></li>
+                <li><a href="{% url 'main:classifiedSpecific' user.id 'video' %}">视频</a></li>
+                <li><a href="{% url 'main:classifiedSpecific' user.id 'scenery' %}">风景</a></li>
+                <li><a href="{% url 'main:classifiedSpecific' user.id 'screenshot' %}">截屏</a></li>
             </ul>
         </li>
         <li>

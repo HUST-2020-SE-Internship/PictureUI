@@ -46,3 +46,13 @@ def auto_classified_storage(userName, typeName, image):
     print("%s [USER]%s uploaded image saved! => %s" % (timezone.now().strftime("[%d/%b/%Y %H:%M:%S]"), 
                                                         userName,
                                                         filePath))
+
+# 读取函数，用来读取文件夹中的所有函数，输入参数是文件名
+def read_directory(directory_name):
+
+    listPicname = []
+    for filename in os.listdir(directory_name):
+        # 仅仅是为了测试
+        picname = "/"+ directory_name + "/" + filename
+        listPicname.append(picname)
+    return listPicname
