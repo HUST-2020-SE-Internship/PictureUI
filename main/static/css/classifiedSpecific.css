@@ -1,3 +1,12 @@
+.btn-functions #upload-msg {
+    display: inline-block;
+    font-size: 20px;
+    margin-left: 10px;
+}
+.btn-functions .btn {
+    margin: 10px;
+}
+
 .image-container {
     margin: 10px;
     column-count: 3;
@@ -8,6 +17,7 @@
     margin-bottom: 20px;
 }
 
+
 .image-item img {
     width: 100%;
     height:100%;
@@ -17,4 +27,20 @@
     font-size: 30px;
     font-weight: bold;
     margin-left: 10px;
+}
+
+.image-item .pic-checked {
+    width: 40px !important; 
+    height: 40px !important;
+    margin-top: 5px;
+    margin-left: 5px;
+    position: absolute !important;
+}
+
+.image-item .pic-unchecked {
+    width: 40px !important; 
+    height: 40px !important;
+    margin-top: 5px;
+    margin-left: 5px;
+    position: absolute !important;
 }

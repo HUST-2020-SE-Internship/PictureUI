@@ -56,3 +56,31 @@ def read_directory(directory_name):
         picname = "/"+ directory_name + "/" + filename
         listPicname.append(picname)
     return listPicname
+
+# 获取某分类文件下的所有图片,包括根目录下与子分类文件夹下的图片
+def get_specific_urls(userName, typeName):
+    urls = {}
+    urls[typeName] = [] # 用户某分类存储根路径下的img的list
+    is_in_root = True
+    root_path = None
+    for root, dirs, files in os.walk("./media/" + userName + "/" + typeName):
+        # 读取子分类subTypeName 文件夹结构 /media/{username}/{typeName}/{subtypeName} or {img}
+        for dir in dirs:
+            urls[dir] = []
+        if is_in_root: # 第一次读取到得的是没有不在子分类文件夹下的img，若其不为空也需要返回
+            for filename in files:
+                _, img_ext = filename.split(".")
+                if img_ext not in ['jpg','jpeg','png','bmp']:
+                    continue
+                urls[typeName].append(root[1:] + "/" + filename)
+            is_in_root = False
+            root_path = root
+        else:
+            subTypeName = root[len(root_path) + 1:] # 拿到图片的分类名与urls里的dir名对应
+            for filename in files:
+                _, img_ext = filename.split(".")
+                if img_ext not in ['jpg','jpeg','png','bmp']:
+                    continue
+                urls[subTypeName].append(root[1:] + "/" + filename)
+
+    return urls

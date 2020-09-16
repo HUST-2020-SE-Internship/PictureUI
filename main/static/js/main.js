@@ -20,6 +20,8 @@ document.getElementById("input_pic").addEventListener("change", e => {
 
 document.getElementById("input_dir").addEventListener("change", e => {
     var files = e.target.files;
+    console.log(files);
+    console.log(typeof files);
     var count = files.length ;
     var index = 1 ;
     for(var file of files){

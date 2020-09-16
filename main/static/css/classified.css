@@ -1,10 +1,14 @@
-.btn-upload #upload-msg {
+.btn-function #callback-msg {
     display: inline-block;
     font-size: 20px;
     margin-left: 10px;
 }
-.btn-upload .btn {
+.btn-function .btn {
     margin: 10px;
+}
+
+#input_new_dir {
+    display: none;
 }
 
 .image-container {
@@ -26,4 +30,8 @@
     font-size: 30px;
     font-weight: bold;
     margin-left: 10px;
+}
+
+.class-title a{
+    cursor: pointer;
 }

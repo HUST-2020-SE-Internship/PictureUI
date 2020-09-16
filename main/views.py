@@ -105,27 +105,18 @@ def classified(request, pk):
             if img_ext not in ['jpg','jpeg','png','bmp']:
                 continue
             class_name = root.split("/media/" + username + '\\')[1] # 拿到图片的分类名与urls里的dir名对应
+            if '\\' in class_name: # 若其含有子分类的目录,忽略子分类,采用根目录名称
+                class_name = class_name.split('\\')[0]
+
             urls[class_name].append(root[1:] + "/" + filename)
 
     return render(request, 'main/classified.html', {'user': user, 'urls': urls})
 
-def classifiedPerson(request, pk):
-    user = get_object_or_404(User, pk=pk)
-    listPicname = Utils.read_directory("media/"+user.username+"/photo/person")
-    url = MEDIA_URL + user.profile.portrait.name
-    return render(request, 'main/classes/person.html', {'user': user, 'url': url, 'listPicname': listPicname})
-
 def classifiedSpecific(request, pk, typeName):
     user = get_object_or_404(User, pk=pk)
-    urls = {}
-    urls[typeName] = []
-    for root, dirs, files in os.walk("./media/" + user.username+"/" + typeName):
-        for filename in files:
-            _, img_ext = filename.split(".")
-            if img_ext not in ['jpg','jpeg','png','bmp']:
-                continue
-            urls[typeName].append(root[1:] + "/" + filename)
-    return render(request, 'main/classifiedSpecific.html', {'user': user, 'urls': urls})        
+    urls = Utils.get_specific_urls(user.username, typeName)
+
+    return render(request, 'main/classifiedSpecific.html', {'user': user, 'urls': urls, "typeName": typeName})        
 
 def personInfo(request, pk):
     user = get_object_or_404(User, pk=pk)
