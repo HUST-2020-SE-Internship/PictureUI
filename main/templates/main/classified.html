@@ -20,31 +20,57 @@
         {% csrf_token %}
 		<div id="callback-msg"></div>
     </div>
+
     <div id="classified_content" class="col-md-12 col-xs-12">
     {% for classname, images in urls.items %}
         {% if images %}
         <div id="{{ classname }}" class="classified-wrapper">
-            <a href="{% url 'main:classifiedSpecific' user.id classname %}"><h1 class="classified-title">{{ classname }}</h1></a>
             <div class="image-container scene">
                 {% for image in images %}
                     {% if forloop.counter|divisibleby:2 %}
                             <div class="image-item card__face card__face--back col-md-6 col-xs-12">
+                                <a href={% url "main:classifiedSpecific" user.id classname %}>
                                 <img src="{{ image }}" alt="">
                             </div>
                         </div>
                     {% elif forloop.last %} <!-- 是单数, 且循环结束,不足以构成卡面,只构成一张-->
                         <div class="card col-md-6">
                             <div class="image-item card__face card__face--front col-md-6 col-xs-12">
+                                <a href={% url "main:classifiedSpecific" user.id classname %}>
                                 <img src="{{ image }}" alt="">
                             </div>
                             <div class="image-item card__face card__face--back col-md-6 col-xs-12">
-                                <img alt="" style="background:#000">
+                                <a href={% url "main:classifiedSpecific" user.id classname %}>
+                                    <div class="post-card">
+                                        <img class="post-background" src="{{ image }}">
+                                        <div class="post-card-mask--special">
+                                            <div class="post-card-container">
+                                                <h2 class="post-card-title" itemprop="headline">{{ classname|capfirst }}</h2>
+                                                <div class="post-card-info">
+                                                    <span>AutoAlbum v0.1</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
                             </div>
                         </div>
                     {% else %}
                         <div class="card col-md-6">
                             <div class="image-item card__face card__face--front col-md-6">
-                                <img src="{{ image }}" alt="">
+                                <a href={% url "main:classifiedSpecific" user.id classname %}>
+                                    <div class="post-card">
+                                        <img class="post-background" src="{{ image }}">
+                                        <div class="post-card-mask">
+                                            <div class="post-card-container">
+                                                <h2 class="post-card-title" itemprop="headline">{{ classname|capfirst }}</h2>
+                                                <div class="post-card-info">
+                                                    <span>AutoAlbum v0.1</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
                             </div>
                     {% endif %}
                 {% endfor %}
