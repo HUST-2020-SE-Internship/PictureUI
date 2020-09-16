@@ -153,14 +153,16 @@ document.getElementById("save_checked").addEventListener("click", e => {
 })
 
 $("#remove_checked").on("click", function(){
-    /* 
     $(".classify").each(function(){
-        $(this).children(".image-item").each(function(){
+        $(this).find(".image-item").each(function(){
             if ($(this).children("svg").first().css("display") == "block")
                 $(this).remove();
         })
+        //注意this对应的作用域 .classify->.image-container->.image-item, 所以children方法只会找childNode的第一层子元素,find方法会进入每个childNode嵌套寻找
+        if ($(this).find(".image-item").length == 0)
+            $(this).remove();
     })
-    */
+    /*
     var classifies = document.querySelectorAll(".classify") ;
     for(var classify of classifies){
         var imageItems = classify.querySelectorAll(".image-item") ;
@@ -170,7 +172,11 @@ $("#remove_checked").on("click", function(){
                 imageItem.remove();
             }
         }
+        // 删除后如果该分类下为空, 移除该分类
+        if(classify.querySelectorAll(".image-item").length == 0)
+            classify.remove();
     }
+    */
 })
 
 function checkImage(obj){

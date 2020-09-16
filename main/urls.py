@@ -14,6 +14,7 @@ urlpatterns = [
     re_path(r'^account/(?P<pk>\d+)/classified/scenery/$', views.classifiedScenery, name='classifiedScenery'),
     re_path(r'^account/(?P<pk>\d+)/classified/screenshot/$', views.classifiedScreenShot, name='classifiedScreenShot'),
     re_path(r'^account/(?P<pk>\d+)/personInfo/$', views.personInfo, name='PersonInfo'),
+    re_path(r'^account/(?P<pk>\d+)/classified/{typeName}$', views.personInfo, name='PersonInfo'),
     re_path(r'^classify_test/$', views.classify_test, name='classify_test'),
     path('classify_img/', views.classify_img, name='classify_img'),
     
