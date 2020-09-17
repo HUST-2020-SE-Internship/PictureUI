@@ -96,7 +96,7 @@ def classified(request, pk):
     user = get_object_or_404(User, pk=pk)
     urls = Utils.get_total_img_urls(user.username)
 
-    return render(request, 'main/classified.html', {'user': user, 'urls': urls})
+    return render(request, 'main/classified_new.html', {'user': user, 'urls': urls})
 
 def classifiedSpecific(request, pk, typeName):
     user = get_object_or_404(User, pk=pk)

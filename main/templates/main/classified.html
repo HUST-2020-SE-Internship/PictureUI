@@ -20,7 +20,7 @@
         {% csrf_token %}
 		<div id="callback-msg"></div>
     </div>
-
+<div class="container container-fluid">
     <div id="classified_content" class="col-md-12">
     {% for classname, images in urls.items %}
         {% if images %}
@@ -79,4 +79,5 @@
         {% endif %}
     {% endfor %}
     </div>
+</div>
 {% endblock main_content %}

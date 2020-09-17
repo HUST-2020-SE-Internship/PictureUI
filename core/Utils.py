@@ -12,7 +12,7 @@ SECRET_KEY = 'nCfkdwd5ZGjBEZCnsUN8kqZFCQMXEYqA'
 
 client = AipFace(APP_ID, API_KEY, SECRET_KEY)
 
-initial_classes = ['person', 'location', 'scenery', 'video', 'screenshot',
+initial_classes = ['person', 'location', 'scenery', 'car', 'screenshot',
                    'fruits', 'cat', 'dog', 'memory', 'spectacle', 'unknown']
 
 classes_dict = {'person': ['person'],
@@ -109,9 +109,10 @@ def read_directory(directory_name):
 # 获取某用户所有分类过的图片,带有子分类的图片无视子分类,归于其大类之下
 def get_total_img_urls(username):
     urls = {}
+    random.shuffle(initial_classes) # 打乱列表,使其被读入字典时顺序随机,以达成前端随机九个种类的显示
+    for typename in initial_classes:
+        urls[typename] = []
     for root, dirs, files in os.walk("./media/"+username):
-        for dir in dirs:
-            urls[dir] = []
         for filename in files:
             _, img_ext = filename.split(".")
             if img_ext not in ['jpg','jpeg','png','bmp']:
@@ -119,8 +120,9 @@ def get_total_img_urls(username):
             class_name = root.split("/media/" + username + '\\')[1] # 拿到图片的分类名与urls里的dir名对应
             if '\\' in class_name: # 若其含有子分类的目录,忽略子分类,采用根目录名称
                 class_name = class_name.split('\\')[0]
-
-            urls[class_name].append(root[1:] + "/" + filename)
+            img_url = root[1:] + "/" + filename
+            img_url = img_url.replace('\\', '/')
+            urls[class_name].append(img_url)
     return urls
 
 # 获取某分类文件下的所有图片,包括根目录下与子分类文件夹下的图片

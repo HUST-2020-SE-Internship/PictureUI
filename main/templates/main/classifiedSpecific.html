@@ -1,8 +1,8 @@
-{% extends 'main/base.html' %}
+{% extends 'main/frontBase.html' %}
 {% load customFilter %}
 
 {% block page_title %}
-        <h1>{{ typeName }}<small>分类<small></h1>
+    <h1>{{ typeName }}<small>分类</small></h1>
 {% endblock page_title %}
 
 {% block page_css_reference %}
@@ -14,6 +14,7 @@
 {% endblock page_js_reference %}
 
 {% block main_content %}
+<section class="container container-fluid">
     <div class="btn-functions">
 		<input type="file" id="input_pic" accept="image/*" style="display:none;">
 		<input type="file" id="input_dir" style="display:none;" webkitdirectory>
@@ -28,7 +29,12 @@
     </div>
     <div id="classified" class="col-md-12 col-xs-12">
         <div class="not-sub-classified">
-            <h1 class="classified-title"><small>尚未子分类</small></h1>
+            {% if "{{urls|get_item_v_first:typename|length}}" == 0 %}
+                <h1 class="classified-title">这里仍然是没有图片的荒原 <small><a href={% url 'main:Explore' user.id %}>去探索吧</a><small></h1>
+            {% else %}
+                <h1 class="classified-title"><small>尚未子分类</small></h1>
+            {% endif %}
+            <div class="clear"></div>
             <div class="image-container">
                 {% for image in urls|get_item:typeName %} <!-- 此时拿出来的是大分类下未放入子分类的图片链接 -->
                         <div class="image-item" onclick="checkImage(this)">
@@ -41,6 +47,7 @@
             {% if images and subTypeName != typeName %}
             <div id="{{ subTypeName }}" class="sub-classified">
                 <h1 class="classified-title">{{ subTypeName }}</h1>
+                <div class="clear"></div>
                 <div class="image-container">
                     {% for image in images %}
                         <div class="image-item" onclick="checkImage(this)">
@@ -52,4 +59,5 @@
             {% endif %}
         {% endfor %}
     </div>
+</section>
 {% endblock main_content %}

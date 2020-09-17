@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自动相册</title>
     <!-- <link rel="stylesheet" href="//at.alicdn.com/t/font_2056148_bwt3vnpoif.css"> -->
-    <link rel="stylesheet" href="/static/css/gate.css">
     <link rel="stylesheet" href="/static/bootstrap-3.3.7/dist/css/bootstrap.css">
     <script src="/static/JS/jquery-3.2.1.js"></script>
-    <title>自动相册</title>
+    <link rel="stylesheet" href="/static/css/gate.css">
 </head>
 <body>
-    <h2 class="title">自 动 相 册</h2>
+    <h2 class="title">Auto Album</h2>
     {% if is_in_register %}
     <div class="container right-panel-active" id="container">
     {% else %}
@@ -20,7 +20,7 @@
         <div class="form-container sign-up-container">
             <form method="post" action="/users/register/" enctype="multipart/form-data" class="form-horizontal">
                 {% csrf_token %}
-                <h1>创建账户</h1>
+                <h1 class="float-h1">创建账户</h1>
                 <div class="social-container">
                     <a href="https://im.qq.com/" class="social" target="_blank"><i class="iconfont icon-qq"></i></a>
                     <a href="https://weixin.qq.com/" class="social" target="_blank"><i class="iconfont icon-weixin"></i></a>
@@ -50,7 +50,7 @@
         <div class="form-container sign-in-container">
             <form method="post" action="/users/login/" enctype="multipart/form-data" class="form-horizontal">
                 {% csrf_token %}
-                <h1>登录</h1>
+                <h1 class="float-h1">登录</h1>
                 <div class="social-container">
                     <a href="https://im.qq.com/" class="social" target="_blank"><i class="iconfont icon-qq"></i></a>
                     <a href="https://weixin.qq.com/" class="social" target="_blank"><i class="iconfont icon-weixin"></i></a>

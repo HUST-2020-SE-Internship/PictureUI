@@ -97,6 +97,7 @@ function showLabelInFront(image, typeName){
         main_container.innerHTML += `
             <div class="classify">
                 <h1 class="classify-title">${typeName}</h1>
+                <div class="clear"></div>
                 <div class="image-container">
                     <div class="image-item" onclick="checkImage(this)">
                         ${checked_svg}
