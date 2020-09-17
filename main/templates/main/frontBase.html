@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="keywords" content>
+    <meta name="description" content>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Auto Album - Explore Your Photos</title>
+    <link rel="stylesheet" type="text/css" href="/static/CSS/common/common.css"/>
+    <!-- BootStrap 3.3.7-->
+    <link rel="stylesheet" type="text/css" href="/static/CSS/common/bootstrap.min.css"/>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/static/mainstatic/bower_components/font-awesome/css/font-awesome.min.css">
+    <!-- frontBase -->
+    <link rel="stylesheet" type="text/css" href="/static/css/frontBase.css"/>
+    <!-- Page specified CSS -->
+    {% block page_css_reference %}
+    {% endblock page_css_reference %}
+</head>
+<body>
+<header class="logo-container">
+    <div class="row">
+        <h1><a href={% url 'main:homePage' %}>Auto Album</a></h1>
+        <div class="clear"></div>
+        <div class="smalltitle">Welcome back, {{ user.username }}</div>
+    </div>
+</header>
+
+{% block main_content %}
+{% endblock main_content %}
+
+<div class="logo-container">
+    <div class="row">
+        <footer class="footer">
+            Copyright © 2020 GayHub - <a href={% url 'main:homePage' %}>AutoAlbum</a> Repository in <a href="https://github.com/HUST-2020-SE-Internship" title="项目地址" target="_blank">GitHub</a>
+        </footer>
+    </div>
+</div>
+
+<!-- jQuery 3 -->
+<script src="/static/mainstatic/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Page specified JS -->
+{% block page_js_reference %}
+{% endblock page_js_reference %}
+</body>
+</html>

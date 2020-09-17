@@ -5,7 +5,7 @@ from main import views
 app_name = 'main'
 
 urlpatterns = [
-    re_path(r'^main/$', views.main, name='main'),
+    re_path(r'^homePage/$', views.homePage, name='homePage'),
     re_path(r'^account/(?P<pk>\d+)/profile/$', views.profile, name='Profile'),
     re_path(r'^account/(?P<pk>\d+)/classified/$', views.classified, name='Classified'),
     path('account/<int:pk>/classified/<str:typeName>/', views.classifiedSpecific, name='classifiedSpecific'),
@@ -15,4 +15,6 @@ urlpatterns = [
     
     re_path(r'^classify/$', views.classifyImage, name="classify"),
     re_path(r'^saveImage/$', views.saveImage, name='saveImage'),
+
+    path('account/<int:pk>/createSubFolder', views.createSubFolder, name='createSubFolder'),
 ]

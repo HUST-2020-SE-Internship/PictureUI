@@ -1,0 +1,148 @@
+img {
+    width: 100%;
+}
+
+.menu-img-above img {
+    -webkit-box-reflect: below 0 linear-gradient(transparent, transparent, rgba(0, 0, 0, 0.4));
+}
+
+.menu-img-below img {
+    -webkit-box-reflect: above -49% linear-gradient(transparent, transparent, rgba(0, 0, 0, 0.4));
+}
+
+.content { display: none; height: auto; }
+.homepage { display: block; }
+
+.frame { 
+	float: left; overflow-x:hidden; margin-top: 30px;
+}
+
+.frame a {
+	color: #06C;
+}
+
+.frame a:hover {
+	color: #C30;
+}
+
+.graybg { 
+	float: left; 
+	background: #cccccc; 
+	overflow: hidden;
+	width: 100%;
+}
+
+.resp-vtabs ul.tab { float: left; width: 100%; }
+.resp-vtabs ul.tab li { padding: 0px; background: url(../img/homePage/arrow_gap.png) no-repeat center right #cc9933; font-size: 24px; text-align: center; font-weight: normal; }
+.resp-vtabs ul.tab li.resp-tab-active{ background: url(../img/homePage/arrow.png) no-repeat center right #cc9933; border: 0px; padding: 0px; color: #ffffff; }
+
+.resp-vtabs .aboutcontainer	{  background: none; border-radius: 0px; border: 0px; }
+
+.aboutcontainer h2.resp-accordion {
+    background: #cc9933 !important; }
+
+.mainservice {
+	background: #999933;
+	text-align: center;
+	width: 100%;
+	float: left;
+}
+
+.mainportfolio {
+	background: #993333;
+	text-align: center;
+	width: 100%;
+}
+
+.maintestimonial {
+	background: #339966;
+	text-align: center;
+	width: 100%;
+}
+
+.mainabout {
+	background: #cc9933;
+	text-align: center;
+	width: 100%;
+}
+
+.maincontact {
+	background: #006699;
+	text-align: center;
+	width: 100%;
+}
+
+.link , .linkservice, .linkcontact { 
+	font-size: 2em; color: #ffffff;
+	width: 95%;
+}
+
+/*设备大小适配*/
+@media(min-width:320px){
+    .leftgap	{ padding: 0px 10px; }
+    .rightgap_about { padding: 0px 10px; }
+    .botgap	{ margin: 0px 0px 20px 0px; }
+    .topgap, .portfotopgap	{ margin-top: 20px; }
+    .link { padding-top: 20%; }
+    .link, .linkservice, .linkcontact  { padding: 50px 0px; }
+
+    .aboutlinkwrapper { display: none; }
+    .aboutlinkwrapper1 { display: block; }
+    .resp-vtabs .aboutcontainer { width: 100%; }
+
+    .frame { padding: 0px 30px 30px 30px; }
+}
+
+@media(min-width:768px){
+    .leftgap	{ padding: 0px 10px; }
+    .botgap	{ margin: 0px 0px 20px 0px; }
+    .topgap { margin-top: 20px; }
+    .portfotopgap	{margin-top: 0px;}
+    .link { padding-top: 20%; }
+    .link, .linkservice, .linkcontact  { height: 189px; line-height: 189px; padding: 0px; }
+}
+
+@media(min-width:992px){
+    .leftgap	{ padding: 0px 6px; }
+    .leftgap_about { padding: 0px 0px 0px 6px; }
+    .rightgap_about { padding: 0px 6px 0px 2px; }
+    .botgap	{ margin: 0px 0px 12px 0px; }
+    .topgap, .portfotopgap	{ margin-top: 0px; }
+    .bordergapborder { padding: 0px; margin: 0px; }
+    .graybg {height: 397px; }
+
+    .col50percent { float: left; width: 50%; position: relative; }
+    .link { padding-top: 15%; }
+    .link, .linkservice, .linkcontact  { height: 124px; line-height: 124px; padding: 0px; }
+
+    .resp-vtabs .tab li { padding: 0px;  margin-bottom: 12px; }
+    .resp-vtabs ul.tab li, 
+    .resp-vtabs ul.tab li.resp-tab-active { line-height: 79px; height: 79px; }
+    
+    .aboutlinkwrapper { width: 95.8%; float: left; background: #666666; text-align: center; display: block; }
+    .aboutlinkwrapper1 { display: none; }
+    .resp-vtabs .aboutcontainer { width: 75%; }
+
+	.frame { height: 337px; margin-right: 1px; padding: 0px 30px; }
+}
+
+@media(min-width:1200px){
+    .leftgap	{ padding: 0px 8px; }
+    .rightgap_about { padding: 0px 8px; }
+    .botgap	{ margin: 0px 0px 16px 0px; }
+    .topgap, .portfotopgap	{ margin-top: 0px; }
+    .bordergapborder { padding: 0px 16px; }
+    .graybg	{height: 466px; }
+
+    .col50percent { float: left; width: 50%; position: relative; }
+    .link  { height: 150px; line-height: 150px; padding: 0px; }
+    .leftgap_about .link { height: 142px; line-height: 142px; padding: 0px; }
+    .linkservice, .linkcontact  { height: 145px; line-height: 145px; padding: 0px; }
+
+    .resp-vtabs .tab li { padding: 0px;  margin-bottom: 15px; }
+    .resp-vtabs ul.tab li, 
+    .resp-vtabs ul.tab li.resp-tab-active { line-height: 93px; height: 93px; }
+    .resp-vtabs .aboutcontainer { width: 75%; }
+
+    .frame { height: 406px; padding: 0px 30px; }
+}

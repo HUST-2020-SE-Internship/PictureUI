@@ -103,7 +103,7 @@ def login(request):
                                                         user.username, 
                                                         get_IP(request)))
 
-                return HttpResponseRedirect(reverse('main:Profile', args=[user.id]))
+                return HttpResponseRedirect(reverse('main:Classified', args=[user.id]))
             else:
                 # 用户名/邮箱存在于数据库,但是密码错误
                 login_form.add_error("password", "密码错误")

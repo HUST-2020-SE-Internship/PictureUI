@@ -1,0 +1,119 @@
+/* 基础 */
+html, body {
+	font-family: Tahoma, Arial; 
+	padding: 0px; 
+	margin: 0px; 
+	color: #333333;
+	background: #333333;
+	font-size: 16px;
+}
+
+.clear	{ clear: both; /* 清除浮动使用 */}
+
+a {
+    color:#ffffff;
+    outline: 0;
+}
+
+a:hover, a:focus {
+	text-decoration: none;
+	color: #cccccc;
+}
+
+a:active, a:focus {
+	color: #ffffff;
+	border: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: Tahoma, Arial;
+	font-weight: 400;
+}
+h1	{	
+    font-size: 3em;
+	color: #cccccc;
+	background: #343537;
+	padding: 0px 0px;
+	float: left;
+	text-shadow: 4px 2px 2px rgba(33, 33, 33, 1);
+	margin: 5% 0% 0% 2%;;
+}
+
+
+/* 顶部 */
+.smalltitle { 
+	float: left; 
+	padding: 0px 0px 0px 0px; 
+	font-size: 1em; 
+	color: #b5b5b5;
+	margin: 10px 0px 30px 25px;
+}
+
+
+/* 底部 */
+.footer { 
+    float: right; 
+    padding: 0px 0px 0px 0px; 
+    font-size: 14px; 
+    color: #b5b5b5;
+    margin: 30px 40px 20px 0px;
+}
+
+.footer_hex{
+    background: #343536;
+    padding: 20px 0px;
+    width: 100%;
+    margin-top: 100px;
+    color: #e7e7e7;
+    font-family: Tahoma, Arial;
+    font-size: 14px;
+}
+
+
+.footer .hex_footer {
+    float: left; margin-right: 5px; height: 40px;
+}
+
+.hex_footer {
+    width: 46px;
+    height: 40px;
+    position: relative;
+    background: url('/static/img/footerhexa.png') no-repeat;
+}
+
+.footer a {
+    color: #b69e40;
+}
+
+a:hover .hex_footer{
+    background: url('/static/img/hexa_hover.png') no-repeat;
+}
+
+span.fa	{ width: 100%; text-align: center; }
+
+.hex_footer span.fa{ color: #ffffff; font-size: 16px; line-height: 40px; }
+
+/* 不同设备适配 */
+@media (max-width: 767px) {
+    .footer .hex_footer	{ float: left; }
+}
+
+@media (max-width: 991px) {
+    footer div.col-sm-12{ float: left; margin-top: 10px; width: 100%; }
+}
+
+@media (min-width: 320px) {
+    .logo-container {padding: 0px 15px; margin: 0 auto;}
+}
+
+@media (min-width: 768px) {
+    .logo-container	{ width: 750px; padding: 0px 15px; margin: 0 auto; }
+}
+
+@media (min-width: 992px) {
+    .logo-container	{ width: 970px; padding: 0px 15px; margin: 0 auto; }
+}
+
+@media (min-width: 1200px) {
+    .logo-container	{ width: 1140px; padding: 0px 30px; margin: 0 auto; }
+}

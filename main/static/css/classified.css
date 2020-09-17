@@ -14,7 +14,6 @@
 .image-container {
     margin: 10px;
     column-count: 3;
-    column-gap: 20px;
 }
 
 .image-item {
@@ -153,7 +152,7 @@ div.classified-wrapper {
 }
 
 .post-card-title {
-    font-size: 2.5rem;
+    font-size: 3.0rem;
     font-weight: 400;
     color: #fff;
     margin-bottom: 1.2rem;
@@ -161,7 +160,7 @@ div.classified-wrapper {
 
 .post-card-info {
     color: #eee;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     text-align: center;
     font-weight: 400;
 }

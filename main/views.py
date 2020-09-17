@@ -3,7 +3,7 @@ import json
 import os
 
 from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
+from django.conf import settings
 
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from django.shortcuts import render, get_object_or_404
@@ -19,7 +19,7 @@ from core import Classifier, AutoLabel, VGGLib, Utils
 
 import copy
 
-def main(request):
+def homePage(request):
     if request.method == "POST":
         picStreamList = request.POST.get("picStreamList")
         picStreamList = json.loads(picStreamList)
@@ -35,7 +35,7 @@ def main(request):
         ret['status'] = 1
         ret['url'] = '/index/'
         return HttpResponse(json.dumps(ret))
-    return render(request, 'main/main.html')
+    return render(request, 'main/homePage.html')
 
 # 测试成功(该测试在后台调用classify_factory进行预测)
 def classify_test(request):
@@ -93,22 +93,7 @@ def profile(request, pk):
 # 获取用户自己分类的图片信息,返回前端
 def classified(request, pk):
     user = get_object_or_404(User, pk=pk)
-    username = user.username
-    # TODO:从数据库拿路径
-    # 直接返回存储在云端media文件夹中的各文件路径
-    urls = {}
-    for root, dirs, files in os.walk("./media/"+username):
-        for dir in dirs:
-            urls[dir] = []
-        for filename in files:
-            _, img_ext = filename.split(".")
-            if img_ext not in ['jpg','jpeg','png','bmp']:
-                continue
-            class_name = root.split("/media/" + username + '\\')[1] # 拿到图片的分类名与urls里的dir名对应
-            if '\\' in class_name: # 若其含有子分类的目录,忽略子分类,采用根目录名称
-                class_name = class_name.split('\\')[0]
-
-            urls[class_name].append(root[1:] + "/" + filename)
+    urls = Utils.get_total_img_urls(user.username)
 
     return render(request, 'main/classified.html', {'user': user, 'urls': urls})
 
@@ -117,6 +102,18 @@ def classifiedSpecific(request, pk, typeName):
     urls = Utils.get_specific_urls(user.username, typeName)
 
     return render(request, 'main/classifiedSpecific.html', {'user': user, 'urls': urls, "typeName": typeName})        
+
+def createSubFolder(request, pk):
+    if request.method == 'POST':
+        user = get_object_or_404(User, pk=pk)
+        typeName = request.POST.get('typeName')
+        subFolder = request.POST.get('subFolder')
+        dst_path = settings.MEDIA_ROOT + user.username + "/" + typeName + "/" + subFolder
+        if not os.path.exists(dst_path):
+            os.mkdir(dst_path)
+            return JsonResponse({"status":"1"})
+        else:
+            return JsonResponse({"status":"0", "msg":"that folder already exists"})
 
 def personInfo(request, pk):
     user = get_object_or_404(User, pk=pk)
