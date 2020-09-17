@@ -105,7 +105,6 @@ def read_directory(directory_name):
         picname = "/" + directory_name + "/" + filename
         listPicname.append(picname)
     return listPicname
-<<<<<<< HEAD
 
 # 获取某用户所有分类过的图片,带有子分类的图片无视子分类,归于其大类之下
 def get_total_img_urls(username):
@@ -151,5 +150,3 @@ def get_specific_urls(userName, typeName):
                 urls[subTypeName].append(root[1:] + "/" + filename)
 
     return urls
-=======
->>>>>>> 350a024ab1578df09e98672494c551d851799cad
