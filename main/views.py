@@ -122,7 +122,6 @@ def classifiedSpecific(request, pk, typeName):
 def personInfo(request, pk):
     user = get_object_or_404(User, pk=pk)
     user_profile = get_object_or_404(UserProfile, user=user)
-    url = MEDIA_URL + user.profile.portrait.name
     if request.method == 'POST':
         form = ProfileForm(request.POST,request.FILES)
         nickName = request.POST.get("nickName")
