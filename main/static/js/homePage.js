@@ -2,7 +2,8 @@
 var menuDisabled = false;
 jQuery(document).ready(function($){
 
-	/************** Menu Content Opening *********************/
+    /************** Menu Content Opening *********************/
+    /*
 	$(".main_menu a").on('click',function(){
 		var id =  $(this).attr('class');
 		id = id.split('-');
@@ -11,50 +12,7 @@ jQuery(document).ready(function($){
 		//$("#menu-container .homepage").hide();
 		return false;
 	});
-	
-
-	$(".main_menu a.templatemo_homeservice").click(function(){
-		$("#menu-container .portfolio").hide();
-		$('#menu-container .services').fadeOut(1000, function(){
-        $('#menu-container .homepage').fadeIn(1000);
-	    });
-		return false;
-	});
-	
-	$(".main_menu a.templatemo_page2").click(function( ){
-    $('#menu-container .homepage').fadeOut(1000, function(){									  
-        $('#menu-container .services').fadeIn(1000);
-	    });
-	return false;
-	});
-	
-	$(".main_menu a.templatemo_homeportfolio").click(function(){
-		$('#menu-container .portfolio').fadeOut(1000, function(){
-        $('#menu-container .homepage').fadeIn(1000);
-	    });
-		return false;
-	});
-
-	$(".main_menu a.templatemo_page3").click(function(){    
-    $('#menu-container .homepage').fadeOut(1000, function(){
-        $('#menu-container .portfolio').fadeIn(1000);
-	    });
-		return false;
-	});
-	
-	$(".main_menu a.templatemo_hometestimonial").click(function(){
-		$('#menu-container .testimonial').fadeOut(1000, function(){
-        $('#menu-container .homepage').fadeIn(1000);
-	    });
-		return false;
-	});
-	
-	$(".main_menu a.templatemo_page4").click(function(){    
-    $('#menu-container .homepage').fadeOut(1000, function(){
-        $('#menu-container .testimonial').fadeIn(1000);
-	    });
-		return false
-	});
+	*/
 	$(".main_menu a.about-backhome").click(function(){
 		$('#menu-container .about').fadeOut(1000, function(){
         $('#menu-container .homepage').fadeIn(1000);
@@ -62,7 +20,7 @@ jQuery(document).ready(function($){
 		return false;
 	});
 
-	$(".main_menu a.templatemo_page5").click(function(){    
+	$(".main_menu a.subpage-about").click(function(){    
     $('#menu-container .homepage').fadeOut(1000, function(){
         $('#menu-container .about').fadeIn(1000);
 	    });

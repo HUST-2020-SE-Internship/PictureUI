@@ -4,7 +4,6 @@ import os
 
 from django.contrib.auth.models import User
 from django.conf import settings
-from django.contrib.auth.decorators import login_required
 from django.core.files.base import ContentFile
 
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
@@ -87,10 +86,10 @@ def saveImage(request):
 
     return HttpResponse("success")
 
-def profile(request, pk):
+def explore(request, pk):
     user = get_object_or_404(User, pk=pk)
 
-    return render(request, 'main/main.html', {'user': user})
+    return render(request, 'main/explore.html', {'user': user})
 
 # 获取用户自己分类的图片信息,返回前端
 def classified(request, pk):

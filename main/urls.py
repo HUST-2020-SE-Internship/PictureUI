@@ -6,7 +6,7 @@ app_name = 'main'
 
 urlpatterns = [
     re_path(r'^homePage/$', views.homePage, name='homePage'),
-    re_path(r'^account/(?P<pk>\d+)/profile/$', views.profile, name='Profile'),
+    re_path(r'^account/(?P<pk>\d+)/explore/$', views.explore, name='Explore'),
     re_path(r'^account/(?P<pk>\d+)/classified/$', views.classified, name='Classified'),
     path('account/<int:pk>/classified/<str:typeName>/', views.classifiedSpecific, name='classifiedSpecific'),
     re_path(r'^account/(?P<pk>\d+)/personInfo/$', views.personInfo, name='PersonInfo'),

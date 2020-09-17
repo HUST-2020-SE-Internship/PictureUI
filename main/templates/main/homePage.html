@@ -8,19 +8,19 @@
         <div class="container">
             <div class="col-md-3 col-sm-6 leftgap">
                 <div class="mainservice botgap">
-                    <div class="link"><a class="show-2 templatemo_page2" href="#">探索</a></div>
+                    <div class="link"><a class="show-2 subpage-explore" href="{% url 'main:Explore' user.id %}">探索</a></div>
                 </div>
                 <div class="menu-img-below"><img src="{% static 'img/homePage/home1.jpg' %}" alt="home img 01"></div>
             </div>
             <div class="col-md-3 col-sm-6 leftgap">
                 <div class="menu-img-above botgap portfotopgap"><img src="{% static 'img/homePage/home2.jpg' %}" alt="home img 02"></div>
                 <div class="mainportfolio">
-                        <div class="link"><a class="show-3 templatemo_page3" href="#">相册</a></div>                       
+                        <div class="link"><a class="show-3 subpage-album" href="{% url 'main:Classified' user.id %}">相册</a></div>                       
                 </div>
             </div>
             <div class="col-md-3 col-sm-6 leftgap">
                 <div class="maintestimonial botgap topgap">
-                    <div class="link"><a class="show-4 templatemo_page4" href="#">资料</a></div>
+                    <div class="link"><a class="show-4 subpage-profile" href="{% url 'main:PersonInfo' user.id %}">资料</a></div>
                 </div>
                 <div class="menu-img-below"><img src="{% static 'img/homePage/home3.jpg' %}" alt="home img 03"></div>
             </div>
@@ -29,7 +29,7 @@
                     <img src="{% static 'img/homePage/home4.jpg' %}" alt="home img 04">
                 </div>
                 <div class="mainabout botgap">
-                    <div class="link"><a class="show-5 templatemo_page5" href="#">About us</a></div>
+                    <div class="link"><a class="show-5 subpage-about" href="#">About us</a></div>
                 </div>
                 <div class="maincontact">
                     <div class="link"><a class="show-6 templatemo_page6" href="#">Contact</a></div>
