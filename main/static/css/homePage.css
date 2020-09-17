@@ -7,7 +7,7 @@ img {
 }
 
 .menu-img-below img {
-    -webkit-box-reflect: above -49% linear-gradient(transparent, transparent, rgba(0, 0, 0, 0.4));
+    -webkit-box-reflect: above -48% linear-gradient(transparent, transparent, rgba(0, 0, 0, 0.4));
 }
 
 .content { display: none; height: auto; }
