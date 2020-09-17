@@ -131,11 +131,7 @@ desired effect
                     <!-- Menu Toggle Button -->
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                       <!-- The user image in the navbar-->
-                      {% if url == "/media/"  or url is None %}
-                      <img src="/media/default.png" class="user-image" alt="User Image">
-                      {% elif url is not None %}
-                      <img src="{{ url }}" class="user-image" alt="User Image">
-                      {% endif %}
+                      <img src="{{ user.profile.portrait }}" class="user-image" alt="User Image">
                       <!-- hidden-xs hides the username on small devices so only the image appears. -->
                       <span class="hidden-xs">{{ user.profile.org }}</span>
                     </a>

@@ -4,24 +4,57 @@ function showImg(){
     var re = new FileReader();
     re.readAsDataURL(file);
     re.onload = function(re){
+    	console.log(re);
         pic.src=re.target.result;
     }
 }
 
-document.getElementById("upfile").addEventListener("change",function(event){
-    let files = event.target.files;
-    if(files.length != 0){
-        //上传文件夹，这里得到的该文件夹下所有的文件，取第0个，得到文件夹名字即可
-        console.log(files);
-        var s = files[0].webkitRelativePath;
-        console.log(s);
-        var str = s.split("/") ;
-        console.log(str);
-        var fileName = str[0];
-        console.log(fileName);
-        //这里可以写ajax请求，把文件夹名字fileName带过去就可以，我在这一块就不写了
-    }
-},false);
+function load(){
+	var file =  document.getElementById('upfile').files[0];
+	var nickName = document.getElementById('nickName').value;
+	var telephone = document.getElementById('telephone').value;
+	var user_id = document.getElementById('user_id').value;
+	var re = new FileReader()
+	var url = "/main/account/" + user_id + "/personInfo/"
+	if (file != null){
+		re.readAsDataURL(file);
+		re.onload = function(re){
+				var image = re.target.result ;
+				$.ajax({
+				url: url ,
+				type: "POST",
+				data: {
+					nickName: nickName,
+					telephone:telephone,
+					image: JSON.stringify(image),
+				},
+				beforeSend: function(xhr, settings){
+					xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val());
+				},
+				success: result => {
+					console.log("success ") ;
+				}
+			})
+			}
+	}else {
+		$.ajax({
+				url: url ,
+				type: "POST",
+				data: {
+					nickName: nickName,
+					telephone:telephone,
+				},
+				beforeSend: function(xhr, settings){
+					xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val());
+				},
+				success: result => {
+					console.log("success ") ;
+				}
+			})
+	}
+
+}
+
 
 function upLoadPic() {
     var dir=document.getElementById("upfile");

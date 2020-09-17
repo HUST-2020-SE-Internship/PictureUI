@@ -3,6 +3,19 @@ import torch
 import cv2
 import numpy as np
 import base64
+from aip import AipFace
+
+""" 你的 APPID AK SK """
+APP_ID = '22675551'
+API_KEY = 'fWRFhcsvO3VqaO9LHqur5HGG'
+SECRET_KEY = 'nCfkdwd5ZGjBEZCnsUN8kqZFCQMXEYqA'
+
+client = AipFace(APP_ID, API_KEY, SECRET_KEY)
+
+options = {"max_face_num": 1,
+           "face_type": "LIVE",
+           "liveness_control": "LOW"}
+imageType = "BASE64"
 
 USE_GPU = False
 net = None
@@ -105,6 +118,8 @@ def loadLabelName():
 
 
 def classifyImage(img):
+    if isPersonByBaidu(img):
+        return "person"
     img = preprocess(img)
     global net, device, labelName, USE_GPU
     if net is None:
@@ -128,9 +143,20 @@ def classifyImage(img):
     result = predicted[0].cpu().numpy()
     return labelName[result]
 
+
 def preprocess(image):
     image = str(image).split(';base64,')[1]
     image = base64.b64decode(image)
     image = np.fromstring(image, np.uint8)
     image = cv2.imdecode(image, cv2.IMREAD_COLOR)
     return image
+
+
+def isPersonByBaidu(image):
+    image = str(image).split(';base64,')[1]
+    result = client.detect(image, imageType, options)
+    print(result)
+    if result.get("result") is not None and result["result"] is not None:
+        return True
+    else:
+        return False
