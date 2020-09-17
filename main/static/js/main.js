@@ -28,20 +28,28 @@ document.getElementById("input_dir").addEventListener("change", e => {
         var re = new FileReader();
         re.readAsDataURL(file);
         re.onload = function(re){
-            console.log("read image success => " + getObjectURL(file)) ;
+            // console.log("read image success => " + getObjectURL(file)) ;
             var image = re.target.result ;
-            classifyImage(image) ;
-            document.getElementById("upload-msg")
-                .innerHTML = `正在上传图片 ${index} / ${count}` ;
+            // classifyImage(image) ;
+            (function(i) {
+                setTimeout(function() {
+                    classifyImage(image, i, count) ;
+                }, i * 550);
+            })(index)
+            // document.getElementById("upload-msg")
+            //     .innerHTML = `正在上传图片 ${index} / ${count}` ;
             index++ ;
-            if(index > count){
-                document.getElementById("upload-msg").innerHTML = `上传完成` ;
-            }
+            // if(index > count){
+            //     document.getElementById("upload-msg").innerHTML = `上传完成` ;
+            // }
         }
     }
 })
 
-function classifyImage(image){
+function classifyImage(image, index=1, count=1){
+    console.log("发送图片时间：" + new Date())
+    document.getElementById("upload-msg")
+                .innerHTML = `正在上传图片 ${index} / ${count}` ;
     $.ajax({
         url: "/main/classify/",
         type: "POST",
@@ -54,7 +62,7 @@ function classifyImage(image){
         },
         success: result => {
             typeName = JSON.parse(result) ;
-            console.log("receive: " + typeName) ;	
+            // console.log("receive: " + typeName) ;
             showLabelInFront(image, typeName) ;
         }
     })
