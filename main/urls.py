@@ -16,5 +16,5 @@ urlpatterns = [
     re_path(r'^classify/$', views.classifyImage, name="classify"),
     re_path(r'^saveImage/$', views.saveImage, name='saveImage'),
 
-    path('account/<int:pk>/createSubFolder', views.createSubFolder, name='createSubFolder'),
+    path('account/createSubFolder', views.createSubFolder, name='createSubFolder'),
 ]

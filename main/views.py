@@ -104,15 +104,15 @@ def classifiedSpecific(request, pk, typeName):
 
     return render(request, 'main/classifiedSpecific.html', {'user': user, 'urls': urls, "typeName": typeName})
 
-def createSubFolder(request, pk):
+def createSubFolder(request):
     if request.method == 'POST':
-        user = get_object_or_404(User, pk=pk)
+        user = get_object_or_404(User, pk=request.session.get('_auth_user_id'))
         typeName = request.POST.get('typeName')
         subFolder = request.POST.get('subFolder')
         dst_path = settings.MEDIA_ROOT + user.username + "/" + typeName + "/" + subFolder
         if not os.path.exists(dst_path):
             os.mkdir(dst_path)
-            return JsonResponse({"status":"1"})
+            return JsonResponse({"status":"1", "msg":"created new subfolder!"})
         else:
             return JsonResponse({"status":"0", "msg":"that folder already exists"})
 

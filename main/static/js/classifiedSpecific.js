@@ -9,6 +9,35 @@ document.getElementById("upload_dir").addEventListener("click", e => {
 var check_all_enable = false;
 var edit_enable = true;
 
+$("#new_subfolder").click(function(){
+    $("#input_subfolder").focus();
+})
+
+$("#btn-new-subfolder").click(function(){
+    alert("我真的点击1了")
+    if($("#input_subfolder").val() == ""){
+        $("#input_subfolder").attr("placeholder", "请输入子分类的名称!");
+        return false;
+    }
+    $.ajax({
+        url:'/main/account/createSubFolder',
+        type:'post',
+        data:{
+            typeName: $("#root-classified-type").html().toLowerCase(),
+            subFolder: $("#input_subfolder").val()
+        },
+        beforeSend: function(xhr, settings){
+            xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val());
+        },
+        success: callback => {
+            $("#input_subfolder").val(callback.msg);
+            setTimeout(function(){
+                $("#newFolderModal").modal('hide');
+            }, 1000);
+        }
+    })
+})
+
 $("#input_pic").change(e =>{
     var files = e.target.files;
     var re = new FileReader();

@@ -10,16 +10,18 @@
 {% endblock page_css_reference %}
 
 {% block page_js_reference %}
+    <script src="/static/JS/common/bootstrap.min.js"></script>
     <script src="/static/js/classifiedSpecific.js"></script> 
 {% endblock page_js_reference %}
 
 {% block main_content %}
 <section class="container container-fluid">
     <div class="btn-functions">
-		<input type="file" id="input_pic" accept="image/*" style="display:none;">
-		<input type="file" id="input_dir" style="display:none;" webkitdirectory>
+		<input type="file" id="input_pic" accept="image/*">
+		<input type="file" id="input_dir" webkitdirectory>
         <button class="btn btn-success" id="upload_pic">上传图片</button>
 		<button class="btn btn-warning" id="upload_dir">上传文件夹</button>
+        <button class="btn btn-primary" id="new_subfolder"  data-toggle="modal" data-target="#newFolderModal">新建子分类</button>
         <button class="btn btn-info" id="check_all" disabled="disabled">选中所有</button>
 		<button class="btn btn-primary" id="save_checked">保存选中</button>
         <button class="btn btn-danger" id="remove_checked">删除选中</button>
@@ -27,7 +29,26 @@
         {% csrf_token %}
 		<div id="upload-msg"></div>
     </div>
+    <!-- 新建分类模态框（Modal） -->
+    <div class="modal fade" id="newFolderModal" tabindex="-1" role="dialog" aria-labelledby="subfolder-title" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="subfolder-title">模态框（Modal）标题</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="input_subfolder" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-success" id="btn-new-subfolder">确定</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
     <div id="classified" class="col-md-12 col-xs-12">
+        <h1 id="root-classified-type">{{ typename|capfirst }}</h1>
         <div class="not-sub-classified">
             {% if "{{urls|get_item_v_first:typename|length}}" == 0 %}
                 <h1 class="classified-title">这里仍然是没有图片的荒原 <small><a href={% url 'main:Explore' user.id %}>去探索吧</a><small></h1>

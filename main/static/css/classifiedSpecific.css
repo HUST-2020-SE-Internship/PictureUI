@@ -44,3 +44,12 @@
     margin-left: 5px;
     position: absolute !important;
 }
+
+#input_dir, #input_pic {
+    display:none;
+}
+
+#input_subfolder {
+    border: none;
+    background-color: transparent;
+}
