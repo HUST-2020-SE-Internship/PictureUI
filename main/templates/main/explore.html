@@ -23,7 +23,10 @@
 		<button class="btn btn-primary" id="save_checked">保存选中</button>
         <button class="btn btn-danger" id="remove_checked">删除选中</button>
         {% csrf_token %}
-		<div id="upload-msg"></div>
+        <div class="msg-box">
+            <div id="upload-msg"></div>
+            <div id="success-msg"></div>
+        </div>
     </div>
     <div class="main-container" id="main-container">
             

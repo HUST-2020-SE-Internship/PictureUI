@@ -8,11 +8,7 @@ h1 a:hover{
 	text-decoration: none;
 }
 
-#upload-msg {
-    color: #fff;
-}
-
-.btn-functions #upload-msg {
+.btn-functions #upload-msg, .btn-functions #success-msg{
     display: inline-block;
     font-size: 20px;
     margin-left: 10px;
@@ -57,4 +53,12 @@ h1 a:hover{
     margin-top: 5px;
     margin-left: 5px;
     position: absolute !important;
+}
+
+#upload-msg, #success-msg{
+    color: #fff;
+}
+
+.msg-box {
+    margin-top: 20px;
 }

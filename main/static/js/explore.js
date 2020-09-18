@@ -11,45 +11,41 @@ document.getElementById("input_pic").addEventListener("change", e => {
     var re = new FileReader();
     re.readAsDataURL(files[0]);
     re.onload = function(re){
-        console.log("read image success => " + getObjectURL(files[0])) ;
         var image = re.target.result ;
-        document.getElementById("upload-msg").innerHTML = "正在上传图片"
+        successCount = 0 ;
         classifyImage(image) ;
     }
 })
 
 document.getElementById("input_dir").addEventListener("change", e => {
     var files = e.target.files;
-    console.log(files);
-    console.log(typeof files);
     var count = files.length ;
     var index = 1 ;
+    successCount = 0 ;
     for(var file of files){
         var re = new FileReader();
         re.readAsDataURL(file);
         re.onload = function(re){
-            // console.log("read image success => " + getObjectURL(file)) ;
             var image = re.target.result ;
-            // classifyImage(image) ;
             (function(i) {
                 setTimeout(function() {
                     classifyImage(image, i, count) ;
                 }, i * 550);
             })(index)
-            // document.getElementById("upload-msg")
-            //     .innerHTML = `正在上传图片 ${index} / ${count}` ;
             index++ ;
-            // if(index > count){
-            //     document.getElementById("upload-msg").innerHTML = `上传完成` ;
-            // }
         }
     }
 })
 
+var successCount = 0 ;
+
 function classifyImage(image, index=1, count=1){
-    console.log("发送图片时间：" + new Date())
-    document.getElementById("upload-msg")
-                .innerHTML = `正在上传图片 ${index} / ${count}` ;
+    document.getElementById("upload-msg").innerHTML = 
+        `<span style="color: #eea236">[UPLOADING]</span> ${index} / ${count}` ;
+    
+    document.getElementById("success-msg").innerHTML = 
+        `<span style="color: #4cae4c">[SUCCESS]</span> ${successCount} / ${count}` ;
+
     $.ajax({
         url: "/main/classify/",
         type: "POST",
@@ -62,8 +58,13 @@ function classifyImage(image, index=1, count=1){
         },
         success: result => {
             typeName = JSON.parse(result) ;
-            // console.log("receive: " + typeName) ;
             showLabelInFront(image, typeName) ;
+            successCount++ ;
+            document.getElementById("success-msg").innerHTML = 
+                `<span style="color: #4cae4c">[SUCCESS]</span> ${successCount} / ${count}` ;
+            if(successCount == count){
+                document.getElementById("success-msg").innerHTML += `<span style="color: #46b8da">&nbsp;&nbsp;[FINISH]</span>` ;
+            }
         }
     })
 }
@@ -124,6 +125,13 @@ function getObjectURL(file) {
 
 // 给待选中的图片增加勾选
 document.getElementById("save_checked").addEventListener("click", e => {
+    // 取消选中所有的按钮
+    document.getElementById("check_all").innerHTML = "选中所有" ;
+    checkAll = false ;
+
+    var savingCount = 0 ;
+    var savedCount = 0 ;
+
     var isZero = true ;
     var classifies = document.querySelectorAll(".classify") ;
     for(var classify of classifies){
@@ -138,23 +146,53 @@ document.getElementById("save_checked").addEventListener("click", e => {
                 image = image.getAttribute("src") ;
                 // console.log(typeName, images[1].getAttribute("src")) ;
 
-                $.ajax({
-                    url: "/main/saveImage/",
-                    type: "POST",
-                    async: false,
-                    data: {
-                        typeName: typeName,
-                        image: JSON.stringify(image),
-                    },
-                    beforeSend: function(xhr, settings){
-                        xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val());
-                    },
-                    success: result => {
-                        // typeName = JSON.parse(result) ;
-                        // console.log("receive: " + typeName) ;
-                        // showLabelInFront(image, typeName) ;
-                    }
-                })
+                savingCount++ ;
+
+                document.getElementById("upload-msg").innerHTML = 
+                    `<span style="color: #eea236">[SAVING]</span> ${savingCount}` ;
+                
+                document.getElementById("success-msg").innerHTML = 
+                    `<span style="color: #4cae4c">[SUCCESS]</span> ${savedCount}` ;
+
+                
+                (function(i, typeName, image, imageItem, classify) {
+                    setTimeout(function() {
+                        $.ajax({
+                            url: "/main/saveImage/",
+                            type: "POST",
+                            async: false,
+                            data: {
+                                typeName: typeName,
+                                image: JSON.stringify(image),
+                            },
+                            beforeSend: function(xhr, settings){
+                                xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val());
+                            },
+                            success: result => {
+                                savedCount++ ;
+                                document.getElementById("success-msg").innerHTML = 
+                                    `<span style="color: #4cae4c">[SUCCESS]</span> ${savedCount}` ;
+                                
+                                console.log(classify) ;
+                                console.log(imageItem) ;    
+                                classify.querySelector(".image-container").removeChild(imageItem) ;
+
+                                if(savingCount == savedCount){
+                                    document.getElementById("success-msg").innerHTML 
+                                        += `<span style="color: #46b8da">&nbsp;&nbsp;[FINISH]</span>` ;
+
+                                    // 删除空分类
+                                    for(var data of document.querySelectorAll(".classify")){
+                                        // console.log(document.querySelectorAll(".image-item").length) ;
+                                        if(data.querySelectorAll(".image-item").length == 0){
+                                            data.remove();
+                                        }
+                                    }
+                                }
+                            }
+                        })
+                    }, i * 500);
+                })(savingCount, typeName, image, imageItem, classify) ;
             }
         }
     }
@@ -173,6 +211,10 @@ $("#remove_checked").on("click", function(){
         if ($(this).find(".image-item").length == 0)
             $(this).remove();
     })
+    console.log($("#input_dir").val()) ;
+    $("#input_dir").val("") ;
+    document.getElementById("check_all").innerHTML = "选中所有" ;
+    checkAll = false ;
     /*
     var classifies = document.querySelectorAll(".classify") ;
     for(var classify of classifies){
