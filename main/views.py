@@ -116,10 +116,23 @@ def createSubFolder(request):
         else:
             return JsonResponse({"status":"0", "msg":"that folder already exists"})
 
+def changeSubFolder(request):
+    if request.method == "POST":
+        user = get_object_or_404(User, pk=request.session.get('_auth_user_id'))
+        typeName = request.POST.get('typeName')
+        old_name = request.POST.get('old_name')
+        new_name = request.POST.get('new_name')
+        print("[USER]%s want to change [sub_typename]%s => %s in [type]%s" % (user.username, old_name, new_name, typeName))
+        type_path = settings.MEDIA_ROOT + user.username + "/" + typeName + "/"
+        if os.path.exists(type_path + old_name):
+            os.rename(type_path + old_name, type_path + new_name)
+            return JsonResponse({"status":"1", "msg":"更改成功"})
+        else:
+            return JsonResponse({"status":"0", "msg":"WTF?"})
+
 def removeImage(request):
     if request.method == 'POST':
         user = get_object_or_404(User, pk=request.session.get('_auth_user_id'))
-        
 
 def personInfo(request, pk):
     user = get_object_or_404(User, pk=pk)

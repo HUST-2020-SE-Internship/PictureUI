@@ -111,7 +111,7 @@ def read_directory(directory_name):
 # 获取某用户所有分类过的图片,带有子分类的图片无视子分类,归于其大类之下
 def get_total_img_urls(username):
     urls = {}
-    random.shuffle(initial_classes) # 打乱列表,使其被读入字典时顺序随机,以达成前端随机九个种类的显示
+    random.shuffle(initial_classes) # 打乱列表,使其被读入字典时顺序随机,以达成前端随机种类的显示
     for typename in initial_classes:
         urls[typename] = []
     for root, dirs, files in os.walk("./media/"+username):

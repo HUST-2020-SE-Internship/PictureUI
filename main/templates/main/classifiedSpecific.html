@@ -48,9 +48,10 @@
         </div><!-- /.modal -->
     </div>
     <div id="classified" class="col-md-12 col-xs-12">
-        <h1 id="root-classified-type">{{ typename|capfirst }}</h1>
+        <h1 id="root-classified-type">{{ typeName|capfirst }}</h1>
+        <div class="clear"></div>
         <div class="not-sub-classified">
-            {% if "{{urls|get_item_v_first:typename|length}}" == 0 %}
+            {% if "{{urls|get_item_v_first:typeName|length}}" == 0 %}
                 <h1 class="classified-title">这里仍然是没有图片的荒原 <small><a href={% url 'main:Explore' user.id %}>去探索吧</a><small></h1>
             {% else %}
                 <h1 class="classified-title">尚未子分类</h1>

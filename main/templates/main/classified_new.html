@@ -60,7 +60,7 @@
                         {% endif %}
                                 <div class="overlay">
                                     <a href={% url 'main:classifiedSpecific' user.id classname %}>
-                                        {{classname}}<br>
+                                        {{classname|capfirst}}<br>
                                         <span class="photos_num">{{ images|length }}</span>
                                     </a>
                                 </div>

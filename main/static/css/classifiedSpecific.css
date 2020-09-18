@@ -58,3 +58,8 @@ h1 small{
     margin-left: 20px;
     font-size: 80%;
 }
+
+/*专门留给修改子分类名字的修改框*/
+h1 input{
+    color: #333333;
+}

@@ -105,8 +105,23 @@ function getObjectURL(file) {
 $("#remove_checked").on("click", function(){
     $(".image-item").each(function(){
         // svgs[0]对应pic-checked
-        if ($(this).children("svg").first().css("display") == "block")
-            $(this).remove();
+        if ($(this).children("svg").first().css("display") == "block"){
+            //请求删除
+            $.ajax({
+                url:'/main/account/removeImage',
+                type:'POST',
+                data:{
+                    typeName: $("#root-classified-type").html(),
+                    img_name: $(this).children("img").first().attr("src")
+                },
+                beforeSend: function(xhr, settings){
+                    xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val());
+                },
+                success: result => {
+                    $(this).remove();
+                }
+            });
+        }
     })
     if($(".image-item").find("svg").length == 0){
         check_all_enable = false;
@@ -114,7 +129,6 @@ $("#remove_checked").on("click", function(){
         edit_enable = true;
         $("#edit_saved").removeAttr("disabled");
     }
-    // TODO: 删除存在云端的图片需要确认?
     // 更新各子分类的图片数目
     updatePhotosNum();
 })
@@ -211,3 +225,50 @@ function updatePhotosNum(){
 }
 
 $(document).ready(updatePhotosNum);
+
+$(".sub-classified h1").dblclick(function(){
+    /* 防止取到h1标签内部字标签small里的文本 */
+    $(this).html(`<input type='text' placeholder='`+ $($(this).prop('firstChild')).text() +`' class="change_sub_typename">`);
+    $("input.change_sub_typename").focus();
+})
+
+//更改子分类的框失焦后使用ajax请求沟通
+$("body").on('blur', 'input.change_sub_typename', function(){
+    //先判空
+    if($(this).val() == ""){
+        $(this).parent('h1').html($(this).attr('placeholder'));
+        updatePhotosNum();
+        return false;
+    }
+
+    $.ajax({
+        url:'/main/account/changeSubFolder',
+        type:'POST',
+        data:{
+            typeName: $("#root-classified-type").html(),
+            old_name: $(this).attr("placeholder"),
+            new_name: $(this).val()
+        },
+        beforeSend: function(xhr, settings){
+            xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val());
+        },
+        success: callback =>{
+            if (callback.status == "1"){
+                new_name = $(this).val();
+                $(this).val(callback.msg);
+                setTimeout(() => {
+                    $(this).parent('h1').html(new_name);
+                    //更新标签
+                    updatePhotosNum();
+                }, 1000);
+                
+            }else{
+                $(this).val(callback.msg);
+                setTimeout(() => {
+                    $(this).parent('h1').html($(this).attr('placeholder'));
+                    updatePhotosNum();
+                }, 1000);
+            }
+        }
+    })
+})
