@@ -423,6 +423,13 @@ a.menu-toggle-btn {
   top: 50%;
   margin-top: -16px;
 }
+
+.gallery-item .overlay span.photos_num {
+	color:#cccccc;
+	font-size: 25px;
+	margin-top: 10px;
+}
+
 .templatemo_gallerygap { margin-bottom: 13%; }
 .templatemo_gallerygap img{ margin-top: 30px; }
 .templatemo_gallerygap span.fa	{ font-size: 22px; margin-bottom: 15px; }

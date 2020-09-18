@@ -60,6 +60,8 @@ def auto_classified_storage(userName, typeName, image):
             isClassify = False
             for subDir in dirs:
                 subPath = os.path.join(path, subDir)
+                if not os.path.isdir(subPath):
+                    continue
                 imgs = os.listdir(subPath)
                 for img in imgs:
                     imgPath = os.path.join(subPath, img)

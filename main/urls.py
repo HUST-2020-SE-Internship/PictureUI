@@ -17,4 +17,5 @@ urlpatterns = [
     re_path(r'^saveImage/$', views.saveImage, name='saveImage'),
 
     path('account/createSubFolder', views.createSubFolder, name='createSubFolder'),
+    path('account/removeImage', views.removeImage, name='removeImage'),
 ]

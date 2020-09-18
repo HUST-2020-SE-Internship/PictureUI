@@ -14,7 +14,6 @@ $("#new_subfolder").click(function(){
 })
 
 $("#btn-new-subfolder").click(function(){
-    alert("我真的点击1了")
     if($("#input_subfolder").val() == ""){
         $("#input_subfolder").attr("placeholder", "请输入子分类的名称!");
         return false;
@@ -116,6 +115,8 @@ $("#remove_checked").on("click", function(){
         $("#edit_saved").removeAttr("disabled");
     }
     // TODO: 删除存在云端的图片需要确认?
+    // 更新各子分类的图片数目
+    updatePhotosNum();
 })
 
 $("#save_checked").on("click", function(){
@@ -172,6 +173,8 @@ $("#edit_saved").on("click", function(){
 function checkImage(obj){
     var pic_checked = obj.querySelector(".pic-checked") ;
     var pic_unchecked = obj.querySelector(".pic-unchecked");
+    if(pic_checked == undefined || pic_unchecked == undefined)
+        return false;
     if(pic_checked.style.display == "none"){
         pic_checked.style.display = "block" ;
         pic_unchecked.style.display = "none";
@@ -194,3 +197,17 @@ $("#check_all").on("click", function(){
         checkAll ? $(this).html("取消全选") : $(this).html("选中所有");
     }
 })
+
+
+// 计算每个分类里的照片数目,并将其显示在分类标题的尾缀中
+function updatePhotosNum(){
+    $("div[class$='sub-classified']").each(function(){
+        photosNum =  $(this).find(".image-item").length;
+        if($(this).find("h1 small").length > 0)
+            $(this).find("h1 small:first-child").html(`${photosNum} pcs`);
+        else
+            $(this).find("h1").append(`<small>${photosNum}`+` pcs</small>`);
+    })
+}
+
+$(document).ready(updatePhotosNum);

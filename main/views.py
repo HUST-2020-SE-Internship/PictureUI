@@ -116,6 +116,11 @@ def createSubFolder(request):
         else:
             return JsonResponse({"status":"0", "msg":"that folder already exists"})
 
+def removeImage(request):
+    if request.method == 'POST':
+        user = get_object_or_404(User, pk=request.session.get('_auth_user_id'))
+        
+
 def personInfo(request, pk):
     user = get_object_or_404(User, pk=pk)
     user_profile = get_object_or_404(UserProfile, user=user)
