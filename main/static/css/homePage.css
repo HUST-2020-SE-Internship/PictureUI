@@ -41,6 +41,15 @@ img {
 .aboutcontainer h2.resp-accordion {
     background: #cc9933 !important; }
 
+.paddinggap	{ padding: 30px; }
+
+.contact-container img{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
 .mainservice {
 	background: #999933;
 	text-align: center;
@@ -72,6 +81,10 @@ img {
 	width: 100%;
 }
 
+.contact-inner{
+    background: #666666 !important;
+}
+
 .link , .linkservice, .linkcontact { 
 	font-size: 2em; color: #ffffff;
 	width: 95%;
@@ -91,6 +104,7 @@ img {
     .resp-vtabs .aboutcontainer { width: 100%; }
 
     .frame { padding: 0px 30px 30px 30px; }
+    .col37percent { float: left; width: 100%; }
 }
 
 @media(min-width:768px){
@@ -111,6 +125,7 @@ img {
     .bordergapborder { padding: 0px; margin: 0px; }
     .graybg {height: 397px; }
 
+    .col37percent	{ float: left; width: 37.5%; }
     .col50percent { float: left; width: 50%; position: relative; }
     .link { padding-top: 15%; }
     .link, .linkservice, .linkcontact  { height: 124px; line-height: 124px; padding: 0px; }
@@ -134,11 +149,11 @@ img {
     .bordergapborder { padding: 0px 16px; }
     .graybg	{height: 466px; }
 
+    .col37percent { float: left; width: 37.5%; position: relative; }
     .col50percent { float: left; width: 50%; position: relative; }
     .link  { height: 150px; line-height: 150px; padding: 0px; }
     .leftgap_about .link { height: 142px; line-height: 142px; padding: 0px; }
     .linkservice, .linkcontact  { height: 145px; line-height: 145px; padding: 0px; }
-
     .resp-vtabs .tab li { padding: 0px;  margin-bottom: 15px; }
     .resp-vtabs ul.tab li, 
     .resp-vtabs ul.tab li.resp-tab-active { line-height: 93px; height: 93px; }

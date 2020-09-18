@@ -27,7 +27,7 @@ jQuery(document).ready(function($){
 		return false;
 	});
 	
-	$(".main_menu a.templatemo_homecontact").click(function(){
+	$(".main_menu a.contact-backhome").click(function(){
 		$('#menu-container .contact').fadeOut(1000, function(){
         $('#menu-container .homepage').fadeIn(1000);
 	    });
