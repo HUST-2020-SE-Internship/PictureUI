@@ -13,11 +13,14 @@ html, body {
 a {
     color:#ffffff;
     outline: 0;
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
 }
 
 a:hover, a:focus {
 	text-decoration: none;
-	color: #cccccc;
+    color: #cccccc;
+    
 }
 
 a:active, a:focus {

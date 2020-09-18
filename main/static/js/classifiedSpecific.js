@@ -110,6 +110,7 @@ $("#remove_checked").on("click", function(){
             $.ajax({
                 url:'/main/account/removeImage',
                 type:'POST',
+                async:false, //很重要,success回调函数会落后于函数体内其他函数再执行!
                 data:{
                     typeName: $("#root-classified-type").html(),
                     img_name: $(this).children("img").first().attr("src")
@@ -131,6 +132,12 @@ $("#remove_checked").on("click", function(){
     }
     // 更新各子分类的图片数目
     updatePhotosNum();
+    //最后检查是否有子分类被删空
+    $("div[class$='sub-classified']").each(function(){
+        if($(this).find('.image-item').length == 0)
+            $(this).remove();
+    })
+    
 })
 
 $("#save_checked").on("click", function(){
@@ -208,7 +215,7 @@ $("#check_all").on("click", function(){
         $(".pic-unchecked").each(function(){
             checkAll ? $(this).css("display", "none"):$(this).css("display", "block");
         })
-        checkAll ? $(this).html("取消全选") : $(this).html("选中所有");
+        checkAll ? $(this).children("i").first().attr('class','iconfont icon-quxiaoquanxuan') : $(this).children("i").first().attr('class','iconfont icon-quanxuan');
     }
 })
 

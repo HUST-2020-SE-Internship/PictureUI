@@ -133,6 +133,8 @@ def changeSubFolder(request):
 def removeImage(request):
     if request.method == 'POST':
         user = get_object_or_404(User, pk=request.session.get('_auth_user_id'))
+        # TODO: 删除逻辑
+        return JsonResponse({"status":"1"})
 
 def personInfo(request, pk):
     user = get_object_or_404(User, pk=pk)

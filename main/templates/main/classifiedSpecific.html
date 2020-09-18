@@ -1,31 +1,54 @@
 {% extends 'main/frontBase.html' %}
 {% load customFilter %}
+{% load static %}
 
 {% block page_title %}
     <h1>{{ typeName }}<small>分类</small></h1>
 {% endblock page_title %}
 
 {% block page_css_reference %}
-    <link rel="stylesheet" href="/static/css/classifiedSpecific.css">
+	<link rel="stylesheet" type="text/css" href={% static 'css/GalMenu.css' %} />
+    <link rel="stylesheet" type="text/css" href={% static 'css/classifiedSpecific.css' %}>
 {% endblock page_css_reference %}
 
 {% block page_js_reference %}
     <script src="/static/JS/common/bootstrap.min.js"></script>
-    <script src="/static/js/classifiedSpecific.js"></script> 
+    <script src={% static 'js/classifiedSpecific.js' %}></script>
+    <!-- 引入轮盘菜单所需的js组件 -->
+    <script src={% static 'js/GalMenu.js' %}></script>
+    <script src={% static 'js/WheelMenu.js' %}></script>
+    <script type="text/javascript">
+    //注册菜单
+    $(document).ready(function() {
+        $('body').GalMenu({
+          'menu': 'GalDropDown'
+        })
+    });
+    </script>
 {% endblock page_js_reference %}
 
 {% block main_content %}
+<!-- WheelMenu starts -->
+<div class="GalMenu GalDropDown">
+    <div class="circle" id="gal">
+    <div class="ring">
+        <a class="menuItem" title="上传图片" id="upload_pic"><i class="iconfont icon-shangchuan"></i></a>
+        <a class="menuItem" title="上传文件夹" id="upload_dir"><i class="iconfont icon-shangchuanwenjianjia"></i></a>
+        <a class="menuItem" title="新建子分类" id="new_subfolder"  data-toggle="modal" data-target="#newFolderModal"><i class="iconfont icon-tianjiawenjianjia"></i></a>
+        <a class="menuItem" title="全选" id="check_all" disabled="disabled"><i class="iconfont icon-quanxuan"></i></a>
+        <a class="menuItem" title="保存选中" id="save_checked"><i class="iconfont icon-baocun_mian"></i></a>
+        <a class="menuItem" title="删除选中" id="remove_checked"><i class="iconfont icon-shanchu"></i></a>
+        <a class="menuItem" title="编辑模式" id="edit_saved"><i class="iconfont icon-quxiaoquanxuan"></i></a>
+    </div>
+        <audio id="audio" src={% static 'audio/sproing.mp3' %}></audio>
+    </div>
+</div>
+<div id="overlay" style="opacity: 1; cursor: pointer;"></div>
+<!-- WheelMenu ends -->
 <section class="container container-fluid">
     <div class="btn-functions">
 		<input type="file" id="input_pic" accept="image/*">
 		<input type="file" id="input_dir" webkitdirectory>
-        <button class="btn btn-success" id="upload_pic">上传图片</button>
-		<button class="btn btn-warning" id="upload_dir">上传文件夹</button>
-        <button class="btn btn-primary" id="new_subfolder"  data-toggle="modal" data-target="#newFolderModal">新建子分类</button>
-        <button class="btn btn-info" id="check_all" disabled="disabled">选中所有</button>
-		<button class="btn btn-primary" id="save_checked">保存选中</button>
-        <button class="btn btn-danger" id="remove_checked">删除选中</button>
-        <button class="btn btn-warning" id="edit_saved">编辑模式</button>
         {% csrf_token %}
 		<div id="upload-msg"></div>
     </div>
@@ -35,7 +58,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="subfolder-title">模态框（Modal）标题</h4>
+                    <h4 class="modal-title" id="subfolder-title">新建子分类</h4>
                 </div>
                 <div class="modal-body">
                     <input type="text" id="input_subfolder" required>
