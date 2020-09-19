@@ -112,8 +112,8 @@ $("#remove_checked").on("click", function(){
                 type:'POST',
                 async:false, //很重要,success回调函数会落后于函数体内其他函数再执行!
                 data:{
-                    typeName: $("#root-classified-type").html(),
-                    img_name: $(this).children("img").first().attr("src")
+                    typeName: $("#root-classified-type").html().toLowerCase(),
+                    img_url: $(this).children("img").first().attr("src")
                 },
                 beforeSend: function(xhr, settings){
                     xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val());

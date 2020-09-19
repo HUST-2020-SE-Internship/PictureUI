@@ -134,7 +134,16 @@ def removeImage(request):
     if request.method == 'POST':
         user = get_object_or_404(User, pk=request.session.get('_auth_user_id'))
         # TODO: 删除逻辑
-        return JsonResponse({"status":"1"})
+        typeName = request.POST.get('typeName')
+        img_url = request.POST.get('img_url')
+        # img_url likes Context_path + MEDIA_URL + ...
+        # img_path likes MEDIA_ROOT + username + "/{typeName}/{subType}/img_name" or just "/{typeName}/img_name"
+        img_path = os.path.join(settings.MEDIA_ROOT, img_url.split(settings.MEDIA_URL)[1])
+        if os.path.exists(img_path):
+            os.remove(img_path)
+            return JsonResponse({"status":"1"})
+        else:
+            return JsonResponse({"status":"0", "msg":"That Image does not exist?"})
 
 def personInfo(request, pk):
     user = get_object_or_404(User, pk=pk)
