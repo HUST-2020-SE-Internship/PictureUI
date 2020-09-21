@@ -77,11 +77,11 @@ WSGI_APPLICATION = 'AutoAlbum.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-'''
+
 DATABASES = {
     'default': {
     'ENGINE': 'django.db.backends.mysql',
-    'NAME': 'auto_album_db',
+    'NAME': 'autoalbum_db',
     'USER': 'Penistrong', # root
     'PASSWORD': 'chenliwei',
     'HOST': 'localhost',
@@ -98,7 +98,7 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
+'''
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 

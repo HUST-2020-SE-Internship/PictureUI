@@ -10,6 +10,7 @@ from django.utils import timezone
 
 from .MyForms import RegistrationForm, LoginForm, ProfileForm, PwdChangeForm
 from .models import UserProfile
+from main.models import ClassifiedType
 from core import Utils
 
 # Create your views here.
@@ -69,6 +70,9 @@ def register(request):
             # 如果直接使用objects.create()方法后不需要使用save()
             user_profile = UserProfile(user=user)
             user_profile.save()
+
+            # 新建新用户相关的类名关系表
+            Utils.create_user_classifiedtype(user)
 
             return render(request, 'users/gate.html', {'login_form': login_form, 'register_form': register_form, 'register_success': True})
         else:

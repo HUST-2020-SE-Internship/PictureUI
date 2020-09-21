@@ -1,6 +1,6 @@
 import base64
 import json
-import os
+import os, shutil
 
 from django.contrib.auth.models import User
 from django.conf import settings
@@ -15,6 +15,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from AutoAlbum.settings import MEDIA_URL
 from users.MyForms import ProfileForm
 from users.models import UserProfile
+from .models import LabeledImage, ClassifiedType
 
 from core import Classifier, AutoLabel, VGGLib, Utils
 
@@ -102,7 +103,16 @@ def classifiedSpecific(request, pk, typeName):
     user = get_object_or_404(User, pk=pk)
     urls = Utils.get_specific_urls(user.username, typeName)
 
-    return render(request, 'main/classifiedSpecific.html', {'user': user, 'urls': urls, "typeName": typeName})
+    # 这里的typedict不局限于当前typeName 是该用户所有的标签分类, 用于进行图片移动操作
+    classified_type_infos = ClassifiedType.objects.filter(user=user)
+    typedict = {}
+    for info in classified_type_infos:
+        if not typedict.get(info.root_type):
+            typedict[info.root_type] = []
+        if info.sub_type is not '':
+            typedict[info.root_type].append(info.sub_type)
+
+    return render(request, 'main/classifiedSpecific.html', {'user': user, 'urls': urls, "typeName": typeName, "typeDict": typedict})
 
 def createSubFolder(request):
     if request.method == 'POST':
@@ -112,6 +122,9 @@ def createSubFolder(request):
         dst_path = settings.MEDIA_ROOT + user.username + "/" + typeName + "/" + subFolder
         if not os.path.exists(dst_path):
             os.mkdir(dst_path)
+            # 表中新建记录
+            classifiedtype = ClassifiedType.objects.create(user=user, root_type=typeName, sub_type=subFolder)
+
             return JsonResponse({"status":"1", "msg":"created new subfolder!"})
         else:
             return JsonResponse({"status":"0", "msg":"that folder already exists"})
@@ -126,6 +139,11 @@ def changeSubFolder(request):
         type_path = settings.MEDIA_ROOT + user.username + "/" + typeName + "/"
         if os.path.exists(type_path + old_name):
             os.rename(type_path + old_name, type_path + new_name)
+            # 先在分类关系表中更改
+            ClassifiedType.objects.filter(user=user, root_type=typeName, sub_type=old_name).update(sub_type=new_name)
+            # 再到图片路径表中将所有原分类名全部改为新分类名
+            LabeledImage.objects.filter(user=user, sub_type=old_name).update(sub_type=new_name)
+
             return JsonResponse({"status":"1", "msg":"更改成功"})
         else:
             return JsonResponse({"status":"0", "msg":"WTF?"})
@@ -133,17 +151,49 @@ def changeSubFolder(request):
 def removeImage(request):
     if request.method == 'POST':
         user = get_object_or_404(User, pk=request.session.get('_auth_user_id'))
-        # TODO: 删除逻辑
         typeName = request.POST.get('typeName')
         img_url = request.POST.get('img_url')
         # img_url likes Context_path + MEDIA_URL + ...
         # img_path likes MEDIA_ROOT + username + "/{typeName}/{subType}/img_name" or just "/{typeName}/img_name"
         img_path = os.path.join(settings.MEDIA_ROOT, img_url.split(settings.MEDIA_URL)[1])
+        img_name = img_url.split("/"+typeName+"/")[1]
+        if "/" in img_name: # 说明此时包含子分类名
+            img_name = img_name.split("/")[1] # 切割子分类, 拿到第二个即图片的真实name
+
         if os.path.exists(img_path):
             os.remove(img_path)
+            # 从表中删除
+            LabeledImage.objects.filter(user=user, img_name=img_name).delete()
+
             return JsonResponse({"status":"1"})
         else:
             return JsonResponse({"status":"0", "msg":"That Image does not exist?"})
+
+def moveImage(request):
+    if request.method == "POST":
+        user = get_object_or_404(User, pk=request.session.get('_auth_user_id'))
+        root_type = request.POST.get('root_type')
+        sub_type = request.POST.get('sub_type')
+        old_root_type = request.POST.get('old_root_type')
+        img_url = request.POST.get('img_url')
+        # 组装为本地图片存储路径
+        old_path = os.path.join(settings.MEDIA_ROOT, img_url.split(settings.MEDIA_URL)[1])
+        img_name = img_url.split("/"+old_root_type+"/")[1]
+        if "/" in img_name: # 说明此时包含子分类名
+            img_name = img_name.split("/")[1] # 切割子分类, 拿到第二个即图片的真实name
+        
+        new_path = os.path.join(settings.MEDIA_ROOT, user.username, root_type)
+        if sub_type == '':
+            new_path = os.path.join(new_path, img_name)
+        else:
+            new_path = os.path.join(new_path, sub_type, img_name)
+        if os.path.exists(old_path) and not os.path.exists(new_path):
+            shutil.move(old_path, new_path)
+            # 更新相关表
+            LabeledImage.objects.filter(user=user, img_name=img_name).update(root_type=root_type, sub_type=sub_type)
+            return JsonResponse({"status":"1", "msg":"success"})
+        else:
+            return JsonResponse({"status":"0", "msg":"There is sth. going wrong"})
 
 def personInfo(request, pk):
     user = get_object_or_404(User, pk=pk)

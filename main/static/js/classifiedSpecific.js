@@ -37,6 +37,38 @@ $("#btn-new-subfolder").click(function(){
     })
 })
 
+$("#btn-mov-dstfolder").click(function(){
+    var dst_folder = $("#select-mov-dst").val();
+    var root_type = $("#select-mov-dst option:selected").parent().attr('label');
+    var sub_type = '';
+    if(dst_folder.indexOf("(root)") < 0)
+        sub_type = dst_folder;
+    var old_root_type = $("#root-classified-type").html().toLowerCase();
+
+    $(".image-item").each(function(){
+        // svgs[0]对应pic-checked
+        if ($(this).children("svg").first().css("display") == "block"){
+            //请求删除
+            $.ajax({
+                url:'/main/account/moveImage',
+                type:'POST',
+                data:{
+                    root_type: root_type,
+                    sub_type: sub_type,
+                    old_root_type: old_root_type,
+                    img_url: $(this).children("img").first().attr("src").replace('\\', '/')
+                },
+                beforeSend: function(xhr, settings){
+                    xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val());
+                },
+                success: result => {
+                    $(this).remove();
+                }
+            });
+        }
+    })
+})
+
 $("#input_pic").change(e =>{
     var files = e.target.files;
     var re = new FileReader();
@@ -113,7 +145,7 @@ $("#remove_checked").on("click", function(){
                 async:false, //很重要,success回调函数会落后于函数体内其他函数再执行!
                 data:{
                     typeName: $("#root-classified-type").html().toLowerCase(),
-                    img_url: $(this).children("img").first().attr("src")
+                    img_url: $(this).children("img").first().attr("src").replace('\\', '/')
                 },
                 beforeSend: function(xhr, settings){
                     xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val());
@@ -132,16 +164,15 @@ $("#remove_checked").on("click", function(){
     }
     // 更新各子分类的图片数目
     updatePhotosNum();
-    //最后检查是否有子分类被删空
-    $("div[class$='sub-classified']").each(function(){
+    //最后检查是否有子分类被删空!!alert:不适配如今的逻辑,删空了也依然可以存在
+    /*$("div[class$='sub-classified']").each(function(){
         if($(this).find('.image-item').length == 0)
             $(this).remove();
-    })
-    
+    })*/
 })
 
 $("#save_checked").on("click", function(){
-    var typeName = $(".classified-title").html();
+    var typeName = $("#root-classified-type").html().toLowerCase();
     var isZero = true;
     $(".image-item").each(function(e){
         // svgs[0]对应pic-checked

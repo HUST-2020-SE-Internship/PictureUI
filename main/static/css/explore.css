@@ -17,6 +17,13 @@ h1 a:hover{
     margin: 10px;
 }
 
+/* 设置最小高度 */
+.main-container{
+    min-height: 400px;
+    background: url('/static/img/upload-bg.png') no-repeat center 50%;
+    background-size: 10%;
+}
+
 .image-container {
     margin: 10px;
     column-count: 3;

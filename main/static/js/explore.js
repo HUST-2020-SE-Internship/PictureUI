@@ -245,27 +245,13 @@ function checkImage(obj){
 }
 
 var checkAll = false ;
-document.getElementById("check_all").addEventListener("click", e => {
-    var pic_checked = document.querySelectorAll(".pic-checked");
-    var pic_unchecked = document.querySelectorAll(".pic-unchecked");
-    checkAll = !checkAll ;
-    for(var checked of pic_checked){
-        if(checkAll){
-            checked.style.display = "block" ;
-        }else{
-            checked.style.display = "none" ;
-        }
-    }
-    for(var unchecked of pic_unchecked){
-        if(checkAll){
-            unchecked.style.display = "none" ;
-        }else{
-            unchecked.style.display = "block" ;
-        }
-    }
-    if(checkAll){
-        document.getElementById("check_all").innerHTML = "取消全选" ;
-    }else{
-        document.getElementById("check_all").innerHTML = "选中所有" ;
-    }
+$("#check_all").on("click", function(){
+    checkAll = !checkAll;
+    $(".pic-checked").each(function(){
+        checkAll ? $(this).css("display", "block"):$(this).css("display", "none");
+    })
+    $(".pic-unchecked").each(function(){
+        checkAll ? $(this).css("display", "none"):$(this).css("display", "block");
+    })
+    checkAll ? $(this).children("i").first().attr('class','iconfont icon-quxiaoquanxuan') : $(this).children("i").first().attr('class','iconfont icon-quanxuan');
 })

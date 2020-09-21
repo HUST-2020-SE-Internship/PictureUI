@@ -19,4 +19,5 @@ urlpatterns = [
     path('account/createSubFolder', views.createSubFolder, name='createSubFolder'),
     path('account/changeSubFolder', views.changeSubFolder, name='changeSubFolder'),
     path('account/removeImage', views.removeImage, name='removeImage'),
+    path('account/moveImage', views.moveImage, name='moveImage'),
 ]

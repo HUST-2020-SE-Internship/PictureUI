@@ -7,12 +7,15 @@
 {% endblock page_title %}
 
 {% block page_css_reference %}
+    <link rel="stylesheet" type="text/css" href="/static/bootstrap-select-1.13.18/css/bootstrap-select.css" />
 	<link rel="stylesheet" type="text/css" href={% static 'css/GalMenu.css' %} />
+    <link rel="stylesheet" type="text/css" href={% static 'css/WheelMenu.css' %} />
     <link rel="stylesheet" type="text/css" href={% static 'css/classifiedSpecific.css' %}>
 {% endblock page_css_reference %}
 
 {% block page_js_reference %}
     <script src="/static/JS/common/bootstrap.min.js"></script>
+    <script src="/static/bootstrap-select-1.13.18/js/bootstrap-select.min.js"></script>
     <script src={% static 'js/classifiedSpecific.js' %}></script>
     <!-- 引入轮盘菜单所需的js组件 -->
     <script src={% static 'js/GalMenu.js' %}></script>
@@ -38,7 +41,8 @@
         <a class="menuItem" title="全选" id="check_all" disabled="disabled"><i class="iconfont icon-quanxuan"></i></a>
         <a class="menuItem" title="保存选中" id="save_checked"><i class="iconfont icon-baocun_mian"></i></a>
         <a class="menuItem" title="删除选中" id="remove_checked"><i class="iconfont icon-shanchu"></i></a>
-        <a class="menuItem" title="编辑模式" id="edit_saved"><i class="iconfont icon-quxiaoquanxuan"></i></a>
+        <a class="menuItem" title="移动选中" id="move_image"  data-toggle="modal" data-target="#moveImageModal"><i class="iconfont icon-yidongtupian"></i></a>
+        <a class="menuItem" title="编辑模式" id="edit_saved"><i class="iconfont icon-bianji"></i></a>
     </div>
         <audio id="audio" src={% static 'audio/sproing.mp3' %}></audio>
     </div>
@@ -68,8 +72,41 @@
                     <button type="button" class="btn btn-success" id="btn-new-subfolder">确定</button>
                 </div>
             </div><!-- /.modal-content -->
-        </div><!-- /.modal -->
+        </div><!-- /.modal-dialog -->
     </div>
+    <!-- 移动图片模态框（Modal） -->
+    <div class="modal fade" id="moveImageModal" tabindex="-1" role="dialog" aria-labelledby="subfolder-title" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="subfolder-title">移动文件至</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- 选择移动目的分类 -->
+                    <select id="select-mov-dst" class="selectpicker" data-hide-disabled="true" 
+                            data-live-search="true" data-live-search-placeholder="搜索分类...">
+                        <optgroup disabled="disabled" label="disabled">
+                            <option>Hidden</option>
+                        </optgroup>
+                        {% for classname, typelist in typeDict.items %}
+                        <optgroup label="{{ classname }}">
+                            <option>{{ classname }}(root)</option>
+                            {% for subtype in typelist %}
+                            <option>{{ subtype }}</option>
+                            {% endfor %}
+                        </optgroup>
+                        {% endfor %}
+                    </select>
+                    <!-- #select-move-dst ends -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-success" id="btn-mov-dstfolder">确定</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- div#moveImageModal -->
     <div id="classified" class="col-md-12 col-xs-12">
         <h1 id="root-classified-type">{{ typeName|capfirst }}</h1>
         <div class="clear"></div>
@@ -89,7 +126,7 @@
             </div>
         </div>
         {% for subTypeName, images in urls.items %}
-            {% if images and subTypeName != typeName %}
+            {% if subTypeName != typeName %}
             <div id="{{ subTypeName }}" class="sub-classified">
                 <h1 class="classified-title">{{ subTypeName }}</h1>
                 <div class="clear"></div>

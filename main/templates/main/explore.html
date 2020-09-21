@@ -1,11 +1,25 @@
 {% extends 'main/frontBase.html' %}
+{% load static %}
 
 {% block page_css_reference %}
+    <link rel="stylesheet" type="text/css" href={% static 'css/GalMenu.css' %} />
+    <link rel="stylesheet" type="text/css" href={% static 'css/WheelMenu.css' %} />
     <link rel="stylesheet" href="/static/css/explore.css">
 {% endblock page_css_reference %}
 
 {% block page_js_reference %}
     <script src="/static/js/explore.js"></script> 
+    <!-- 引入轮盘菜单所需的js组件 -->
+    <script src={% static 'js/GalMenu.js' %}></script>
+    <script src={% static 'js/WheelMenu.js' %}></script>
+    <script type="text/javascript">
+    //注册菜单
+    $(document).ready(function() {
+        $('body').GalMenu({
+          'menu': 'GalDropDown'
+        })
+    });
+    </script>
 {% endblock page_js_reference %}
 
 {% block page_title %}
@@ -13,15 +27,25 @@
 {% endblock page_title %}
 
 {% block main_content %}
+<!-- WheelMenu starts -->
+<div class="GalMenu GalDropDown">
+    <div class="circle" id="gal">
+    <div class="ring">
+        <a class="menuItem" title="上传图片" id="upload_pic"><i class="iconfont icon-shangchuan"></i></a>
+        <a class="menuItem" title="上传文件夹" id="upload_dir"><i class="iconfont icon-shangchuanwenjianjia"></i></a>
+        <a class="menuItem" title="全选" id="check_all" disabled="disabled"><i class="iconfont icon-quanxuan"></i></a>
+        <a class="menuItem" title="保存选中" id="save_checked"><i class="iconfont icon-baocun_mian"></i></a>
+        <a class="menuItem" title="删除选中" id="remove_checked"><i class="iconfont icon-shanchu"></i></a>
+    </div>
+        <audio id="audio" src={% static 'audio/sproing.mp3' %}></audio>
+    </div>
+</div>
+<div id="overlay" style="opacity: 1; cursor: pointer;"></div>
+<!-- WheelMenu ends -->
 <div class="container container-fluid">
     <div class="btn-functions">
 		<input type="file" id="input_pic" accept="image/*" style="display:none;">
 		<input type="file" id="input_dir" style="display:none;" webkitdirectory>
-        <button class="btn btn-success" id="upload_pic">上传图片</button>
-		<button class="btn btn-warning" id="upload_dir">上传文件夹</button>
-        <button class="btn btn-info" id="check_all">选中所有</button>
-		<button class="btn btn-primary" id="save_checked">保存选中</button>
-        <button class="btn btn-danger" id="remove_checked">删除选中</button>
         {% csrf_token %}
         <div class="msg-box">
             <div id="upload-msg"></div>

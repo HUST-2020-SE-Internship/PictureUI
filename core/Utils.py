@@ -3,6 +3,10 @@ from django.utils import timezone
 import base64
 import random
 
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
+from main.models import ClassifiedType, LabeledImage
+
 from aip import AipFace
 
 """ 你的 APPID AK SK """
@@ -25,6 +29,11 @@ classes_dict = {'person': ['person'],
                 'car': ['car'],
                 'spectacle': ['rocket']}
 
+def create_user_classifiedtype(user):
+    for typeName in initial_classes:
+        user_classifiedtype = ClassifiedType(user=user)
+        user_classifiedtype.root_type = typeName
+        user_classifiedtype.save()
 
 # 为新用户创建基础分类文件夹
 def create_user_media(username):
@@ -49,11 +58,13 @@ def auto_classified_storage(userName, typeName, image):
     if not os.path.exists(path):
         os.makedirs(path)
 
+    sub_type = ''
     # 人脸分类调用百度api
     if modified_type == "person":
         dirs = os.listdir(path)
         if len(dirs) == 0:
-            path = path + "/person_" + str(timezone.now().strftime("%Y-%m-%d_%H%M%S") + "_" + str(random.randint(0, 100)))
+            sub_type = "person_" + str(timezone.now().strftime("%Y-%m-%d_%H%M%S") + "_" + str(random.randint(0, 100)))
+            path = path + "/"+ sub_type
             os.makedirs(path)
             print("=== create new person dir: " + path)
         else:
@@ -78,12 +89,14 @@ def auto_classified_storage(userName, typeName, image):
                     if result['error_msg'] == "SUCCESS" and result['result']['score'] > 70:
                         isClassify = True
                         path = subPath
+                        sub_type = subDir
                         print("=== match person dir: " + path)
                         break
                 if isClassify:
                     break
             if not isClassify:
-                path = path + "/person_" + str(timezone.now().strftime("%Y-%m-%d_%H%M%S") + "_" + str(random.randint(0, 100)))
+                sub_type = "person_" + str(timezone.now().strftime("%Y-%m-%d_%H%M%S") + "_" + str(random.randint(0, 100)))
+                path = path + "/" + sub_type
                 os.makedirs(path)
                 print("=== [Not Match] create new person dir: " + path)
 
@@ -97,7 +110,11 @@ def auto_classified_storage(userName, typeName, image):
     print("%s [USER]%s uploaded image saved! => %s" % (timezone.now().strftime("[%d/%b/%Y %H:%M:%S]"),
                                                        userName,
                                                        filePath))
-
+    
+    # 保存进表中
+    user = get_object_or_404(User, username=userName)
+    ClassifiedType.objects.get_or_create(user=user, root_type=modified_type, sub_type=sub_type)
+    LabeledImage.objects.create(user=user, root_type=modified_type, sub_type=sub_type, img_name=str(fileName)+".jpg")
 
 # 读取函数，用来读取文件夹中的所有函数，输入参数是文件名
 def read_directory(directory_name):
