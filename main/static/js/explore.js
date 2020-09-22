@@ -1,8 +1,10 @@
 document.getElementById("upload_pic").addEventListener("click", e => {
+    hideWheel() ;
     document.getElementById("input_pic").click() ;
 })
 
 document.getElementById("upload_dir").addEventListener("click", e => {
+    hideWheel() ;
     document.getElementById("input_dir").click() ;
 })
 
@@ -125,6 +127,7 @@ function getObjectURL(file) {
 
 // 给待选中的图片增加勾选
 document.getElementById("save_checked").addEventListener("click", e => {
+    hideWheel() ;
     // 取消选中所有的按钮
     document.getElementById("check_all").innerHTML = "选中所有" ;
     checkAll = false ;
@@ -202,6 +205,7 @@ document.getElementById("save_checked").addEventListener("click", e => {
 })
 
 $("#remove_checked").on("click", function(){
+    hideWheel() ;
     $(".classify").each(function(){
         $(this).find(".image-item").each(function(){
             if ($(this).children("svg").first().css("display") == "block")
@@ -255,3 +259,12 @@ $("#check_all").on("click", function(){
     })
     checkAll ? $(this).children("i").first().attr('class','iconfont icon-quxiaoquanxuan') : $(this).children("i").first().attr('class','iconfont icon-quanxuan');
 })
+
+
+// 隐藏轮盘
+function hideWheel(){
+    $(".GalMenu").css("display", "none") ;
+    $(".GalMenu").css("opacity", 0) ;
+    $("#gal").attr("class", "circle") ;
+    $("#overlay").css("display", "none") ;
+}
