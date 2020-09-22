@@ -7,7 +7,7 @@
 {% endblock page_title %}
 
 {% block page_css_reference %}
-    <link rel="stylesheet" type="text/css" href="/static/css/lightbox.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/zoomify.css"/>
     <link rel="stylesheet" type="text/css" href="/static/bootstrap-select-1.13.18/css/bootstrap-select.css" />
 	<link rel="stylesheet" type="text/css" href={% static 'css/GalMenu.css' %} />
     <link rel="stylesheet" type="text/css" href={% static 'css/WheelMenu.css' %} />
@@ -15,7 +15,7 @@
 {% endblock page_css_reference %}
 
 {% block page_js_reference %}
-    <script src="/static/JS/lightbox-plus-jquery.js"></script>
+    <script src="/static/JS/zoomify.js"></script>
     <script src="/static/JS/common/bootstrap.min.js"></script>
     <script src="/static/bootstrap-select-1.13.18/js/bootstrap-select.min.js"></script>
     <script src={% static 'js/classifiedSpecific.js' %}></script>
@@ -28,6 +28,9 @@
         $('body').GalMenu({
           'menu': 'GalDropDown'
         })
+    });
+    $(function() {
+	    $('.zoomify').zoomify();
     });
     </script>
 {% endblock page_js_reference %}
@@ -135,18 +138,15 @@
                 <h1 class="classified-title">
                     <a class="jump-to-subfolder classified-subType" href={% url 'main:subClassified' user.id typeName subTypeName %}>{{ subTypeName }}</a>
                     {% if typeName == 'person' %}
-                        <a href="/media/{{ user.username }}/{{ typeName }}/{{subTypeName}}/standard.jpg" data-lightbox="feature">
-                            <img src="/media/{{ user.username }}/{{ typeName }}/{{subTypeName}}/standard.jpg" alt="特征" class="feature">
-                        </a>
+                        <img src="/media/{{ user.username }}/{{ typeName }}/{{subTypeName}}/standard.jpg"
+                             alt="特征" class="zoomify feature">
                     {% endif %}
                 </h1>
                 <div class="clear"></div>
                 <div class="image-container">
                     {% for image in images %}
                         <div class="image-item" onclick="checkImage(this)">
-                            <a href="{{ image }}" data-lightbox="image-1">
-                                <img  src="{{ image }}" alt="">
-                            </a>
+                            <img  src="{{ image }}" alt="" class="zoomify_bak">
                         </div>
                     {% endfor %}
                 </div>
