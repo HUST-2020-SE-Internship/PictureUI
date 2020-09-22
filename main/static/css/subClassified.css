@@ -64,6 +64,14 @@ h1 input{
     color: #333333;
 }
 
+/* 修改简介 */
+textarea.change_introduction{
+    width: 100%;
+    overflow: auto;
+    color: #333333;
+}
+
+
 .jump-to-explore {
     color: #999933;
 }

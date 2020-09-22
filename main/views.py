@@ -108,10 +108,11 @@ def classifiedSpecific(request, pk, typeName):
 
 def subClassified(request, pk, typeName, subType):
     user = get_object_or_404(User, pk=pk)
-    urls=Utils.get_subclassified_urls(user.username, typeName, subType)
+    urls= Utils.get_subclassified_urls(user.username, typeName, subType)
     typedict = Utils.get_type_dict(user)
+    introduction = get_object_or_404(ClassifiedType, user=user, root_type=typeName, sub_type=subType).introduction
 
-    return render(request, 'main/subClassified.html', {'user': user, 'urls': urls, "typeName": typeName, "subType": subType, "typeDict": typedict})
+    return render(request, 'main/subClassified.html', locals())
 
 def createSubFolder(request):
     if request.method == 'POST':
@@ -193,6 +194,20 @@ def moveImage(request):
             return JsonResponse({"status":"1", "msg":"success"})
         else:
             return JsonResponse({"status":"0", "msg":"There is sth. going wrong"})
+
+def updateIntroduction(request):
+    if request.method == 'POST':
+        user = get_object_or_404(User, pk=request.session.get('_auth_user_id'))
+        typeName = request.POST.get('typeName')
+        subType = request.POST.get('subType')
+        new_intro = request.POST.get('new_intro')
+        
+        # 更新表
+        ClassifiedType.objects.filter(user=user, root_type=typeName, sub_type=subType).update(introduction=new_intro)
+
+        return JsonResponse({"status":"1", "msg":"success"})
+    else:
+        return JsonResponse({"status":"0", "msg":"There is sth. going wrong"})
 
 def personInfo(request, pk):
     user = get_object_or_404(User, pk=pk)

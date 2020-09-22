@@ -271,15 +271,49 @@ $("body").on('blur', 'input.change_sub_typename', function(){
                 setTimeout(() => {
                     $(this).parent(".classified-subType").html(new_name);
                     //更新标签
-                    updatePhotosNum();
+                    window.location.href = 'www.baidu.com'
                 }, 1000);
                 
             }else{
                 $(this).val(callback.msg);
                 setTimeout(() => {
                     $(this).parent('.classified-subType').html($(this).attr('placeholder'));
-                    //updatePhotosNum();
-                    window.location.href = 'www.baidu.com';
+                    updatePhotosNum();
+                }, 1000);
+            }
+        }
+    })
+})
+
+$('span.introduction').dblclick(function(){
+    $(this).html(`<textarea placeholder='`+ $(this).text() +`' class="change_introduction" cols="10" rows="5"></textarea>`);
+    $("textarea.change_introduction").focus();
+})
+
+$("span.introduction").on('blur', 'textarea.change_introduction', function(){
+    //先判空
+    if($(this).val() == ""){
+        $(this).parent('.introduction').html($(this).attr('placeholder'));
+        return false;
+    }
+    $.ajax({
+        url:'/main/account/updateIntroduction',
+        type:'POST',
+        data:{
+            typeName: $("#root-classified-type").html(),
+            subType: $(".classified-subType").html(),
+            new_intro: $(this).val()
+        },
+        beforeSend: function(xhr, settings){
+            xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val());
+        },
+        success: callback =>{
+            if (callback.status == "1"){
+                $("span.introduction").html($(this).val());
+            }else{
+                $(this).val(callback.msg);
+                setTimeout(() => {
+                    $("span.introduction").html($(this).attr('placeholder'));
                 }, 1000);
             }
         }

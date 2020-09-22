@@ -22,4 +22,5 @@ urlpatterns = [
     path('account/changeSubFolder', views.changeSubFolder, name='changeSubFolder'),
     path('account/removeImage', views.removeImage, name='removeImage'),
     path('account/moveImage', views.moveImage, name='moveImage'),
+    path('account/updateIntroduction', views.updateIntroduction, name='updateIntroduction'),
 ]
