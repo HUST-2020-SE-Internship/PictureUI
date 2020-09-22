@@ -23,7 +23,7 @@
     <div class="row">
         <h1><a href={% url 'main:homePage' %}>Auto Album</a></h1>
         <div class="clear"></div>
-        <div class="smalltitle">Welcome back, {{ user.username }}</div>
+        <div class="smalltitle">Welcome back, <span class="username">{{ user.username }}</span></div>
         <div class="small-logout"><a href={% url 'users:logout' %}>Log out</a></div>
     </div>
 </header>

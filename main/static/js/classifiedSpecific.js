@@ -18,12 +18,13 @@ $("#btn-new-subfolder").click(function(){
         $("#input_subfolder").attr("placeholder", "请输入子分类的名称!");
         return false;
     }
+    var subFolder = $("#input_subfolder").val()
     $.ajax({
         url:'/main/account/createSubFolder',
         type:'post',
         data:{
             typeName: $("#root-classified-type").html().toLowerCase(),
-            subFolder: $("#input_subfolder").val()
+            subFolder: subFolder
         },
         beforeSend: function(xhr, settings){
             xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val());
@@ -32,6 +33,13 @@ $("#btn-new-subfolder").click(function(){
             $("#input_subfolder").val(callback.msg);
             setTimeout(function(){
                 $("#newFolderModal").modal('hide');
+                $("#classified").append(`<div id="${subFolder}" class="sub-classified">
+                        <h1 class="classified-title">${subFolder}<small>0 pcs</small></h1>
+                        <div class="clear"></div>
+                        <div class="image-container">
+                        
+                        </div>
+                    </div>`)
             }, 1000);
         }
     })
@@ -67,6 +75,8 @@ $("#btn-mov-dstfolder").click(function(){
             });
         }
     })
+
+    $("#moveImageModal").modal('hide');
 })
 
 $("#input_pic").change(e =>{
@@ -253,13 +263,17 @@ $("#check_all").on("click", function(){
 
 // 计算每个分类里的照片数目,并将其显示在分类标题的尾缀中
 function updatePhotosNum(){
+    var totalNum = 0;
     $("div[class$='sub-classified']").each(function(){
         photosNum =  $(this).find(".image-item").length;
+        totalNum += photosNum;
         if($(this).find("h1 small").length > 0)
             $(this).find("h1 small:first-child").html(`${photosNum} pcs`);
         else
             $(this).find("h1").append(`<small>${photosNum}`+` pcs</small>`);
     })
+
+    $("#totalnum").html(totalNum);
 }
 
 $(document).ready(updatePhotosNum);
@@ -310,3 +324,17 @@ $("body").on('blur', 'input.change_sub_typename', function(){
         }
     })
 })
+
+/*
+$(".sub-classified .classified-title").mouseover(function () {
+    var subtype = $(this).parent().attr('id');
+    var username = $(".username").text();
+    var roottype = $("#root-classified-type").text();
+    var html = `<a class='pop-content'><img src="/media/${username}/${roottype}/${subtype}/standard.jpg" width='30px' height='30px'></a>`;
+    $(this).prepend(html);
+})
+
+$(".sub-classified .classified-title").mouseout(function () {
+    $(".pop-content").remove();
+})
+*/
