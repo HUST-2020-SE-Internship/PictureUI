@@ -100,6 +100,9 @@ def auto_classified_storage(userName, typeName, image):
                 if not os.path.isdir(subPath):
                     continue
                 standardImage = os.path.join(subPath, "standard.jpg")
+                if not os.path.exists(standardImage):
+                    print("[NULL] standard not found: ", standardImage)
+                    continue
                 res = client.match([
                     {
                         'image': str(cv2_base64(faceImage), 'utf-8'),
