@@ -4,6 +4,7 @@ import cv2
 import numpy as np
 import base64
 from aip import AipFace
+from .Classifier import classify_factory
 
 """ 你的 APPID AK SK """
 APP_ID = '22675551'
@@ -120,6 +121,7 @@ def loadLabelName():
 def classifyImage(img):
     if isPersonByBaidu(img):
         return "person"
+    image = img
     img = preprocess(img)
     global net, device, labelName, USE_GPU
     if net is None:
@@ -141,6 +143,8 @@ def classifyImage(img):
     outputs = net(img)
     _, predicted = torch.max(outputs.data, 1)
     result = predicted[0].cpu().numpy()
+    if labelName[result] == "cat" or labelName[result] == "dog":
+        return str(classify_factory.predict_by_b64str(image)).lower()
     return labelName[result]
 
 

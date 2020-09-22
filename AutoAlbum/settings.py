@@ -82,8 +82,8 @@ DATABASES = {
     'default': {
     'ENGINE': 'django.db.backends.mysql',
     'NAME': 'autoalbum_db',
-    'USER': 'Penistrong', # root
-    'PASSWORD': 'chenliwei',
+    'USER': 'root', # root
+    'PASSWORD': '87329368',
     'HOST': 'localhost',
     'PORT': '3306',
     # 'OPTIONS':{
@@ -144,6 +144,6 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = os.path.join(BASE_DIR, "media").replace('\\','/')+'/'
 MEDIA_URL = '/media/'
 
-GATE_URL = ['/users/login', '/users/register']
+GATE_URL = ['/users/login', '/users/register', '/admin']
 
-DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880
+DATA_UPLOAD_MAX_MEMORY_SIZE = 9999999
