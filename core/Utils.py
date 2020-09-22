@@ -254,8 +254,32 @@ def get_specific_urls(userName, typeName):
 
     return urls
 
+# 获取某分类文件夹下某子分类的所有图片
+def get_subclassified_urls(userName, typeName, subType):
+    urls = [] # 已经确定了分类及其子分类,直接使用list存储
+    for root, dirs, files in os.walk("./media/" + userName + "/" + typeName + "/" + subType):
+        # 读取子分类subTypeName 文件夹结构 /media/{username}/{typeName}/{subtypeName} or {img}
+        for filename in files:
+            img_name, img_ext = filename.split(".")
+            if img_ext not in ['jpg', 'jpeg', 'png', 'bmp'] or img_name == 'standard':
+                continue
+            urls.append(root[1:] + "/" + filename)
+
+    return urls
 
 def cv2_base64(image):
     base64_str = cv2.imencode('.jpg', image)[1].tostring()
     base64_str = base64.b64encode(base64_str)
     return base64_str
+
+def get_type_dict(user):
+    # 这里的typedict不局限于当前typeName 是该用户所有的标签分类, 用于进行图片移动操作
+    classified_type_infos = ClassifiedType.objects.filter(user=user)
+    typedict = {}
+    for info in classified_type_infos:
+        if not typedict.get(info.root_type):
+            typedict[info.root_type] = []
+        if info.sub_type is not '':
+            typedict[info.root_type].append(info.sub_type)
+
+    return typedict

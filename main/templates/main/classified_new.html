@@ -99,7 +99,10 @@
                             <div class="hexagon-in2" style="background-image: url({% static 'img/default.jpg' %});">
                         {% endif %}
                                 <div class="overlay">
-                                    <a href={% url 'main:classifiedSpecific' user.id classname %}>{{classname}}</a>
+                                    <a href={% url 'main:classifiedSpecific' user.id classname %}>
+                                        {{classname|capfirst}}<br>
+                                        <span class="photos_num">{{ images|length }}</span>
+                                    </a>
                                 </div>
                             </div>
                         </div>

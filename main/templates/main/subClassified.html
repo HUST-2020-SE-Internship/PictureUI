@@ -1,0 +1,199 @@
+{% extends 'main/frontBase.html' %}
+{% load customFilter %}
+{% load static %}
+
+{% block page_title %}
+    <h1>{{ typeName }}<small>分类</small></h1>
+{% endblock page_title %}
+
+{% block page_css_reference %}
+    <link rel="stylesheet" type="text/css" href="/static/bootstrap-select-1.13.18/css/bootstrap-select.css" />
+	<link rel="stylesheet" type="text/css" href={% static 'css/GalMenu.css' %} />
+    <link rel="stylesheet" type="text/css" href={% static 'css/WheelMenu.css' %} />
+    <link href="/static/mainstatic/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- lightbox插件使用 -->
+    <link rel="stylesheet" href={% static 'css/misc.css' %}>
+    <!-- 响应式标签使用 -->
+    <link type="text/css" rel="stylesheet" href="{% static 'css/easy-responsive-tabs.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/controlPage.css' %}">
+    <link rel="stylesheet" type="text/css" href={% static 'css/subClassified.css' %}>
+{% endblock page_css_reference %}
+
+{% block page_js_reference %}
+    <script src="{% static 'js/jquery-1.10.2.min.js' %}"> </script>
+    <script src="{% static 'js/jquery.lightbox.js' %}"></script>
+    <script src="{% static 'js/templatemo_custom.js' %}"></script>
+    <script src="{% static 'js/easyResponsiveTabs.js' %}" type="text/javascript"></script>
+    <script src="/static/JS/common/bootstrap.min.js"></script>
+    <script src="/static/bootstrap-select-1.13.18/js/bootstrap-select.min.js"></script>
+    <script src={% static 'js/subClassified.js' %}></script>
+    <!-- 引入轮盘菜单所需的js组件 -->
+    <script src={% static 'js/GalMenu.js' %}></script>
+    <script src={% static 'js/WheelMenu.js' %}></script>
+    <script src="{% static 'js/controlPage.js' %}"></script>
+    <script type="text/javascript">
+    //注册菜单
+    $(document).ready(function() {
+        $('body').GalMenu({
+          'menu': 'GalDropDown'
+        })
+    });
+    </script>
+{% endblock page_js_reference %}
+
+{% block main_content %}
+<!-- WheelMenu starts -->
+<div class="GalMenu GalDropDown">
+    <div class="circle" id="gal">
+    <div class="ring">
+        <a class="menuItem" title="上传图片" id="upload_pic"><i class="iconfont icon-shangchuan"></i></a>
+        <a class="menuItem" title="上传文件夹" id="upload_dir"><i class="iconfont icon-shangchuanwenjianjia"></i></a>
+        <a class="menuItem" title="全选" id="check_all" disabled="disabled"><i class="iconfont icon-quanxuan"></i></a>
+        <a class="menuItem" title="保存选中" id="save_checked"><i class="iconfont icon-baocun_mian"></i></a>
+        <a class="menuItem" title="删除选中" id="remove_checked"><i class="iconfont icon-shanchu"></i></a>
+        <a class="menuItem" title="移动选中" id="move_image"  data-toggle="modal" data-target="#moveImageModal"><i class="iconfont icon-yidongtupian"></i></a>
+        <a class="menuItem" title="编辑模式" id="edit_saved"><i class="iconfont icon-bianji"></i></a>
+    </div>
+        <audio id="audio" src={% static 'audio/sproing.mp3' %}></audio>
+    </div>
+</div>
+<div id="overlay" style="opacity: 1; cursor: pointer;"></div>
+<!-- WheelMenu ends -->
+<section class="container container-fluid">
+    <div class="btn-functions">
+		<input type="file" id="input_pic" accept="image/*">
+		<input type="file" id="input_dir" webkitdirectory>
+        {% csrf_token %}
+		<div id="upload-msg"></div>
+    </div>
+    <!-- 移动图片模态框（Modal） -->
+    <div class="modal fade" id="moveImageModal" tabindex="-1" role="dialog" aria-labelledby="subfolder-title" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="subfolder-title">移动文件至</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- 选择移动目的分类 -->
+                    <select id="select-mov-dst" class="selectpicker" data-hide-disabled="true"
+                            data-live-search="true" data-live-search-placeholder="搜索分类...">
+                        <optgroup disabled="disabled" label="disabled">
+                            <option>Hidden</option>
+                        </optgroup>
+                        {% for classname, typelist in typeDict.items %}
+                        <optgroup label="{{ classname }}">
+                            {% if classname == typeName %}
+                                <option selected='true'>{{ classname }}(root)</option>
+                            {% else %}
+                                <option>{{ classname }}(root)</option>
+                            {% endif %}
+                            {% for subtype in typelist %}
+                            <option>{{ subtype }}</option>
+                            {% endfor %}
+                        </optgroup>
+                        {% endfor %}
+                    </select>
+                    <!-- #select-move-dst ends -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-success" id="btn-mov-dstfolder">确定</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- div#moveImageModal -->
+    <div id="classified" class="col-md-12 col-xs-12">
+        <h1><a id="root-classified-type" href={% url 'main:classifiedSpecific' user.id typeName %}>{{ typeName|capfirst }}</a></h1>
+        <div class="clear"></div>
+        <div class="sub-classified">
+            <h1 class="classified-title">
+                <span class="classified-subType">{{ subType }}</span>
+                {% if typeName == 'person' %}
+                    <a>
+                        <img src="/media/{{ user.username }}/{{ typeName }}/{{ subType }}/standard.jpg" alt="特征" class="feature">
+                    </a>
+                {% endif %}
+            </h1>
+            <div class="clear"></div>
+            <!-- 按钮 -->
+            <div class="col-md-offset-9 col-sm-offset-8">
+                <button style="background-color: #a61717"  class=" btn btn-primary" onclick="changePage(this)">prev</button>
+                    {% widthratio 0 1 1 as num %}
+                    {% for image in urls  %}
+                        {% if forloop.counter0|divisibleby:9 %}
+                            {% widthratio num|add:1 1 1 as num %}
+                            <button  class=" btn btn-primary" onclick="changePage(this)">{{ num }}</button>
+                        {% endif %}
+                    {% endfor %}
+
+                <button style="background-color: #a61717" class=" btn btn-primary" onclick="changePage(this)">next</button>
+            </div>
+            <!-- 按钮end -->
+            <div style="height: 5px"></div>
+
+            <div class="portfolio" id="menu-3" style="display: block;">
+                <!-- 分类标签 -->
+                <div class=" col-md-2 col-sm-6 leftgap">
+                    <div class="insideportfolio botgap">
+                        <div class="portfoliotext">
+                            <h2>简介<br><small>双击编辑↓</small></h2>
+                            <div class="clear"></div>
+                            <span class="introduction">吴彦祖洪山分祖</span>
+                        </div>
+                    </div>
+                    <div class="portfolioback">
+                        <div class="link">
+                            <a id="change" class="show-1" href="{% url 'main:classifiedSpecific' user.id typeName %}">Go Back</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- 分类标签end -->
+
+                <!-- 图片九宫格显示 -->
+                <div class=" container ">
+                        {% for image in urls %}
+                            {% if forloop.first %}
+                            {% elif forloop.counter0|divisibleby:9 %}
+                                </div>
+                                </div>
+                            {% endif %}
+                            {% if forloop.first %}
+                                <div class="item">
+                            {% elif forloop.counter0|divisibleby:9 %}
+                                <div class="item" style="display: none;opacity: 0">
+                            {% endif %}
+                        {% if forloop.counter0|divisibleby:3 %}
+                            {% if forloop.first %}
+                            {% elif forloop.counter0|divisibleby:9 %}
+                            {% else %}
+                                </div>
+                            {% endif %}
+                            <div class="col-md-3 col-sm-4 leftgap">
+                                <div class=" image-item" onclick="checkImage(this)">
+                                    <img  src="{{ image }}" alt="gallery 1"  >
+
+                                </div>
+                       {% else %}
+                                <div class=" image-item" onclick="checkImage(this)">
+                                    <img  src="{{ image }}" alt="gallery 1">
+                                </div>
+                                {% if forloop.last %}
+                                    </div>
+                                {% endif %}
+                        {% endif %}
+
+                            {% if forloop.last %}
+                                </div>
+                            {% endif %}
+                            {% endfor %}
+                </div>
+                <!-- 图片九宫格显示end -->
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+    </div>
+</section>
+{% endblock main_content %}

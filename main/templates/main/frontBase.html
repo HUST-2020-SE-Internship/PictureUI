@@ -22,9 +22,14 @@
 <header class="logo-container">
     <div class="row">
         <h1><a href={% url 'main:homePage' %}>Auto Album</a></h1>
+        <div> <img class="user-portrait" src={{ user.profile.portrait }} ></div>
         <div class="clear"></div>
         <div class="smalltitle">Welcome back, <span class="username">{{ user.username }}</span></div>
         <div class="small-logout"><a href={% url 'users:logout' %}>Log out</a></div>
+        <div class="clear"></div>
+        {% block directory_structure %}
+        {% endblock directory_structure %}
+        
     </div>
 </header>
 

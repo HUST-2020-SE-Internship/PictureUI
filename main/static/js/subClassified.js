@@ -9,42 +9,6 @@ document.getElementById("upload_dir").addEventListener("click", e => {
 var check_all_enable = false;
 var edit_enable = true;
 
-$("#new_subfolder").click(function(){
-    $("#input_subfolder").focus();
-})
-
-$("#btn-new-subfolder").click(function(){
-    if($("#input_subfolder").val() == ""){
-        $("#input_subfolder").attr("placeholder", "请输入子分类的名称!");
-        return false;
-    }
-    var subFolder = $("#input_subfolder").val()
-    $.ajax({
-        url:'/main/account/createSubFolder',
-        type:'post',
-        data:{
-            typeName: $("#root-classified-type").html().toLowerCase(),
-            subFolder: subFolder
-        },
-        beforeSend: function(xhr, settings){
-            xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val());
-        },
-        success: callback => {
-            $("#input_subfolder").val(callback.msg);
-            setTimeout(function(){
-                $("#newFolderModal").modal('hide');
-                $("#classified").append(`<div id="${subFolder}" class="sub-classified">
-                        <h1 class="classified-title">${subFolder}<small>0 pcs</small></h1>
-                        <div class="clear"></div>
-                        <div class="image-container">
-                        
-                        </div>
-                    </div>`)
-            }, 1000);
-        }
-    })
-})
-
 $("#btn-mov-dstfolder").click(function(){
     var dst_folder = $("#select-mov-dst").val();
     var root_type = $("#select-mov-dst option:selected").parent().attr('label');
@@ -71,12 +35,12 @@ $("#btn-mov-dstfolder").click(function(){
                 },
                 success: result => {
                     $(this).remove();
-                    updatePhotosNum();
                 }
             });
         }
     })
 
+    updatePhotosNum();
     $("#moveImageModal").modal('hide');
 })
 
@@ -261,22 +225,63 @@ $("#check_all").on("click", function(){
     }
 })
 
-
-// 计算每个分类里的照片数目,并将其显示在分类标题的尾缀中
 function updatePhotosNum(){
     var totalNum = 0;
     $("div[class$='sub-classified']").each(function(){
-        var photosNum =  $(this).find(".image-item").length;
+        photosNum =  $(this).find(".image-item").length;
         totalNum += photosNum;
         if($(this).find("h1 small").length > 0)
             $(this).find("h1 small").html(`${photosNum} pcs`);
         else
             $(this).find("h1").append(`<small>${photosNum}`+` pcs</small>`);
     })
-
-    $("#totalnum").html(totalNum);
 }
 
 $(document).ready(updatePhotosNum);
 
-//TODO: 改成修改按钮
+$(".sub-classified h1 .classified-subType").dblclick(function(){
+    $(this).html(`<input type='text' placeholder='`+ $(this).html() +`' class="change_sub_typename">`);
+    $("input.change_sub_typename").focus();
+})
+
+//更改子分类的框失焦后使用ajax请求沟通
+$("body").on('blur', 'input.change_sub_typename', function(){
+    //先判空
+    if($(this).val() == ""){
+        $(this).parent('.classified-subType').html($(this).attr('placeholder'));
+        updatePhotosNum();
+        return false;
+    }
+
+    $.ajax({
+        url:'/main/account/changeSubFolder',
+        type:'POST',
+        data:{
+            typeName: $("#root-classified-type").html(),
+            old_name: $(this).attr("placeholder"),
+            new_name: $(this).val()
+        },
+        beforeSend: function(xhr, settings){
+            xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val());
+        },
+        success: callback =>{
+            if (callback.status == "1"){
+                new_name = $(this).val();
+                $(this).val(callback.msg);
+                setTimeout(() => {
+                    $(this).parent(".classified-subType").html(new_name);
+                    //更新标签
+                    updatePhotosNum();
+                }, 1000);
+                
+            }else{
+                $(this).val(callback.msg);
+                setTimeout(() => {
+                    $(this).parent('.classified-subType').html($(this).attr('placeholder'));
+                    //updatePhotosNum();
+                    window.location.href = 'www.baidu.com';
+                }, 1000);
+            }
+        }
+    })
+})

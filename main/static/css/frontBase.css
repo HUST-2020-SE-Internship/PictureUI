@@ -52,6 +52,14 @@ h1	{
 	margin: 10px 0px 30px 25px;
 }
 
+.user-portrait{
+    float: right;
+    border-radius: 30px;
+    width:60px;
+    height:60px;
+    margin: 5% 2% 0% 0%;
+}
+
 .small-logout {
     float: right;
     padding: 0px 0px 0px 0px;

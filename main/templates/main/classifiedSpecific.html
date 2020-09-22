@@ -131,7 +131,7 @@
             {% if subTypeName != typeName %}
             <div id="{{ subTypeName }}" class="sub-classified">
                 <h1 class="classified-title">
-                    {{ subTypeName }}
+                    <a class="jump-to-subfolder classified-subType" href={% url 'main:subClassified' user.id typeName subTypeName %}>{{ subTypeName }}</a>
                     {% if typeName == 'person' %}
                         <a>
                             <img src="/media/{{ user.username }}/{{ typeName }}/{{subTypeName}}/standard.jpg" alt="特征" class="feature">

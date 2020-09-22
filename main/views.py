@@ -102,17 +102,16 @@ def classified(request, pk):
 def classifiedSpecific(request, pk, typeName):
     user = get_object_or_404(User, pk=pk)
     urls = Utils.get_specific_urls(user.username, typeName)
-
-    # 这里的typedict不局限于当前typeName 是该用户所有的标签分类, 用于进行图片移动操作
-    classified_type_infos = ClassifiedType.objects.filter(user=user)
-    typedict = {}
-    for info in classified_type_infos:
-        if not typedict.get(info.root_type):
-            typedict[info.root_type] = []
-        if info.sub_type is not '':
-            typedict[info.root_type].append(info.sub_type)
+    typedict = Utils.get_type_dict(user)
 
     return render(request, 'main/classifiedSpecific.html', {'user': user, 'urls': urls, "typeName": typeName, "typeDict": typedict})
+
+def subClassified(request, pk, typeName, subType):
+    user = get_object_or_404(User, pk=pk)
+    urls=Utils.get_subclassified_urls(user.username, typeName, subType)
+    typedict = Utils.get_type_dict(user)
+
+    return render(request, 'main/subClassified.html', {'user': user, 'urls': urls, "typeName": typeName, "subType": subType, "typeDict": typedict})
 
 def createSubFolder(request):
     if request.method == 'POST':

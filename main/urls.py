@@ -9,6 +9,8 @@ urlpatterns = [
     re_path(r'^account/(?P<pk>\d+)/explore/$', views.explore, name='Explore'),
     re_path(r'^account/(?P<pk>\d+)/classified/$', views.classified, name='Classified'),
     path('account/<int:pk>/classified/<str:typeName>/', views.classifiedSpecific, name='classifiedSpecific'),
+    path('account/<int:pk>/classified/<str:typeName>/<str:subType>', views.subClassified, name="subClassified"),
+
     re_path(r'^account/(?P<pk>\d+)/personInfo/$', views.personInfo, name='PersonInfo'),
     re_path(r'^classify_test/$', views.classify_test, name='classify_test'),
     path('classify_img/', views.classify_img, name='classify_img'),

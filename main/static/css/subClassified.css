@@ -1,0 +1,134 @@
+.btn-functions #upload-msg {
+    display: inline-block;
+    font-size: 20px;
+    margin-left: 10px;
+}
+.btn-functions .btn {
+    margin: 10px;
+}
+
+.image-container {
+    margin: 10px;
+    column-count: 3;
+    column-gap: 20px;
+}
+
+.image-item {
+    margin-bottom: 20px;
+}
+
+
+.image-item img {
+    width: 100%;
+    height:100%;
+}
+
+.classified-title {
+    font-size: 30px;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.image-item .pic-checked {
+    width: 40px !important; 
+    height: 40px !important;
+    margin-top: 5px;
+    margin-left: 5px;
+    position: absolute !important;
+}
+
+.image-item .pic-unchecked {
+    width: 40px !important; 
+    height: 40px !important;
+    margin-top: 5px;
+    margin-left: 5px;
+    position: absolute !important;
+}
+
+#input_dir, #input_pic {
+    display:none;
+}
+
+#input_subfolder {
+    border: none;
+    background-color: transparent;
+}
+
+h1 small{
+    margin-left: 20px;
+    font-size: 80%;
+}
+
+/*专门留给修改子分类名字的修改框*/
+h1 input{
+    color: #333333;
+}
+
+.jump-to-explore {
+    color: #999933;
+}
+
+.classified-title {
+    vertical-align: middle;
+}
+
+.feature {
+    width:50px;
+    height:50px;
+    border-radius: 25px;
+}
+
+.insideportfolio h2 { color: #ffffff; }
+
+.insideportfolio {
+	background: #993333;
+	width: 100%;
+	padding: 0px;
+	color: #ffffff;
+}
+
+.portfoliotext { 
+	color: #ffffff;
+	/*position: absolute; */
+	width: 95%;
+	padding: 30px;
+}
+	
+.portfolioback { 
+	background: #666666;
+	text-align: center;
+	width: 100%;
+}
+
+.link { 
+	font-size: 2em; color: #ffffff;
+	width: 95%;
+}
+
+@media(min-width:320px){
+    .leftgap	{ padding: 0px 10px; }
+    .botgap	{ margin: 0px 0px 20px 0px; }
+    .insideportfolio	{ padding-bottom: 30px; }
+    .link { padding: 50px 0px; }
+}
+
+@media(min-width:768px) {
+    .leftgap	{ padding: 0px 10px; }
+    .botgap	{ margin: 0px 0px 20px 0px; }
+    .insideportfolio	{ height: 398px; }
+    .link { height: 189px; line-height: 189px; padding: 0px; }
+}
+
+@media(min-width:992px) {
+    .leftgap	{ padding: 0px 6px; }
+    .botgap	{ margin: 0px 0px 12px 0px; }
+    .insideportfolio	{ height: 260px; }
+    .link { height: 124px; line-height: 124px; padding: 0px; }
+}
+
+@media(min-width:1200px) {
+    .leftgap	{ padding: 0px 8px; }
+    .botgap	{ margin: 0px 0px 16px 0px; }
+    .insideportfolio	{ height: 316px; }
+    .link { height: 150px; line-height: 150px; padding: 0px; }
+}
