@@ -82,8 +82,8 @@ DATABASES = {
     'default': {
     'ENGINE': 'django.db.backends.mysql',
     'NAME': 'autoalbum_db',
-    'USER': 'root', # root
-    'PASSWORD': '87329368',
+    'USER': 'Penistrong', # root
+    'PASSWORD': 'chenliwei',
     'HOST': 'localhost',
     'PORT': '3306',
     # 'OPTIONS':{

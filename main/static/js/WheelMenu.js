@@ -81,3 +81,11 @@ if (scrollRotate.addEventListener) {//firefox
 //滚动滑轮触发scrollFunc方法 //ie 谷歌 
 window.onmousewheel = scrollRotate.onmousewheel ;
 scrollRotate.onmousewheel = scrollFunc;
+
+// 隐藏轮盘使用
+function hideWheel(){
+    $(".GalMenu").css("display", "none") ;
+    $(".GalMenu").css("opacity", 0) ;
+    $("#gal").attr("class", "circle") ;
+    $("#overlay").css("display", "none") ;
+}

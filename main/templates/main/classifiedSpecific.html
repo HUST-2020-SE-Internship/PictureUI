@@ -32,6 +32,12 @@
     </script>
 {% endblock page_js_reference %}
 
+{% block directory_structure %}
+    <div class="smalltitle">
+        <a href={% url 'main:homePage' %} >Home</a> > {{ typeName|capfirst }}
+    </div>
+{% endblock directory_structure %}
+
 {% block main_content %}
 <!-- WheelMenu starts -->
 <div class="GalMenu GalDropDown">
