@@ -119,7 +119,7 @@ def auto_classified_storage(userName, typeName, image):
                     # 表中插入记录
                     sub_type = subDir
                     ClassifiedType.objects.get_or_create(user=user, root_type=modified_type, sub_type=sub_type)
-                    LabeledImage.objects.create(user=user, root_type=modified_type, sub_type=sub_type, img_name=str(fileName)+".jpg")
+                    LabeledImage.objects.create(user=user, root_type=modified_type, sub_type=sub_type, img_name=fileName)
                     break
                 elif res['error_msg'] == "SUCCESS":
                     print("dir: %s => %s" % (str(subDir), str(res['result']['score'])))
@@ -137,7 +137,7 @@ def auto_classified_storage(userName, typeName, image):
 
                 # 插入记录
                 ClassifiedType.objects.get_or_create(user=user, root_type=modified_type, sub_type=sub_type)
-                LabeledImage.objects.create(user=user, root_type=modified_type, sub_type=sub_type, img_name=str(fileName)+".jpg")
+                LabeledImage.objects.create(user=user, root_type=modified_type, sub_type=sub_type, img_name=fileName)
     else:
         filePath = os.path.join(path, fileName)
         file = open(filePath, "wb")
@@ -146,7 +146,7 @@ def auto_classified_storage(userName, typeName, image):
         print("[NORMAL] save %s" % filePath)
 
         ClassifiedType.objects.get_or_create(user=user, root_type=modified_type, sub_type=sub_type)
-        LabeledImage.objects.create(user=user, root_type=modified_type, sub_type=sub_type, img_name=str(fileName)+".jpg")
+        LabeledImage.objects.create(user=user, root_type=modified_type, sub_type=sub_type, img_name=fileName)
 
         # if len(dirs) == 0:
         #     path = path + "/person_" + str(timezone.now().strftime("%Y-%m-%d_%H%M%S") + "_" + str(random.randint(0, 100)))
@@ -214,8 +214,8 @@ def get_total_img_urls(username):
         urls[typename] = []
     for root, dirs, files in os.walk("./media/" + username):
         for filename in files:
-            _, img_ext = filename.split(".")
-            if img_ext not in ['jpg', 'jpeg', 'png', 'bmp']:
+            img_name, img_ext = filename.split(".")
+            if img_ext not in ['jpg', 'jpeg', 'png', 'bmp'] or img_name == 'standard':
                 continue
             class_name = root.split("/media/" + username + '\\')[1]  # 拿到图片的分类名与urls里的dir名对应
             if '\\' in class_name:  # 若其含有子分类的目录,忽略子分类,采用根目录名称
@@ -247,8 +247,8 @@ def get_specific_urls(userName, typeName):
         else:
             subTypeName = root[len(root_path) + 1:]  # 拿到图片的分类名与urls里的dir名对应
             for filename in files:
-                _, img_ext = filename.split(".")
-                if img_ext not in ['jpg', 'jpeg', 'png', 'bmp']:
+                img_name, img_ext = filename.split(".")
+                if img_ext not in ['jpg', 'jpeg', 'png', 'bmp'] or img_name == 'standard':
                     continue
                 urls[subTypeName].append(root[1:] + "/" + filename)
 

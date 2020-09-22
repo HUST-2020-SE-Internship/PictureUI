@@ -130,7 +130,14 @@
         {% for subTypeName, images in urls.items %}
             {% if subTypeName != typeName %}
             <div id="{{ subTypeName }}" class="sub-classified">
-                <h1 class="classified-title">{{ subTypeName }}</h1>
+                <h1 class="classified-title">
+                    {{ subTypeName }}
+                    {% if typeName == 'person' %}
+                        <a>
+                            <img src="/media/{{ user.username }}/{{ typeName }}/{{subTypeName}}/standard.jpg" alt="特征" class="feature">
+                        </a>
+                    {% endif %}
+                </h1>
                 <div class="clear"></div>
                 <div class="image-container">
                     {% for image in images %}

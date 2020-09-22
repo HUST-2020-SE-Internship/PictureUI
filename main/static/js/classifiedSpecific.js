@@ -76,6 +76,7 @@ $("#btn-mov-dstfolder").click(function(){
         }
     })
 
+    updatePhotosNum();
     $("#moveImageModal").modal('hide');
 })
 
