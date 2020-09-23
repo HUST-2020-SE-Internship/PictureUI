@@ -88,7 +88,8 @@
 			wHeight    = $(window).height(),
 			scaleX     = Math.min(nWidth, wWidth * this.options.scale) / width,
 			scaleY     = Math.min(nHeight, wHeight * this.options.scale) / height,
-			scale      = Math.min(scaleX, scaleY),
+			// scale      = Math.min(scaleX, scaleY),
+			scale      = 8,
 			translateX = (-offset.left + (wWidth - width) / 2) / scale,
 			translateY = (-offset.top + (wHeight - height) / 2 + $(document).scrollTop()) / scale;
 		
