@@ -220,11 +220,11 @@ def get_total_img_urls(username):
             img_name, img_ext = filename.split(".")
             if img_ext not in ['jpg', 'jpeg', 'png', 'bmp'] or img_name == 'standard':
                 continue
-            class_name = root.split("/media/" + username + '\\')[1]  # 拿到图片的分类名与urls里的dir名对应
-            if '\\' in class_name:  # 若其含有子分类的目录,忽略子分类,采用根目录名称
-                class_name = class_name.split('\\')[0]
+            class_name = root.split("/media/" + username + os.sep)[1]  # 拿到图片的分类名与urls里的dir名对应
+            if os.sep in class_name:  # 若其含有子分类的目录,忽略子分类,采用根目录名称
+                class_name = class_name.split(os.sep)[0]
             img_url = root[1:] + "/" + filename
-            img_url = img_url.replace('\\', '/')
+            img_url = img_url.replace(os.sep, '/')
             urls[class_name].append(img_url)
     return urls
 
