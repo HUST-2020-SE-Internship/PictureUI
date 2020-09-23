@@ -87,6 +87,7 @@ $("#moveImageModal").on("show.bs.modal", function(){
                 html += `</optgroup>`;
                 $("#select-mov-dst").append(html);
             })
+            $("#select-mov-dst").selectpicker({"width":"100%"});
             $("#select-mov-dst").selectpicker('refresh');
         }
     })
