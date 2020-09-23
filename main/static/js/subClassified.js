@@ -1,8 +1,10 @@
 document.getElementById("upload_pic").addEventListener("click", e => {
+    hideWheel();
     document.getElementById("input_pic").click() ;
 })
 
 document.getElementById("upload_dir").addEventListener("click", e => {
+    hideWheel();
     document.getElementById("input_dir").click() ;
 })
 
@@ -10,6 +12,7 @@ var check_all_enable = false;
 var edit_enable = true;
 
 $("#btn-mov-dstfolder").click(function(){
+    hideWheel();
     var dst_folder = $("#select-mov-dst").val();
     var root_type = $("#select-mov-dst option:selected").parent().attr('label');
     var sub_type = '';
@@ -110,6 +113,7 @@ function getObjectURL(file) {
 }
 
 $("#remove_checked").on("click", function(){
+    hideWheel();
     $(".image-item").each(function(){
         // svgs[0]对应pic-checked
         if ($(this).children("svg").first().css("display") == "block"){
@@ -147,6 +151,7 @@ $("#remove_checked").on("click", function(){
 })
 
 $("#save_checked").on("click", function(){
+    hideWheel();
     var typeName = $("#root-classified-type").html().toLowerCase();
     var isZero = true;
     $(".image-item").each(function(e){
@@ -177,6 +182,7 @@ $("#save_checked").on("click", function(){
 
 var isEdit = false;
 $("#edit_saved").on("click", function(){
+    hideWheel();
     if(edit_enable){
         isEdit = !isEdit;
         if (isEdit){
@@ -213,6 +219,7 @@ function checkImage(obj){
 
 var checkAll = false ;
 $("#check_all").on("click", function(){
+    hideWheel();
     if (check_all_enable){
         checkAll = !checkAll;
         $(".pic-checked").each(function(){
@@ -270,8 +277,11 @@ $("body").on('blur', 'input.change_sub_typename', function(){
                 $(this).val(callback.msg);
                 setTimeout(() => {
                     $(this).parent(".classified-subType").html(new_name);
-                    //更新标签
-                    window.location.href = 'www.baidu.com'
+                    //跳转至新分类, 截取后拼接再跳转
+                    var url = window.location.href;
+                    var patterns = url.split("/");
+                    patterns[patterns.length - 1] = new_name;
+                    window.location.href = patterns.join("/");
                 }, 1000);
                 
             }else{

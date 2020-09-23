@@ -129,7 +129,7 @@ function getObjectURL(file) {
 document.getElementById("save_checked").addEventListener("click", e => {
     hideWheel() ;
     // 取消选中所有的按钮
-    document.getElementById("check_all").innerHTML = "选中所有" ;
+    document.getElementById("check_all").innerHTML = "<i class='iconfont icon-quanxuan'></i>" ;
     checkAll = false ;
 
     var savingCount = 0 ;
@@ -217,7 +217,7 @@ $("#remove_checked").on("click", function(){
     })
     console.log($("#input_dir").val()) ;
     $("#input_dir").val("") ;
-    document.getElementById("check_all").innerHTML = "选中所有" ;
+    document.getElementById("check_all").innerHTML = "<i class='iconfont icon-quanxuan'></i>" ;
     checkAll = false ;
     /*
     var classifies = document.querySelectorAll(".classify") ;
@@ -250,6 +250,7 @@ function checkImage(obj){
 
 var checkAll = false ;
 $("#check_all").on("click", function(){
+    hideWheel();
     checkAll = !checkAll;
     $(".pic-checked").each(function(){
         checkAll ? $(this).css("display", "block"):$(this).css("display", "none");

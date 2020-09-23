@@ -113,9 +113,60 @@ textarea.change_introduction{
 	width: 95%;
 }
 
+.gallery-item {
+    -webkit-box-shadow: inset 0 0 1px #666;
+    -moz-box-shadow: inset 0 0 1px #666;
+    box-shadow: inset 0 0 1px #666;
+    margin-bottom: 0px;
+    position: relative;
+    overflow: hidden;
+}
+.gallery-item .content-gallery {
+    text-align: center;
+}
+.gallery-item .content-gallery h3 {
+    color: #b10021;
+    font-size: 16px;
+    font-weight: 300;
+    margin-top: 5px;
+    padding-bottom: 5px;
+    display: inline-block;
+}
+.gallery-item img {
+    width: 100%;
+}
+.gallery-item .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-width: 100%;
+    min-height: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: block;
+    -webkit-transition: all 50ms ease-in-out;
+    -moz-transition: all 50ms ease-in-out;
+    -ms-transition: all 50ms ease-in-out;
+    -o-transition: all 50ms ease-in-out;
+    transition: all 50ms ease-in-out;
+}
+.gallery-item .overlay a {
+    color: #ffffff;
+    text-align: center;
+    line-height: 32px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -16px;
+    margin-left: -16px;
+    font-size: 24px;
+}
+
 @media(min-width:320px){
     .leftgap	{ padding: 0px 10px; }
     .botgap	{ margin: 0px 0px 20px 0px; }
+    .topgap { margin-top: 20px; }
     .insideportfolio	{ padding-bottom: 30px; }
     .link { padding: 50px 0px; }
 }
@@ -123,6 +174,7 @@ textarea.change_introduction{
 @media(min-width:768px) {
     .leftgap	{ padding: 0px 10px; }
     .botgap	{ margin: 0px 0px 20px 0px; }
+    .topgap { margin-top: 20px; }
     .insideportfolio	{ height: 398px; }
     .link { height: 189px; line-height: 189px; padding: 0px; }
 }
@@ -130,6 +182,7 @@ textarea.change_introduction{
 @media(min-width:992px) {
     .leftgap	{ padding: 0px 6px; }
     .botgap	{ margin: 0px 0px 12px 0px; }
+    .topgap { margin-top: 0px; }
     .insideportfolio	{ height: 260px; }
     .link { height: 124px; line-height: 124px; padding: 0px; }
 }
@@ -137,6 +190,7 @@ textarea.change_introduction{
 @media(min-width:1200px) {
     .leftgap	{ padding: 0px 8px; }
     .botgap	{ margin: 0px 0px 16px 0px; }
+    .topgap { margin-top: 0px; }
     .insideportfolio	{ height: 316px; }
     .link { height: 150px; line-height: 150px; padding: 0px; }
 }

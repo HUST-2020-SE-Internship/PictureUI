@@ -1,8 +1,10 @@
 document.getElementById("upload_pic").addEventListener("click", e => {
+    hideWheel();
     document.getElementById("input_pic").click() ;
 })
 
 document.getElementById("upload_dir").addEventListener("click", e => {
+    hideWheel();
     document.getElementById("input_dir").click() ;
 })
 
@@ -10,10 +12,12 @@ var check_all_enable = false;
 var edit_enable = true;
 
 $("#new_subfolder").click(function(){
+    hideWheel();
     $("#input_subfolder").focus();
 })
 
 $("#btn-new-subfolder").click(function(){
+    hideWheel();
     if($("#input_subfolder").val() == ""){
         $("#input_subfolder").attr("placeholder", "请输入子分类的名称!");
         return false;
@@ -46,6 +50,7 @@ $("#btn-new-subfolder").click(function(){
 })
 
 $("#btn-mov-dstfolder").click(function(){
+    hideWheel();
     var dst_folder = $("#select-mov-dst").val();
     var root_type = $("#select-mov-dst option:selected").parent().attr('label');
     var sub_type = '';
@@ -146,6 +151,7 @@ function getObjectURL(file) {
 }
 
 $("#remove_checked").on("click", function(){
+    hideWheel();
     $(".image-item").each(function(){
         // svgs[0]对应pic-checked
         if ($(this).children("svg").first().css("display") == "block"){
@@ -183,6 +189,7 @@ $("#remove_checked").on("click", function(){
 })
 
 $("#save_checked").on("click", function(){
+    hideWheel();
     var typeName = $("#root-classified-type").html().toLowerCase();
     var isZero = true;
     $(".image-item").each(function(e){
@@ -213,6 +220,7 @@ $("#save_checked").on("click", function(){
 
 var isEdit = false;
 $("#edit_saved").on("click", function(){
+    hideWheel();
     if(edit_enable){
         isEdit = !isEdit;
         if (isEdit){
@@ -249,6 +257,7 @@ function checkImage(obj){
 
 var checkAll = false ;
 $("#check_all").on("click", function(){
+    hideWheel();
     if (check_all_enable){
         checkAll = !checkAll;
         $(".pic-checked").each(function(){

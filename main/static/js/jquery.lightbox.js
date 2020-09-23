@@ -39,10 +39,10 @@
                 if (!plugin.lightbox) {
                     $('body').append(
                       '<div id="lightbox" style="display:none;">'+
-                      '<a href="#" class="lightbox-close lightbox-button"></a>' +
+                      '<a href="#" class="lightbox-closes lightbox-button"></a>' +
                       '<div class="lightbox-nav">'+
-                      '<a href="#" class="lightbox-previous lightbox-button"></a>' +
-                      '<a href="#" class="lightbox-next lightbox-button"></a>' +
+                      '<a href="#" class="lightbox-previouss lightbox-button"></a>' +
+                      '<a href="#" class="lightbox-nexts lightbox-button"></a>' +
                       '</div>' +
                       '<div href="#" class="lightbox-caption"><p></p></div>' +
                       '</div>'
@@ -71,7 +71,7 @@
 
                 var img = $('<img src="' + $(plugin.current).attr('href') + '" draggable="false">');
 
-                $(img).on("load", function () {
+                $(img).load(function () {
                     $('.lightbox-loading').remove();
                     plugin.lightbox.append(img);
                     plugin.image = $("img", plugin.lightbox).hide();
@@ -104,11 +104,14 @@
                 }
                 if (iHeight > wHeight) {
                     ratio = wHeight / iHeight;
-                    iHeight = wHeight;
+                    iHeight = wHeight*2;
                     iWidth = Math.round(iWidth * ratio);
                 }
-
+                iWidth = iWidth;
+                iHeight =iHeight;
                 plugin.image.width(iWidth).height(iHeight).css({
+                        'width': iWidth + 'px' ,
+                        'height': iHeight + 'px' ,
 						'top': ($(window).height() - plugin.image.outerHeight()) / 2 + 'px',
 						'left': ($(window).width() - plugin.image.outerWidth()) / 2 + 'px'
 					}).show();
@@ -179,19 +182,19 @@
                 });
 
                 // Previous click
-                $(plugin.lightbox).on('click', '.lightbox-previous', function () {
+                $(plugin.lightbox).on('click', '.lightbox-previouss', function () {
                     plugin.previous();
                     return false;
                 });
 
                 // Next click
-                $(plugin.lightbox).on('click', '.lightbox-next', function () {
+                $(plugin.lightbox).on('click', '.lightbox-nexts', function () {
                     plugin.next();
                     return false;
                 });
 
                 // Close click
-                $(plugin.lightbox).on('click', '.lightbox-close', function () {
+                $(plugin.lightbox).on('click', '.lightbox-closes', function () {
                     plugin.close();
                     return false;
                 });
