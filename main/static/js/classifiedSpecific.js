@@ -49,6 +49,50 @@ $("#btn-new-subfolder").click(function(){
     })
 })
 
+$("#newFolderModal").on("show.bs.modal", function(){
+    // 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
+    // 以下代码为使模态框动态垂直居中
+    $(this).css('display', 'block');
+    var topHeight=$(window).height() / 2 - $('#moveImageModal .modal-dialog').height() / 2;
+    $(this).find('.modal-dialog').css({
+        'margin-top': topHeight
+    });
+})
+
+$("#moveImageModal").on("show.bs.modal", function(){
+    $(this).css('display', 'block');
+    var modalHeight=$(window).height() / 2 - $('#moveImageModal .modal-dialog').height() / 2;
+    $(this).find('.modal-dialog').css({
+        'margin-top': modalHeight
+    });
+    //动态加载移动图片模态框中选择框selectpicker中该用户的分类及其子分类的选项
+    $.ajax({
+        url: '/main/account/getTypeDict',
+        type: 'post',
+        datatype: 'json',
+        beforeSend: function(xhr, settings){
+            xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val());
+        },
+        success: callback => {
+            $("#select-mov-dst").empty();
+            $.each(callback.typedict, function(classname, typelist){
+                var html = `<optgroup label='${classname}'>`;
+                if(classname == $("#root-classified-type").html().toLowerCase())
+                    html += `<option selected='true'>${classname}(root)</option>`
+                else
+                    html += `<option>${classname}(root)</option>`
+                $.each(typelist, function(index, subtype){
+                    html += `<option>${subtype}</option>`
+                })
+                html += `</optgroup>`;
+                $("#select-mov-dst").append(html);
+            })
+            $("#select-mov-dst").selectpicker('refresh');
+        }
+    })
+})
+
+//移动图片模态框中点击确定后 开始移动图片
 $("#btn-mov-dstfolder").click(function(){
     hideWheel();
     var dst_folder = $("#select-mov-dst").val();
@@ -75,6 +119,29 @@ $("#btn-mov-dstfolder").click(function(){
                     xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val());
                 },
                 success: result => {
+                    //如果移动到的是根分类或者根分类下的子分类,需要实时显示图片
+                    //仔细检查逻辑!不要乱删
+                    if(root_type == old_root_type){
+                        var img_url = $(this).children("img").first().attr("src").replace('\\', '/');
+                        var patterns = img_url.split('/');    
+                        if(sub_type == ''){
+                            if($(this).parents(".not-sub-classified").length == 0)
+                                patterns.splice(patterns.length - 2, 1);
+                            var processed_url = patterns.join("/");
+                            $(".not-sub-classified .image-container").prepend(`<div class="image-item" onclick="checkImage(this)">
+                                                                                    <img src="${processed_url}" alt="">
+                                                                               </div>`);
+                        }else{
+                            if($(this).parents(".not-sub-classified").length > 0)
+                                patterns.splice(patterns.length - 1, 0, sub_type);
+                            else
+                                patterns[patterns.length - 2] = sub_type;
+                            var processed_url = patterns.join("/");
+                            $(`#${sub_type} .image-container`).prepend(`<div class="image-item" onclick="checkImage(this)">
+                                                                            <img src="${processed_url}" alt="">
+                                                                        </div>`)
+                        }
+                    }
                     $(this).remove();
                     updatePhotosNum();
                 }
@@ -289,3 +356,4 @@ function updatePhotosNum(){
 $(document).ready(updatePhotosNum);
 
 //TODO: 改成修改按钮
+

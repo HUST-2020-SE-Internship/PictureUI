@@ -37,7 +37,7 @@
 
 {% block directory_structure %}
     <div class="smalltitle">
-        <a href={% url 'main:homePage' %} >Home</a> > {{ typeName|capfirst }}
+        <a href={% url 'main:homePage' %} >Home</a> > <a href={% url 'main:Classified' user.id %} >Classified</a> > {{ typeName|capfirst }}
     </div>
 {% endblock directory_structure %}
 
@@ -97,21 +97,7 @@
                     <!-- 选择移动目的分类 -->
                     <select id="select-mov-dst" class="selectpicker" data-hide-disabled="true" 
                             data-live-search="true" data-live-search-placeholder="搜索分类...">
-                        <optgroup disabled="disabled" label="disabled">
-                            <option>Hidden</option>
-                        </optgroup>
-                        {% for classname, typelist in typeDict.items %}
-                        <optgroup label="{{ classname }}">
-                            {% if classname == typeName %}
-                                <option selected='true'>{{ classname }}(root)</option>
-                            {% else %}
-                                <option>{{ classname }}(root)</option>
-                            {% endif %}
-                            {% for subtype in typelist %}
-                            <option>{{ subtype }}</option>
-                            {% endfor %}
-                        </optgroup>
-                        {% endfor %}
+                    <!-- 选项使用ajax动态加载 -->
                     </select>
                     <!-- #select-move-dst ends -->
                 </div>
@@ -132,9 +118,9 @@
             <div class="clear"></div>
             <div class="image-container">
                 {% for image in urls|get_item:typeName %} <!-- 此时拿出来的是大分类下未放入子分类的图片链接 -->
-                        <div class="image-item" onclick="checkImage(this)">
-                            <img src="{{ image }}" alt="">
-                        </div>
+                    <div class="image-item" onclick="checkImage(this)">
+                        <img src="{{ image }}" alt="">
+                    </div>
                 {% endfor %}
             </div>
         </div>

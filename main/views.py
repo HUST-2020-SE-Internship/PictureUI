@@ -102,9 +102,8 @@ def classified(request, pk):
 def classifiedSpecific(request, pk, typeName):
     user = get_object_or_404(User, pk=pk)
     urls = Utils.get_specific_urls(user.username, typeName)
-    typedict = Utils.get_type_dict(user)
 
-    return render(request, 'main/classifiedSpecific.html', {'user': user, 'urls': urls, "typeName": typeName, "typeDict": typedict})
+    return render(request, 'main/classifiedSpecific.html', {'user': user, 'urls': urls, "typeName": typeName})
 
 def subClassified(request, pk, typeName, subType):
     user = get_object_or_404(User, pk=pk)
@@ -208,6 +207,17 @@ def updateIntroduction(request):
         return JsonResponse({"status":"1", "msg":"success"})
     else:
         return JsonResponse({"status":"0", "msg":"There is sth. going wrong"})
+
+# 获取当前用户其表中最新的分类记录, 用于渲染selectpicker选择框 页面@ClassifiedSpecific
+# bugfixed: 如果在渲染页面前直接加载, 用户在ClassifiedSpecific界面新建分类, 无法移动新分类
+def getTypeDict(request):
+    if request.method == "POST":
+        user = get_object_or_404(User, pk=request.session.get('_auth_user_id'))
+        typedict = Utils.get_type_dict(user)
+        
+        return JsonResponse({"typedict": typedict})
+    else:
+        return HttpResponse("违法访问", status = 503)
 
 def personInfo(request, pk):
     user = get_object_or_404(User, pk=pk)

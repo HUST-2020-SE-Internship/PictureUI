@@ -63,7 +63,7 @@
 {% endblock page_js_reference %}
 
 {% block directory_structure %}
-    <div class="smalltitle"><a href={% url 'main:homePage' %}>Home</a> > <a href={% url 'main:classifiedSpecific' user.id typeName %}>{{ typeName }}</a> > {{ subType }}</div>
+    <div class="smalltitle directory"><a href={% url 'main:homePage' %}>Home</a> > <a href={% url 'main:Classified' user.id %} >Classified</a> > <a href={% url 'main:classifiedSpecific' user.id typeName %}>{{ typeName|capfirst }}</a> > {{ subType }}</div>
 {% endblock directory_structure %}
 
 {% block main_content %}
@@ -104,9 +104,9 @@
                     <select id="select-mov-dst" class="selectpicker" data-hide-disabled="true"
                             data-live-search="true" data-live-search-placeholder="搜索分类...">
                         <optgroup disabled="disabled" label="disabled">
-                            <option>Hidden</option>
+                            <option>这个选项没啥用</option>
                         </optgroup>
-                        {% for classname, typelist in typeDict.items %}
+                        {% for classname, typelist in typedict.items %}
                         <optgroup label="{{ classname }}">
                             {% if classname == typeName %}
                                 <option selected='true'>{{ classname }}(root)</option>

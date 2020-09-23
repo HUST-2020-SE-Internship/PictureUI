@@ -23,4 +23,5 @@ urlpatterns = [
     path('account/removeImage', views.removeImage, name='removeImage'),
     path('account/moveImage', views.moveImage, name='moveImage'),
     path('account/updateIntroduction', views.updateIntroduction, name='updateIntroduction'),
+    path('account/getTypeDict', views.getTypeDict, name="getTypeDict")
 ]
