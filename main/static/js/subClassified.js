@@ -37,7 +37,9 @@ $("#btn-mov-dstfolder").click(function(){
                     xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val());
                 },
                 success: result => {
-                    $(this).remove();
+                    //判定是不是没移走...原地TP,如蜜传如蜜
+                    if(!(root_type == old_root_type && sub_type == $(".classified-subType").html()))
+                        $(this).remove();
                     updatePhotosNum();
                 }
             });
