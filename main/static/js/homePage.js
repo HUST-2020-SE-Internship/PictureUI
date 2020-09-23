@@ -34,10 +34,10 @@ jQuery(document).ready(function($){
 		return false;
 	});
 	
-	$(".main_menu a.templatemo_page6").click(function(){    
+	$(".main_menu a.random_photo_page").click(function(){    
     $('#menu-container .homepage').fadeOut(1000, function(){
         $('#menu-container .contact').fadeIn(1000);
-		loadScript();		
+		loadRandomPhoto();		
 	    });
 	});
 	
@@ -86,4 +86,44 @@ function initialize() {
       center: new google.maps.LatLng(40.7823234,-73.9654161)
     };
     var map = new google.maps.Map(document.getElementById('templatemo_map'),  mapOptions);
+}
+
+function loadRandomPhoto(){
+	$.ajax({
+		url:'/main/test/getRandomPhoto',
+		type:'post',
+		beforeSend: function(xhr, settings){
+			xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val());
+		},
+		success: callback => {
+			$.each(callback.photoDict, function(classname, photourl){
+
+				var html = `<div class="scene">
+							<div class="card">
+								<div class="image-item card__face card__face--front">
+									<a href="/main/account/${callback.user_id}/classified/${classname}">
+									<img src="${photourl}" alt="">
+									</a>
+								</div>
+								<div class="image-item card__face card__face--back">
+									<a href="/main/account/${callback.user_id}/classified/${classname}">
+										<div class="post-card">
+											<img class="post-background" src="${photourl}">
+											<div class="post-card-mask--special">
+												<div class="post-card-container">
+													<h2 class="post-card-title" itemprop="headline">${classname}</h2>
+													<div class="post-card-info">
+														<span>AutoAlbum v0.1</span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</a>
+								</div>
+							</div>
+							</div>`
+				$(".contact-container").html(html);
+			})
+		}
+	})
 }

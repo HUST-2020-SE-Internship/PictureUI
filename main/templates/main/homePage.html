@@ -32,7 +32,7 @@
                     <div class="link"><a class="show-5 subpage-about" href="#">About us</a></div>
                 </div>
                 <div class="maincontact">
-                    <div class="link"><a class="show-6 templatemo_page6" href="#">Contact</a></div>
+                    <div class="link"><a class="show-6 random_photo_page" href="#">Random</a></div>
                 </div>
             </div>
         </div>
@@ -119,6 +119,7 @@
     <!-- About end  -->
     <!-- Contact Start -->
     <div class="content contact" id="menu6">
+        {% csrf_token %}
         <div class="container">
             <div class="row bordergapborder">
                 <div class="col-md-3 col-sm-12 leftgap">
@@ -133,7 +134,7 @@
                 </div>
                 <div class="col37percent col-sm-12 leftgap">
                     <div class="graybg contact-container">
-                        <img src="{% static 'img/homePage/WeChat.png' %}" alt="vision image">
+                    <!--<img src="{% static 'img/homePage/WeChat.png' %}" alt="vision image">-->
                     </div>
                 </div>
                 <div class="col37percent col-sm-12 leftgap">

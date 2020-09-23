@@ -286,3 +286,24 @@ def get_type_dict(user):
             typedict[info.root_type].append(info.sub_type)
 
     return typedict
+
+def get_random_photo(username):
+    random.shuffle(initial_classes)
+    photoDict = {}
+    for typeName in initial_classes:
+        for root, dirs, files in os.walk("./media/" + username + "/" + typeName):
+            for filename in files:
+                img_name, img_ext = filename.split(".")
+                if img_ext not in ['jpg', 'jpeg', 'png', 'bmp'] or img_name == 'standard':
+                    continue
+                img_url = root[1:] + "/" + filename
+                img_url = img_url.replace(os.sep, '/')
+                photoDict[typeName] = img_url
+                break
+            if photoDict:
+                break
+        if photoDict:
+            break
+
+    return photoDict
+            

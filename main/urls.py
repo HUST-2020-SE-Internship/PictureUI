@@ -23,5 +23,7 @@ urlpatterns = [
     path('account/removeImage', views.removeImage, name='removeImage'),
     path('account/moveImage', views.moveImage, name='moveImage'),
     path('account/updateIntroduction', views.updateIntroduction, name='updateIntroduction'),
-    path('account/getTypeDict', views.getTypeDict, name="getTypeDict")
+    path('account/getTypeDict', views.getTypeDict, name="getTypeDict"),
+
+    path('test/getRandomPhoto', views.getRandomPhoto, name="getRandomPhoto"),
 ]

@@ -74,7 +74,7 @@ def classifyImage(request):
         image = request.POST.get("image")
         image = json.loads(image)
         result = VGGLib.classifyImage(image)
-    return HttpResponse(json.dumps(result))
+        return HttpResponse(json.dumps(result))
 
 def saveImage(request):
     typeName = request.POST.get("typeName")
@@ -218,6 +218,15 @@ def getTypeDict(request):
         return JsonResponse({"typedict": typedict})
     else:
         return HttpResponse("违法访问", status = 503)
+
+def getRandomPhoto(request):
+    if request.method == "POST":
+        user = get_object_or_404(User, pk=request.session.get('_auth_user_id'))
+        photoDict = Utils.get_random_photo(user.username)
+
+        return JsonResponse({"photoDict": photoDict, "user_id":user.id})
+    else:
+        return HttpResponse("Invalid Request", status = 503)
 
 def personInfo(request, pk):
     user = get_object_or_404(User, pk=pk)

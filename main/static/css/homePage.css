@@ -161,3 +161,123 @@ img {
 
     .frame { height: 406px; padding: 0px 30px; }
 }
+
+.image-item {
+    margin-bottom: 20px;
+}
+
+.image-item img {
+    width: 100%;
+    height:100%;
+    border-bottom: 0px;
+}
+
+.scene .card {
+    position: relative;
+    color: white;
+    cursor: pointer;
+    height: 400px;
+    transition: 1s ease-in-out;
+    -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+}
+.scene .card:hover {
+    -webkit-transform: rotateY(0.5turn);
+            transform: rotateY(0.5turn);
+}
+.scene .card .card__face {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+    transition: 1s ease-in-out;
+    -webkit-box-reflect: below 0 linear-gradient(transparent, transparent, rgba(0, 0, 0, 0.4));
+}
+.scene .card .card__face img {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+       object-fit: cover;
+}
+.scene .card .card__face--back {
+    -webkit-transform: rotateY(0.5turn);
+            transform: rotateY(0.5turn);
+}
+
+.post-card {
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background: #fff no-repeat center;
+    background-size: cover;
+    position: relative;
+    -webkit-transition: 0.3s ease all;
+    -moz-transition: 0.3s ease all;
+    -ms-transition: 0.3s ease all;
+    -o-transition: 0.3s ease all;
+    transition: 0.3s ease all;
+}
+
+.post-background {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+    overflow: hidden;
+    opacity: 1;
+    -webkit-transition: 1s ease opacity;
+    -moz-transition: 1s ease opacity;
+    -ms-transition: 1s ease opacity;
+    -o-transition: 1s ease opacity;
+    transition: 1s ease opacity;
+}
+
+.post-card-mask {
+    background: rgba(0,0,0,0.25);
+    position: relative;
+    z-index: 10;
+    display: table;
+    vertical-align: middle;
+    width: 100%;
+    height: 30rem;
+}
+
+.post-card-mask--special{
+    background: rgba(0, 0, 0, 0.5);
+    position: relative;
+    z-index: 10;
+    display: table;
+    vertical-align: middle;
+    width: 100%;
+    height: 30rem;
+}
+
+.post-card-container {
+    padding: 3.2rem 3.2rem;
+    text-align: center;
+    display: table-cell;
+    width: 100%;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.post-card-title {
+    font-size: 3.0rem;
+    font-weight: 400;
+    color: #fff;
+    margin-bottom: 1.2rem;
+}
+
+.post-card-info {
+    color: #eee;
+    font-size: 1.6rem;
+    text-align: center;
+    font-weight: 400;
+}
