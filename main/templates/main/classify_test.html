@@ -1,4 +1,4 @@
-{% extends 'main/base.html' %} 
+{% extends 'main/frontBase.html' %} 
 
 {% block page_css_reference %}
     <link rel="stylesheet" href="/static/css/classify_test.css">
@@ -9,6 +9,7 @@
 {% endblock page_title %}
 
 {% block main_content %}
+    <div class="container container-fluid">
         <form class="form-horizontal" enctype="multipart/form-data" action="/main/classify_img/" method="post">
             {% csrf_token %}
             <div class="col-md-6">
@@ -41,7 +42,7 @@
                 </div>
             </div>
         </form>
-
+    </div>
 {% endblock main_content %}
 
 {% block page_js_reference %}

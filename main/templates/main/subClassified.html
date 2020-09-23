@@ -9,10 +9,10 @@
 {% block page_css_reference %}
 <!--    <link rel="stylesheet" type="text/css" href="/static/css/zoomify.css"/>-->
     <link rel="stylesheet" type="text/css" href={% static 'css/lightbox.css' %} />
-    <link rel="stylesheet" type="text/css" href="/static/bootstrap-select-1.13.18/css/bootstrap-select.css" />
+    <link rel="stylesheet" type="text/css" href={% static 'common/bootstrap-select-1.13.18/css/bootstrap-select.css' %} />
 	<link rel="stylesheet" type="text/css" href={% static 'css/GalMenu.css' %} />
     <link rel="stylesheet" type="text/css" href={% static 'css/WheelMenu.css' %} />
-    <link href="/static/mainstatic/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href={% static 'common/font-awesome/css/font-awesome.min.css' %} rel="stylesheet">
     <!-- lightbox插件使用 -->
     <link rel="stylesheet" href={% static 'css/misc.css' %}>
     <!-- 响应式标签使用 -->
@@ -42,13 +42,13 @@
 
 {% block page_js_reference %}
 <!--    <script src="/static/JS/zoomify.js"></script>-->
-    <script src="/static/JS/lightbox-plus-jquery.js"></script>
-    <script src="{% static 'js/jquery-1.10.2.min.js' %}"> </script>
-    <script src="{% static 'js/jquery.lightbox.js' %}"></script>
-    <script src="{% static 'js/templatemo_custom.js' %}"></script>
-    <script src="{% static 'js/easyResponsiveTabs.js' %}" type="text/javascript"></script>
-    <script src="/static/JS/common/bootstrap.min.js"></script>
-    <script src="/static/bootstrap-select-1.13.18/js/bootstrap-select.min.js"></script>
+    <script src={% static 'js/lightbox-plus-jquery.js' %}></script>
+    <script src={% static 'js/jquery-1.10.2.min.js' %}> </script>
+    <script src={% static 'js/jquery.lightbox.js' %}></script>
+    <script src={% static 'js/templatemo_custom.js' %}></script>
+    <script src={% static 'js/easyResponsiveTabs.js' %}></script>
+    <script src={% static 'common/bootstrap3.3.7/bootstrap.min.js' %}></script>
+    <script src={% static 'common/bootstrap-select-1.13.18/js/bootstrap-select.min.js' %}></script>
     <script src={% static 'js/subClassified.js' %}></script>
     <!-- 引入轮盘菜单所需的js组件 -->
     <script src={% static 'js/GalMenu.js' %}></script>

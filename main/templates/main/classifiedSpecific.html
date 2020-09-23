@@ -8,17 +8,17 @@
 
 
 {% block page_css_reference %}
-    <link rel="stylesheet" type="text/css" href="/static/css/zoomify.css"/>
-    <link rel="stylesheet" type="text/css" href="/static/bootstrap-select-1.13.18/css/bootstrap-select.css" />
+    <link rel="stylesheet" type="text/css" href={% static 'css/zoomify.css' %}/>
+    <link rel="stylesheet" type="text/css" href={% static 'common/bootstrap-select-1.13.18/css/bootstrap-select.css' %} />
 	<link rel="stylesheet" type="text/css" href={% static 'css/GalMenu.css' %} />
     <link rel="stylesheet" type="text/css" href={% static 'css/WheelMenu.css' %} />
     <link rel="stylesheet" type="text/css" href={% static 'css/classifiedSpecific.css' %}>
 {% endblock page_css_reference %}
 
 {% block page_js_reference %}
-    <script src="/static/JS/zoomify.js"></script>
-    <script src="/static/JS/common/bootstrap.min.js"></script>
-    <script src="/static/bootstrap-select-1.13.18/js/bootstrap-select.min.js"></script>
+    <script src={% static 'js/zoomify.js' %}></script>
+    <script src={% static 'common/bootstrap3.3.7/bootstrap.min.js' %}></script>
+    <script src={% static 'common/bootstrap-select-1.13.18/js/bootstrap-select.js' %}></script>
     <script src={% static 'js/classifiedSpecific.js' %}></script>
     <!-- 引入轮盘菜单所需的js组件 -->
     <script src={% static 'js/GalMenu.js' %}></script>

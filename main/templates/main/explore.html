@@ -4,11 +4,11 @@
 {% block page_css_reference %}
     <link rel="stylesheet" type="text/css" href={% static 'css/GalMenu.css' %} />
     <link rel="stylesheet" type="text/css" href={% static 'css/WheelMenu.css' %} />
-    <link rel="stylesheet" href="/static/css/explore.css">
+    <link rel="stylesheet" href={% static 'css/explore.css' %}>
 {% endblock page_css_reference %}
 
 {% block page_js_reference %}
-    <script src="/static/js/explore.js"></script> 
+    <script src={% static 'js/explore.js' %}></script> 
     <!-- 引入轮盘菜单所需的js组件 -->
     <script src={% static 'js/GalMenu.js' %}></script>
     <script src={% static 'js/WheelMenu.js' %}></script>

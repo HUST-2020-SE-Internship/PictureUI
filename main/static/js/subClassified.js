@@ -38,12 +38,11 @@ $("#btn-mov-dstfolder").click(function(){
                 },
                 success: result => {
                     $(this).remove();
+                    updatePhotosNum();
                 }
             });
         }
     })
-
-    updatePhotosNum();
     $("#moveImageModal").modal('hide');
 })
 
@@ -264,7 +263,7 @@ $("body").on('blur', 'input.change_sub_typename', function(){
         url:'/main/account/changeSubFolder',
         type:'POST',
         data:{
-            typeName: $("#root-classified-type").html(),
+            typeName: $("#root-classified-type").html().toLowerCase(),
             old_name: $(this).attr("placeholder"),
             new_name: $(this).val()
         },
@@ -310,7 +309,7 @@ $("span.introduction").on('blur', 'textarea.change_introduction', function(){
         url:'/main/account/updateIntroduction',
         type:'POST',
         data:{
-            typeName: $("#root-classified-type").html(),
+            typeName: $("#root-classified-type").html().toLowerCase(),
             subType: $(".classified-subType").html(),
             new_intro: $(this).val()
         },
@@ -330,7 +329,9 @@ $("span.introduction").on('blur', 'textarea.change_introduction', function(){
     })
 })
 
-$('#moveImageModal').on('shown.bs.modal', function (e) {
+$('#moveImageModal').on('show.bs.modal', function (e) {
+    $("#select-mov-dst").selectpicker({"width":"100%"});
+    $("#select-mov-dst").selectpicker('refresh');
     // 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
     $(this).css('display', 'block');
     var modalHeight=$(window).height() / 2 - $('#moveImageModal .modal-dialog').height() / 2;
