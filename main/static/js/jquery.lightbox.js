@@ -104,7 +104,7 @@
                 }
                 if (iHeight > wHeight) {
                     ratio = wHeight / iHeight;
-                    iHeight = wHeight*2;
+                    iHeight = wHeight;
                     iWidth = Math.round(iWidth * ratio);
                 }
                 iWidth = iWidth;
