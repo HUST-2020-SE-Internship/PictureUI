@@ -32,7 +32,7 @@ document.getElementById("input_dir").addEventListener("change", e => {
             (function(i) {
                 setTimeout(function() {
                     classifyImage(image, i, count) ;
-                }, i * 550);
+                }, i * 300);
             })(index)
             index++ ;
         }
@@ -194,7 +194,7 @@ document.getElementById("save_checked").addEventListener("click", e => {
                                 }
                             }
                         })
-                    }, i * 500);
+                    }, i * 300);
                 })(savingCount, typeName, image, imageItem, classify) ;
             }
         }

@@ -124,7 +124,7 @@ def createSubFolder(request):
             # 表中新建记录
             classifiedtype = ClassifiedType.objects.create(user=user, root_type=typeName, sub_type=subFolder)
 
-            return JsonResponse({"status":"1", "msg":"created new subfolder!"})
+            return JsonResponse({"status":"1", "msg":"created new subfolder!", "user_id":user.id})
         else:
             return JsonResponse({"status":"0", "msg":"that folder already exists"})
 
@@ -232,14 +232,12 @@ def personInfo(request, pk):
     user = get_object_or_404(User, pk=pk)
     user_profile = get_object_or_404(UserProfile, user=user)
     if request.method == 'POST':
-        form = ProfileForm(request.POST,request.FILES)
         nickName = request.POST.get("nickName")
         telephone = request.POST.get("telephone")
         image = request.POST.get("image")
         if image is not None:
             image = json.loads(image)
             user_profile.portrait = image
-            print(image)
         #imagene = ContentFile(image, 'imagen1.png')
         user_profile.org = nickName
         user_profile.telephone = telephone
@@ -251,7 +249,7 @@ def personInfo(request, pk):
         #     user_profile.portrait = img
         #     user_profile.save()
 
-        return render(request, 'main/personInfo.html', { 'user': user})
+        return JsonResponse({"status":"1"})
     else:
         default_data = {'first_name': user.first_name, 'last_name': user.last_name, 'email': user.email,
                         'org': user_profile.org, 'telephone': user_profile.telephone, 'username': user.username}

@@ -31,8 +31,11 @@ function load(){
 				beforeSend: function(xhr, settings){
 					xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val());
 				},
-				success: result => {
-					console.log("success ") ;
+				success: callback => {
+					if(callback.status == "1"){
+						$("#nickName").attr("placeholder", nickName);
+						$("#telephone").attr("placeholder", telephone);
+					}
 				}
 			})
 			}
@@ -47,8 +50,11 @@ function load(){
 				beforeSend: function(xhr, settings){
 					xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val());
 				},
-				success: result => {
-					console.log("success ") ;
+				success: callback => {
+					if(callback.status == "1"){
+						$("#nickName").attr("placeholder", nickName);
+						$("#telephone").attr("placeholder", telephone);
+					}
 				}
 			})
 	}

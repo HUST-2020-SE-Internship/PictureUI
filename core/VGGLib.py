@@ -13,6 +13,13 @@ SECRET_KEY = 'nCfkdwd5ZGjBEZCnsUN8kqZFCQMXEYqA'
 
 client = AipFace(APP_ID, API_KEY, SECRET_KEY)
 
+""" 备选APP_ID """
+APP_ID_2 = '22748271'
+API_KEY_2 = 'gOvldKxiFLjXbbyc9bRcHyEb'
+SECRET_KEY_2 = '4Qm7SFOUgZQqdHZ30iwu7wGt2TOR3nBe'
+
+client_2 = AipFace(APP_ID_2, API_KEY_2, SECRET_KEY_2)
+
 options = {"max_face_num": 1,
            "face_type": "LIVE",
            "liveness_control": "LOW"}
@@ -160,6 +167,9 @@ def isPersonByBaidu(image):
     image = str(image).split(';base64,')[1]
     result = client.detect(image, imageType, options)
     print(result)
+    if result.get("error_code") == 18: # 达到上限启用备选APP_ID
+        result = client_2.detect(image, imageType, options)
+    
     if result.get("result") is not None and result["result"] is not None:
         return True
     else:

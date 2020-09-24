@@ -18,6 +18,13 @@ SECRET_KEY = 'nCfkdwd5ZGjBEZCnsUN8kqZFCQMXEYqA'
 
 client = AipFace(APP_ID, API_KEY, SECRET_KEY)
 
+""" 备选APP_ID """
+APP_ID_2 = '22748271'
+API_KEY_2 = 'gOvldKxiFLjXbbyc9bRcHyEb'
+SECRET_KEY_2 = '4Qm7SFOUgZQqdHZ30iwu7wGt2TOR3nBe'
+
+client_2 = AipFace(APP_ID_2, API_KEY_2, SECRET_KEY_2)
+
 options = {"max_face_num": 10,
            "face_type": "LIVE",
            "liveness_control": "LOW"}
@@ -104,6 +111,17 @@ def auto_classified_storage(userName, typeName, image):
                     print("[NULL] standard not found: ", standardImage)
                     continue
                 res = client.match([
+                    {
+                        'image': str(cv2_base64(faceImage), 'utf-8'),
+                        'image_type': 'BASE64',
+                    },
+                    {
+                        'image': str(base64.b64encode(open(standardImage, 'rb').read()), 'utf-8'),
+                        'image_type': 'BASE64',
+                    }
+                ])
+                if res.get("error_code") == 18:
+                    res = client_2.match([
                     {
                         'image': str(cv2_base64(faceImage), 'utf-8'),
                         'image_type': 'BASE64',
@@ -291,7 +309,8 @@ def get_random_photo(username):
     random.shuffle(initial_classes)
     photoDict = {}
     for typeName in initial_classes:
-        for root, dirs, files in os.walk("./media/" + username + "/" + typeName):
+        for root, _, files in os.walk("./media/" + username + "/" + typeName):
+            random.shuffle(files)
             for filename in files:
                 img_name, img_ext = filename.split(".")
                 if img_ext not in ['jpg', 'jpeg', 'png', 'bmp'] or img_name == 'standard':

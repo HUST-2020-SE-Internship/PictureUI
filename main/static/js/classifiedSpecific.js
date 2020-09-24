@@ -35,16 +35,22 @@ $("#btn-new-subfolder").click(function(){
         },
         success: callback => {
             $("#input_subfolder").val(callback.msg);
-            setTimeout(function(){
-                $("#newFolderModal").modal('hide');
-                $("#classified").append(`<div id="${subFolder}" class="sub-classified">
-                        <h1 class="classified-title">${subFolder}<small>0 pcs</small></h1>
-                        <div class="clear"></div>
-                        <div class="image-container">
-                        
-                        </div>
-                    </div>`)
-            }, 1000);
+            if(callback.status == "1"){
+                setTimeout(function(){
+                    $("#newFolderModal").modal('hide');
+                    var typeName = $("#root-classified-type").html().toLowerCase();
+                    $("#classified").append(`<div id="${subFolder}" class="sub-classified">
+                            <h1 class="classified-title">
+                            <a class="jump-to-subfolder classified-subType" href="/main/account/${callback.user_id}/classified/${typeName}/${subFolder}">${subFolder}</a>
+                                <small>0 pcs</small>
+                            </h1>
+                            <div class="clear"></div>
+                            <div class="image-container">
+                            
+                            </div>
+                        </div>`)
+                }, 1000);
+            }
         }
     })
 })

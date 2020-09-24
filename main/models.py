@@ -25,3 +25,6 @@ class ClassifiedType(models.Model):
 
     class Meta:
         verbose_name = "Classified root_type and sub_type"
+
+    def __str__(self):
+        return self.user.username + "/" + self.root_type + "/" + self.sub_type
